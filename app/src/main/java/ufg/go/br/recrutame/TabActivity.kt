@@ -12,16 +12,16 @@ class TabActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.tab_layout)
 
-        var tabLayout = findViewById(R.id.tab_layout) as TabLayout;
-        tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ic_account_circle));
-        tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ic_work));
-        tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ic_chat));
-        tabLayout.tabGravity = TabLayout.GRAVITY_FILL;
+        var tabLayout = findViewById<TabLayout>(R.id.tab_layout)
+        tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ic_account_circle))
+        tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ic_work))
+        tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ic_chat))
+        tabLayout.tabGravity = TabLayout.GRAVITY_FILL
 
-        var viewPager = findViewById(R.id.pager) as ViewPager;
-        var pagerAdapter = PagerAdapter(supportFragmentManager, tabLayout.tabCount);
-        viewPager.adapter = pagerAdapter;
-        viewPager.addOnPageChangeListener( TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        var viewPager = findViewById<ViewPager>(R.id.pager)
+        var pagerAdapter = PagerAdapter(supportFragmentManager, tabLayout.tabCount)
+        viewPager.adapter = pagerAdapter
+        viewPager.addOnPageChangeListener( TabLayout.TabLayoutOnPageChangeListener(tabLayout))
 
         tabLayout.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener{
             override fun onTabSelected(tab: TabLayout.Tab) {
