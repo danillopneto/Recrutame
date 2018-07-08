@@ -62,3 +62,5 @@ fabric.properties
 # *.iml
 # modules.xml
 *.iml
+.idea/caches/build_file_checksums.ser
+.idea/assetWizardSettings.xml

@@ -4,7 +4,9 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.view.ViewPager
-
+import android.view.MotionEvent
+import android.view.View
+import ufg.go.br.recrutame.adapter.PagerAdapter
 
 class TabActivity : AppCompatActivity() {
 
@@ -21,6 +23,12 @@ class TabActivity : AppCompatActivity() {
         var viewPager = findViewById(R.id.pager) as ViewPager;
         var pagerAdapter = PagerAdapter(supportFragmentManager, tabLayout.tabCount);
         viewPager.adapter = pagerAdapter;
+
+
+        viewPager.setOnTouchListener {v: View, m: MotionEvent ->
+            true
+        }
+
         viewPager.addOnPageChangeListener( TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
         tabLayout.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener{
@@ -37,6 +45,4 @@ class TabActivity : AppCompatActivity() {
             }
         })
     }
-
-
 }
