@@ -1,0 +1,15 @@
+package ufg.go.br.recrutame.api.model
+
+class LIProfileInfo {
+    var id: String? = null
+
+    var firstName: String? = null
+
+    var lastName: String? = null
+
+    var emailAddress: String? = null
+
+    var pictureUrl: String? = null
+
+    var publicProfileUrl: String? = null
+}
