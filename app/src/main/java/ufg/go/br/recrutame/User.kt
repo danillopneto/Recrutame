@@ -8,7 +8,19 @@ data class User(
         var nome: String,
         var dataNascimento: Int,
         var sexo : String,
-        var nacionalidade : String
+        var nacionalidade : String,
+        var telefonefixo: Int,
+        var telefonecelular: Int,
+        var email: String,
+        var areaatuacao: String,
+        var periodoatuacao: String,
+        var instituicao: String,
+        var empresa: String,
+        var cargo: String,
+        var periodocargo: String,
+        var atividadesdesenvolvidas: String,
+        var idioma: String,
+        var nivel_idioma: String
 )
 
 

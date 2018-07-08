@@ -81,14 +81,37 @@ class ProfileFragment : Fragment(), View.OnClickListener {
                     ""+ data[i].nome + "\n"+
                     ""+ data[i].dataNascimento + "\n"+
                     ""+ data[i].sexo + "\n"+
-                    ""+ data[i].nacionalidade + "\n"
+                    ""+ data[i].nacionalidade + "\n"+
+                    ""+ data[i].telefonefixo + "\n"+
+                    ""+ data[i].telefonecelular + "\n"+
+                    ""+ data[i].email + "\n"+
+                    ""+ data[i].areaatuacao + "\n"+
+                    ""+ data[i].periodoatuacao + "\n"+
+                    ""+ data[i].instituicao + "\n"+
+                    ""+ data[i].empresa + "\n"+
+                    ""+ data[i].cargo + "\n"+
+                    ""+ data[i].periodocargo + "\n"+
+                    ""+ data[i].atividadesdesenvolvidas + "\n"+
+                    ""+ data[i].idioma + "\n"
             )
         }
 
         val user = User(1,Nome.text.toString(),
                 DataNascimento.text.toString().toInt(),
                 Sexo.text.toString(),
-                Nacionalidade.text.toString())
+                Nacionalidade.text.toString(),
+                Telefonefixo.text.toString().toInt(),
+                Telefonecelular.text.toString().toInt(),
+                Email.text.toString(),
+                Area_Atuacao.text.toString(),
+                Periodo.text.toString(),
+                Instituicao.text.toString(),
+                Empresas.text.toString(),
+                Cargo.text.toString(),
+                Periodocargo.text.toString(),
+                Atividades_Desenvolvidas.text.toString(),
+                Idioma.text.toString(),
+                "")
 
         Toast.makeText(context, "Falha ao inserir"+user, Toast.LENGTH_LONG).show()
 
@@ -101,7 +124,19 @@ class ProfileFragment : Fragment(), View.OnClickListener {
         val user = User(1,Nome.text.toString(),
                 DataNascimento.text.toString().toInt(),
                 Sexo.text.toString(),
-                Nacionalidade.text.toString())
+                Nacionalidade.text.toString(),
+                Telefonefixo.text.toString().toInt(),
+                Telefonecelular.text.toString().toInt(),
+                Email.text.toString(),
+                Area_Atuacao.text.toString(),
+                Periodo.text.toString(),
+                Instituicao.text.toString(),
+                Empresas.text.toString(),
+                Cargo.text.toString(),
+                Periodocargo.text.toString(),
+                Atividades_Desenvolvidas.text.toString(),
+                Idioma.text.toString(),
+                "")
 
         db.insertData(user)
 
@@ -117,13 +152,27 @@ class ProfileFragment : Fragment(), View.OnClickListener {
                     ""+ data[i].nome + "\n"+
                     ""+ data[i].dataNascimento + "\n"+
                     ""+ data[i].sexo + "\n"+
-                    ""+ data[i].nacionalidade + "\n"
+                    ""+ data[i].nacionalidade + "\n"+
+                    ""+ data[i].telefonefixo + "\n"+
+                    ""+ data[i].telefonecelular + "\n"+
+                    ""+ data[i].email + "\n"+
+                    ""+ data[i].areaatuacao + "\n"+
+                    ""+ data[i].periodoatuacao + "\n"+
+                    ""+ data[i].instituicao + "\n"+
+                    ""+ data[i].empresa + "\n"+
+                    ""+ data[i].cargo + "\n"+
+                    ""+ data[i].periodocargo + "\n"+
+                    ""+ data[i].atividadesdesenvolvidas + "\n"+
+                    ""+ data[i].idioma + "\n"+
+                    ""+ data[i].nivel_idioma + "\n"
+
             )
         }
 
-        val user = User(1, data[0].nome, data[0].dataNascimento, data[0].sexo, data[0].nacionalidade )
-
-
+        val user = User(1, data[0].nome, data[0].dataNascimento, data[0].sexo, data[0].nacionalidade,
+                data[0].telefonefixo, data[0].telefonecelular, data[0].email, data[0].areaatuacao,
+                data[0].periodoatuacao, data[0].instituicao, data[0].empresa, data[0].cargo,
+                data[0].periodocargo, data[0].atividadesdesenvolvidas, data[0].idioma, data[0].nivel_idioma )
 
         Nome.setText(data[0].nome)
         DataNascimento.setText(data[0].dataNascimento.toString())

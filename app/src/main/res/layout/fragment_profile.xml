@@ -55,7 +55,7 @@
                     android:id="@+id/DataNascimento"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Data de Nascimento" />
+                    android:hint="Data de Nascimento" ></EditText>
 
                 <EditText
                     android:id="@+id/Sexo"
@@ -143,14 +143,14 @@
 
 
                 <EditText
-                    android:id="@+id/area_atuacao"
+                    android:id="@+id/Area_Atuacao"
                     android:layout_height="wrap_content"
                     android:hint="Área de atuação"
                     android:layout_width="fill_parent">
                 </EditText>
 
                 <EditText
-                    android:id="@+id/periodo"
+                    android:id="@+id/Periodo"
                     android:layout_height="wrap_content"
                     android:hint="Período"
                     android:inputType="textMultiLine"
@@ -158,7 +158,7 @@
                 </EditText>
 
                 <EditText
-                    android:id="@+id/instituicao"
+                    android:id="@+id/Instituicao"
                     android:layout_height="wrap_content"
                     android:hint="Instituição"
                     android:inputType="textMultiLine"
@@ -167,7 +167,7 @@
 
 
                 <EditText
-                    android:id="@+id/empresass"
+                    android:id="@+id/Empresas"
                     android:layout_height="wrap_content"
                     android:hint="Empresa"
                     android:inputType="textMultiLine"
@@ -183,7 +183,7 @@
                 </EditText>
 
                 <EditText
-                    android:id="@+id/periodocg"
+                    android:id="@+id/Periodocargo"
                     android:layout_height="wrap_content"
                     android:hint="Período"
                     android:inputType="textMultiLine"
@@ -191,7 +191,7 @@
                 </EditText>
 
                 <EditText
-                    android:id="@+id/atividades_desenvolvidas"
+                    android:id="@+id/Atividades_Desenvolvidas"
                     android:layout_height="wrap_content"
                     android:hint="Atividades desenvolvidas"
                     android:inputType="textMultiLine"
@@ -207,7 +207,7 @@
                 </EditText>
 
                 <Spinner
-                    android:id="@+id/nivel_idioma"
+                    android:id="@+id/Nivel_Idioma"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:entries="@array/nivel_idioma"/>
