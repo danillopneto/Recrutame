@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "645426467233",
+    "firebase_url": "https://recrutame-d8d71.firebaseio.com",
+    "project_id": "recrutame-d8d71",
+    "storage_bucket": "recrutame-d8d71.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:645426467233:android:d015130faefce85d",
+        "android_client_info": {
+          "package_name": "ufg.go.br.recrutame"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "645426467233-6l0t27883egcq314qe5l4bi8q7ooo7fd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ufg.go.br.recrutame",
+            "certificate_hash": "d50c76166f17f80db14a74d59dfbbc83977821ca"
+          }
+        },
+        {
+          "client_id": "645426467233-41gtb67bmfqpvts5k4mfdmh4demub0hr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBk-qT6DU5QUgNryjHdzHAZCPFZ4jV5VHo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "645426467233-41gtb67bmfqpvts5k4mfdmh4demub0hr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
