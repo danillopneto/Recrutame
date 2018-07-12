@@ -13,6 +13,7 @@ import rec.protelas.DataBaseHandle
 import rec.protelas.User
 import kotlinx.android.synthetic.main.fragment_profile.*
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import ufg.go.br.recrutame.Util.CPFUtil
 import ufg.go.br.recrutame.Util.Mask
@@ -28,7 +29,9 @@ class ProfileFragment : Fragment(), View.OnClickListener {
       //  val btn_update = findViewById(R.id.btnUpdate) as Button
 
 
-       // Cpf.addTextChangedListener(Mask.mask("###.###.###-##", Cpf))
+        val cpf = view!!.findViewById<EditText>(R.id.Cpf)
+
+       cpf.addTextChangedListener(Mask.mask("###.###.###-##", cpf))
 
 /*
         fab.setOnClickListener { view ->
@@ -115,7 +118,7 @@ class ProfileFragment : Fragment(), View.OnClickListener {
 
         val user = User(1,Nome.text.toString(),
                 DataNascimento.text.toString().toInt(),
-                Cpf.text.toString().toInt(),
+                Cpf.text.toString(),
                 Sexo.text.toString(),
                 Nacionalidade.text.toString(),
                 Telefonefixo.text.toString().toInt(),
@@ -142,7 +145,7 @@ class ProfileFragment : Fragment(), View.OnClickListener {
 
         val user = User(1,Nome.text.toString(),
                 DataNascimento.text.toString().toInt(),
-                Cpf.text.toString().toInt(),
+                Cpf.text.toString(),
                 Sexo.text.toString(),
                 Nacionalidade.text.toString(),
                 Telefonefixo.text.toString().toInt(),
@@ -159,8 +162,6 @@ class ProfileFragment : Fragment(), View.OnClickListener {
                 "")
 
         db.insertData(user)
-
-
 
         Toast.makeText(context, "You clicked me.", Toast.LENGTH_SHORT).show()
     }
