@@ -7,6 +7,7 @@ data class User(
         var id : Int,
         var nome: String,
         var dataNascimento: Int,
+        var cpf: Int,
         var sexo : String,
         var nacionalidade : String,
         var telefonefixo: Int,
