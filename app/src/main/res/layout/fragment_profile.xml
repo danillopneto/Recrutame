@@ -81,7 +81,7 @@
                         android:layout_height="wrap_content"
                         android:layout_width="fill_parent"
                         android:ems="10"
-                        android:hint="CPF ex: 000.000.000-00"
+                        android:hint="CPF"
                         android:inputType="number"
                         android:maxLength="14"
                         />
@@ -97,6 +97,7 @@
                         android:id="@+id/Sexo"
                         android:layout_height="wrap_content"
                         android:layout_width="fill_parent"
+                        android:onClick="fab"
                         android:hint="sexo "></EditText>
 
                 </android.support.design.widget.TextInputLayout>

@@ -31,24 +31,20 @@ class ProfileFragment : Fragment(), View.OnClickListener {
 
         val cpf = view!!.findViewById<EditText>(R.id.Cpf)
 
-       cpf.addTextChangedListener(Mask.mask("###.###.###-##", cpf))
+        cpf.addTextChangedListener(Mask.mask("###.###.###-##", cpf))
 
-/*
-        fab.setOnClickListener { view ->
-            if (CPFUtil.myValidateCPF(Cpf.text.toString()))
-                showSnackFeedback("CPF valid", true, view)
-            else
-                showSnackFeedback("CPF Invalid", false, view)
-        }
 
-*/
+
+
+
 
         return view
     }
 
 
-    fun showSnackFeedback(message : String, isValid : Boolean, view : View){
-        val snackbar : Snackbar = Snackbar.make(view, message, Snackbar.LENGTH_SHORT)
+
+    fun showSnackFeedback(message : String, isValid : Boolean){
+        val snackbar : Snackbar = Snackbar.make(getView()!!, message, Snackbar.LENGTH_SHORT)
         var v : View = snackbar.view
         if (isValid)
             v.setBackgroundColor(ContextCompat.getColor(context!!.applicationContext, android.R.color.holo_green_dark))
@@ -80,7 +76,7 @@ class ProfileFragment : Fragment(), View.OnClickListener {
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.btnDeleta -> handleDelete()
-            R.id.btnSave -> handleSave()
+            R.id.btnSave  -> handleSave()
             R.id.btnUpdate -> handleUpdate()
             R.id.Result -> handleResult()
         }
@@ -142,6 +138,14 @@ class ProfileFragment : Fragment(), View.OnClickListener {
     }
 
     private fun handleSave() {
+
+        val cpf = view!!.findViewById<EditText>(R.id.Cpf)
+
+        if (CPFUtil.myValidateCPF(cpf.text.toString()))
+            showSnackFeedback("CPF valid", true)
+        else
+            showSnackFeedback("CPF Invalid", false)
+
 
         val user = User(1,Nome.text.toString(),
                 DataNascimento.text.toString().toInt(),
