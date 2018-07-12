@@ -18,4 +18,5 @@ const val SCOPES = "r_basicprofile%20r_emailaddress"
 
 const val OAUTH_LOGGEDIN = "oauth.loggedin"
 const val OAUTH_ACCESSTOKEN = "oauth.accesstoken"
-const val OAUTH_REFRESHTOKEN = "oauth.refreshtoken"
+
+const val USER_EMAIL = "user.email"

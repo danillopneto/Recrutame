@@ -9,26 +9,12 @@ import ufg.go.br.recrutame.R
 import android.widget.Toast
 import rec.protelas.DataBaseHandle
 import rec.protelas.User
-import com.squareup.picasso.Picasso
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import kotlinx.android.synthetic.main.fragment_profile.*
-import android.content.Context
 import android.widget.Button
 import android.widget.TextView
-import de.hdodenhof.circleimageview.CircleImageView
-import ufg.go.br.recrutame.API_BASE_URL
-import ufg.go.br.recrutame.BuildConfig
-import ufg.go.br.recrutame.OAUTH_ACCESSTOKEN
-import ufg.go.br.recrutame.api.model.LIProfileInfo
-import ufg.go.br.recrutame.api.service.LIService
-import ufg.go.br.recrutame.api.service.ServiceGenerator
-
 
 class ProfileFragment : Fragment(), View.OnClickListener {
     lateinit var db: DataBaseHandle
-    lateinit var liProfileInfo: LIProfileInfo
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
@@ -37,7 +23,6 @@ class ProfileFragment : Fragment(), View.OnClickListener {
 
       //  val btn_update = findViewById(R.id.btnUpdate) as Button
 
-        fillLinkedinInfo()
         return view
     }
 
@@ -178,37 +163,5 @@ class ProfileFragment : Fragment(), View.OnClickListener {
         DataNascimento.setText(data[0].dataNascimento.toString())
         Sexo.setText(data[0].sexo)
         Nacionalidade.setText(data[0].nacionalidade)
-    }
-
-    private fun fillLinkedinInfo() {
-        val prefs = context!!.getSharedPreferences(
-                BuildConfig.APPLICATION_ID, Context.MODE_PRIVATE)
-        if (prefs != null
-                && prefs.contains(OAUTH_ACCESSTOKEN)) {
-            val token = prefs.getString(OAUTH_ACCESSTOKEN, "")
-            if (token != "") {
-                val client = ServiceGenerator(API_BASE_URL).createService(LIService::class.java)
-                val map = HashMap<String, String>()
-                map["Authorization"] = "Bearer $token"
-                val call = client.getUserInfo(map)
-                call.enqueue(object : Callback<LIProfileInfo> {
-                    override fun onResponse(call: Call<LIProfileInfo>, response: Response<LIProfileInfo>) {
-                        val statusCode = response.code()
-                        if (statusCode == 200) {
-                            liProfileInfo = response.body()!!
-                            Picasso.get().load(liProfileInfo.pictureUrl).into(profile_image)
-                            Nome.setText("${liProfileInfo.firstName} ${liProfileInfo.lastName}")
-                            Email.setText("${liProfileInfo.emailAddress}")
-                        } else {
-                            Toast.makeText(context!!, "Failed in", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-
-                    override fun onFailure(call: Call<LIProfileInfo>, t: Throwable) {
-                        Toast.makeText(context!!, "Failed in", Toast.LENGTH_SHORT).show()
-                    }
-                })
-            }
-        }
     }
 }

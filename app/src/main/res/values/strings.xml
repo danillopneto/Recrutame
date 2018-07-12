@@ -11,6 +11,7 @@
     <string name="password">Senha</string>
     <string name="fill_credential">Por favor, preencha as credenciais.</string>
     <string name="login_failed">Erro ao realizar o login!</string>
+    <string name="linkedin_login_failed">Falha ao logar com LinkedIn.</string>
     <string-array name="nivel">
         <item>Profissional</item>
         <item>Superior</item>

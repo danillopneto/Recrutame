@@ -41,7 +41,7 @@ class LILoginActivity : Activity() {
                 super.onPageFinished(view, url)
                 if (url.contains("$RESPONSE_TYPE_VALUE=") && !authComplete) {
                     webView.visibility = View.GONE
-                    // get the whole token after the '=' sign
+
                     access_token = url.substring(url.lastIndexOf("=") + 1)
                     Log.i("", "CODE : $access_token")
                     authComplete = true
@@ -60,21 +60,20 @@ class LILoginActivity : Activity() {
                                 prefs.edit().putBoolean(OAUTH_LOGGEDIN, true).apply()
                                 prefs.edit().putString(OAUTH_ACCESSTOKEN, token!!.accessToken).apply()
 
-                                Toast.makeText(applicationContext, "Logged in", Toast.LENGTH_SHORT).show()
                                 val intent = Intent(applicationContext, TabActivity::class.java)
                                 startActivity(intent)
                                 finish()
                             } else {
-                                Toast.makeText(applicationContext, "Failed in", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(applicationContext, getString(R.string.linkedin_login_failed), Toast.LENGTH_SHORT).show()
                             }
                         }
 
                         override fun onFailure(call: Call<LIAccessToken>, t: Throwable) {
-                            Toast.makeText(applicationContext, "Failed in", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(applicationContext, getString(R.string.linkedin_login_failed), Toast.LENGTH_SHORT).show()
                         }
                     })
                 } else if (url.contains("?error")) {
-                    Toast.makeText(applicationContext, "Error Occured", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext, getString(R.string.linkedin_login_failed), Toast.LENGTH_SHORT).show()
                 }
             }
         }
