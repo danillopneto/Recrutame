@@ -2,6 +2,8 @@ package ufg.go.br.recrutame
 
 const val CLIENT_ID = "77567lpmjntdti"
 const val CLIENT_SECRET = "0y88whgSChJkldrl"
+const val LINKEDIN_USER = "user.linkedin"
+const val LINKEDIN_PASSWORD = "2Z5w/y{SFA'ATh#D"
 const val REDIRECT_URI = "http://recrutame"
 const val API_BASE_URL = "https://api.linkedin.com/"
 const val LI_BASE_URL = "https://www.linkedin.com/"

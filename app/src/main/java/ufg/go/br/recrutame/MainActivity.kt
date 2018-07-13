@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.loginBtn -> handleLogin()
+            R.id.loginBtn -> handleLogin(emailTxt.text.toString(), passwordTxt.text.toString())
             R.id.linkedinLoginBtn -> handleLinkedInLogin()
         }
     }
@@ -39,6 +39,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         val user = prefs.getString(USER_EMAIL, "")
         if (user != null) {
             emailTxt.setText(user)
+            passwordTxt.isFocusable = true
         }
     }
 
@@ -49,18 +50,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         setLastUser()
     }
 
-    private fun handleLogin() {
-        val emailTxt = findViewById<EditText>(R.id.emailTxt)
-        val passwordTxt = findViewById<EditText>(R.id.passwordTxt)
-
-        val email = emailTxt.text.toString()
-        val password = passwordTxt.text.toString()
+    private fun handleLogin(email: String, password: String) {
         if (!email.isEmpty() && !password.isEmpty()) {
-            mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, OnCompleteListener { task ->
+            mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    val prefs = application.getSharedPreferences(BuildConfig.APPLICATION_ID, Context.MODE_PRIVATE)
-                    prefs.edit().putString(USER_EMAIL, email).apply()
-
+                    getSharedPreferences().edit().putString(USER_EMAIL, email).apply()
                     startActivity(Intent(this, TabActivity :: class.java))
                 } else {
                     if (task.exception != null) {
@@ -69,20 +63,42 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                         Toast.makeText(this, getString(R.string.login_failed), Toast.LENGTH_LONG).show()
                     }
                 }
-            })
+            }
         } else {
             Toast.makeText(this, getString(R.string.fill_credential), Toast.LENGTH_LONG).show()
         }
     }
 
     private fun handleLinkedInLogin() {
-        val prefs = application.getSharedPreferences(BuildConfig.APPLICATION_ID, Context.MODE_PRIVATE)
+        val prefs = getSharedPreferences()
         val loggedIn = prefs != null
-                && prefs.contains(OAUTH_ACCESSTOKEN)
-                && prefs.getString(OAUTH_ACCESSTOKEN, "") != ""
+                && prefs.contains(LINKEDIN_USER)
+                && prefs.getString(LINKEDIN_USER, "") != ""
+        if (loggedIn) {
+            val email = prefs.getString(LINKEDIN_USER, "")
+            mAuth.fetchProvidersForEmail(email).addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    if (task.result.providers!!.size > 0) {
+                        handleLogin(email, LINKEDIN_PASSWORD)
+                    } else {
+                        mAuth.createUserWithEmailAndPassword(email, LINKEDIN_PASSWORD).addOnCompleteListener(this, OnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                handleLogin(email, LINKEDIN_PASSWORD)
+                            } else {
+                                Toast.makeText(this, getString(R.string.login_failed), Toast.LENGTH_LONG).show()
+                            }
+                        })
+                    }
+                } else {
+                    Toast.makeText(this, getString(R.string.login_failed), Toast.LENGTH_LONG).show()
+                }
+            }
+        } else {
+            startActivity(Intent(this, LILoginActivity :: class.java))
+        }
+    }
 
-        val activity = if (loggedIn) TabActivity :: class.java else LILoginActivity :: class.java
-        val intent = Intent(this, activity)
-        startActivity(intent)
+    private fun getSharedPreferences(): SharedPreferences {
+        return application.getSharedPreferences(BuildConfig.APPLICATION_ID, Context.MODE_PRIVATE)
     }
 }
