@@ -1,7 +1,9 @@
 package ufg.go.br.recrutame.fragment
 
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +13,10 @@ import rec.protelas.DataBaseHandle
 import rec.protelas.User
 import kotlinx.android.synthetic.main.fragment_profile.*
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
+import ufg.go.br.recrutame.Util.CPFUtil
+import ufg.go.br.recrutame.Util.Mask
 
 class ProfileFragment : Fragment(), View.OnClickListener {
     lateinit var db: DataBaseHandle
@@ -23,8 +28,32 @@ class ProfileFragment : Fragment(), View.OnClickListener {
 
       //  val btn_update = findViewById(R.id.btnUpdate) as Button
 
+
+        val cpf = view!!.findViewById<EditText>(R.id.Cpf)
+
+        cpf.addTextChangedListener(Mask.mask("###.###.###-##", cpf))
+
+
+
+
+
+
         return view
     }
+
+
+
+    fun showSnackFeedback(message : String, isValid : Boolean){
+        val snackbar : Snackbar = Snackbar.make(getView()!!, message, Snackbar.LENGTH_SHORT)
+        var v : View = snackbar.view
+        if (isValid)
+            v.setBackgroundColor(ContextCompat.getColor(context!!.applicationContext, android.R.color.holo_green_dark))
+        else
+            v.setBackgroundColor(ContextCompat.getColor(context!!.applicationContext, android.R.color.holo_red_dark))
+
+        snackbar.show()
+    }
+
 
     private fun inicializeControls(view: View?) {
         db = DataBaseHandle(context!!.applicationContext)
@@ -40,12 +69,14 @@ class ProfileFragment : Fragment(), View.OnClickListener {
 
         val btnDeleta = view.findViewById<Button>(R.id.btnDeleta)
         btnDeleta.setOnClickListener(this)
+
+
     }
 
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.btnDeleta -> handleDelete()
-            R.id.btnSave -> handleSave()
+            R.id.btnSave  -> handleSave()
             R.id.btnUpdate -> handleUpdate()
             R.id.Result -> handleResult()
         }
@@ -83,6 +114,7 @@ class ProfileFragment : Fragment(), View.OnClickListener {
 
         val user = User(1,Nome.text.toString(),
                 DataNascimento.text.toString().toInt(),
+                Cpf.text.toString(),
                 Sexo.text.toString(),
                 Nacionalidade.text.toString(),
                 Telefonefixo.text.toString().toInt(),
@@ -106,8 +138,18 @@ class ProfileFragment : Fragment(), View.OnClickListener {
     }
 
     private fun handleSave() {
+
+        val cpf = view!!.findViewById<EditText>(R.id.Cpf)
+
+        if (CPFUtil.myValidateCPF(cpf.text.toString()))
+            showSnackFeedback("CPF valid", true)
+        else
+            showSnackFeedback("CPF Invalid", false)
+
+
         val user = User(1,Nome.text.toString(),
                 DataNascimento.text.toString().toInt(),
+                Cpf.text.toString(),
                 Sexo.text.toString(),
                 Nacionalidade.text.toString(),
                 Telefonefixo.text.toString().toInt(),
@@ -154,7 +196,7 @@ class ProfileFragment : Fragment(), View.OnClickListener {
             )
         }
 
-        val user = User(1, data[0].nome, data[0].dataNascimento, data[0].sexo, data[0].nacionalidade,
+        val user = User(1, data[0].nome, data[0].dataNascimento, data[0].cpf, data[0].sexo, data[0].nacionalidade,
                 data[0].telefonefixo, data[0].telefonecelular, data[0].email, data[0].areaatuacao,
                 data[0].periodoatuacao, data[0].instituicao, data[0].empresa, data[0].cargo,
                 data[0].periodocargo, data[0].atividadesdesenvolvidas, data[0].idioma, data[0].nivel_idioma )

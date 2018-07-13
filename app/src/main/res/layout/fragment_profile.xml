@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     tools:context="ufg.go.br.recrutame.fragment.ProfileFragment">
 
-
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
@@ -44,33 +43,78 @@
                 android:orientation="vertical"
                 >
 
-                <EditText
-                    android:id="@+id/Nome"
-                    android:layout_height="wrap_content"
-                    android:hint="Nome"
-                    android:layout_width="fill_parent"
-                    android:layout_below="@+id/Perfil"></EditText>
-
-                <EditText
-                    android:id="@+id/DataNascimento"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="Data de Nascimento" ></EditText>
-
-                <EditText
-                    android:id="@+id/Sexo"
-                    android:layout_height="wrap_content"
-                    android:hint="sexo "
-                    android:layout_width="wrap_content"></EditText>
-
-                <EditText
-                    android:id="@+id/Nacionalidade"
-                    android:layout_height="wrap_content"
-                    android:hint="Nacionalidade"
-                    android:inputType="textPersonName"
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_below="@+id/Sexo"></EditText>
+                    android:layout_height="wrap_content">
 
+                    <EditText
+                        android:id="@+id/Nome"
+                        android:layout_height="wrap_content"
+                        android:hint="Nome"
+                        android:drawableTint="@color/grey"
+                        android:singleLine="true"
+                        android:layout_width="fill_parent"
+                        android:layout_below="@+id/Perfil"></EditText>
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/DataNascimento"
+                        android:layout_height="wrap_content"
+                        android:layout_width="fill_parent"
+                        android:inputType="date"
+                        android:digits="1234567890"
+                        android:hint="Data de Nascimento" ></EditText>
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/Cpf"
+                        android:layout_height="wrap_content"
+                        android:layout_width="fill_parent"
+                        android:ems="10"
+                        android:hint="CPF"
+                        android:inputType="number"
+                        android:maxLength="14"
+                        />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+                    <EditText
+                        android:id="@+id/Sexo"
+                        android:layout_height="wrap_content"
+                        android:layout_width="fill_parent"
+                        android:onClick="fab"
+                        android:hint="sexo "></EditText>
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/Nacionalidade"
+                        android:layout_height="wrap_content"
+                        android:hint="Nacionalidade"
+                        android:inputType="textPersonName"
+                        android:layout_width="match_parent"
+                        android:layout_below="@+id/Sexo"></EditText>
+
+                </android.support.design.widget.TextInputLayout>
 
             </LinearLayout>
 
@@ -94,30 +138,54 @@
                 android:orientation="vertical"
                 >
 
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                <EditText
-                    android:id="@+id/Telefonefixo"
-                    android:layout_height="wrap_content"
-                    android:hint="Telefone fixo"
-                    android:inputType="textPersonName"
-                    android:layout_width="fill_parent">
-                </EditText>
+                    <EditText
+                        android:id="@+id/Telefonefixo"
+                        android:layout_height="wrap_content"
+                        android:hint="Telefone fixo"
+                        android:digits="1234567890"
+                        android:ems="10"
+                        android:inputType="phone"
+                        android:maxLength="12"
+                        android:layout_width="fill_parent">
+                    </EditText>
 
-                <EditText
-                    android:id="@+id/Telefonecelular"
-                    android:layout_height="wrap_content"
-                    android:hint="Telefone celular"
-                    android:inputType="textPersonName"
-                    android:layout_width="fill_parent">
-                </EditText>
+                </android.support.design.widget.TextInputLayout>
 
-                <EditText
-                    android:id="@+id/Email"
-                    android:layout_height="wrap_content"
-                    android:hint="E-mail"
-                    android:inputType="textPersonName"
-                    android:layout_width="fill_parent">
-                </EditText>
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/Telefonecelular"
+                        android:layout_height="wrap_content"
+                        android:hint="Telefone celular"
+                        android:digits="1234567890"
+                        android:ems="10"
+                        android:inputType="phone"
+                        android:maxLength="12"
+                        android:layout_width="fill_parent">
+                    </EditText>
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/Email"
+                        android:layout_height="wrap_content"
+                        android:hint="E-mail"
+                        android:inputType="textPersonName"
+                        android:layout_width="fill_parent">
+                    </EditText>
+
+                </android.support.design.widget.TextInputLayout>
+
 
             </LinearLayout>
 
@@ -141,70 +209,115 @@
                 android:orientation="vertical"
                 >
 
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                <EditText
-                    android:id="@+id/Area_Atuacao"
-                    android:layout_height="wrap_content"
-                    android:hint="Área de atuação"
-                    android:layout_width="fill_parent">
-                </EditText>
+                    <EditText
+                        android:id="@+id/Area_Atuacao"
+                        android:layout_height="wrap_content"
+                        android:hint="Área de atuação"
+                        android:layout_width="fill_parent">
+                    </EditText>
 
-                <EditText
-                    android:id="@+id/Periodo"
-                    android:layout_height="wrap_content"
-                    android:hint="Período"
-                    android:inputType="textMultiLine"
-                    android:layout_width="fill_parent">
-                </EditText>
+                </android.support.design.widget.TextInputLayout>
 
-                <EditText
-                    android:id="@+id/Instituicao"
-                    android:layout_height="wrap_content"
-                    android:hint="Instituição"
-                    android:inputType="textMultiLine"
-                    android:layout_width="fill_parent">
-                </EditText>
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
+                    <EditText
+                        android:id="@+id/Periodo"
+                        android:layout_height="wrap_content"
+                        android:hint="Período"
+                        android:inputType="textMultiLine"
+                        android:layout_width="fill_parent">
+                    </EditText>
 
-                <EditText
-                    android:id="@+id/Empresas"
-                    android:layout_height="wrap_content"
-                    android:hint="Empresa"
-                    android:inputType="textMultiLine"
-                    android:layout_width="fill_parent">
-                </EditText>
+                </android.support.design.widget.TextInputLayout>
 
-                <EditText
-                    android:id="@+id/Cargo"
-                    android:layout_height="wrap_content"
-                    android:hint="Cargo"
-                    android:inputType="textMultiLine"
-                    android:layout_width="fill_parent">
-                </EditText>
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                <EditText
-                    android:id="@+id/Periodocargo"
-                    android:layout_height="wrap_content"
-                    android:hint="Período"
-                    android:inputType="textMultiLine"
-                    android:layout_width="fill_parent">
-                </EditText>
+                    <EditText
+                        android:id="@+id/Instituicao"
+                        android:layout_height="wrap_content"
+                        android:hint="Instituição"
+                        android:inputType="textMultiLine"
+                        android:layout_width="fill_parent">
+                    </EditText>
 
-                <EditText
-                    android:id="@+id/Atividades_Desenvolvidas"
-                    android:layout_height="wrap_content"
-                    android:hint="Atividades desenvolvidas"
-                    android:inputType="textMultiLine"
-                    android:layout_width="fill_parent">
-                </EditText>
+                </android.support.design.widget.TextInputLayout>
 
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                <EditText
-                    android:id="@+id/Idioma"
-                    android:layout_height="wrap_content"
-                    android:hint="Idioma"
-                    android:layout_width="fill_parent">
-                </EditText>
+                    <EditText
+                        android:id="@+id/Empresas"
+                        android:layout_height="wrap_content"
+                        android:hint="Empresa"
+                        android:inputType="textMultiLine"
+                        android:layout_width="fill_parent">
+                    </EditText>
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/Cargo"
+                        android:layout_height="wrap_content"
+                        android:hint="Cargo"
+                        android:inputType="textMultiLine"
+                        android:layout_width="fill_parent">
+                    </EditText>
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/Periodocargo"
+                        android:layout_height="wrap_content"
+                        android:hint="Período"
+                        android:inputType="textMultiLine"
+                        android:layout_width="fill_parent">
+                    </EditText>
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/Atividades_Desenvolvidas"
+                        android:layout_height="wrap_content"
+                        android:hint="Atividades desenvolvidas"
+                        android:inputType="textMultiLine"
+                        android:layout_width="fill_parent">
+                    </EditText>
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/Idioma"
+                        android:layout_height="wrap_content"
+                        android:hint="Idioma"
+                        android:layout_width="fill_parent">
+                    </EditText>
+
+                </android.support.design.widget.TextInputLayout>
 
                 <Spinner
                     android:id="@+id/Nivel_Idioma"

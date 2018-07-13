@@ -15,6 +15,7 @@ val TABLE_NAME = "Users"
 val COL_ID = "Id"
 val COL_Nome = "Nome"
 val COL_DATANASCIMENTO = "Nascimento"
+val COL_CPF = "Cpf"
 val COL_SEXO = "Sexo"
 val COL_NASCIONALIDADE = "Nascionalidade"
 val COL_TELEFONE_FIXO = "TelefoneFixo"
@@ -38,19 +39,20 @@ class DataBaseHandle(var context: Context) :SQLiteOpenHelper(context, DATABASE_N
                 COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "+
                 COL_Nome + " VARCHAR(256), "+
                 COL_DATANASCIMENTO + " INTEGER, "+
+                COL_CPF + " VARCHAR(40), "+
                 COL_SEXO + " VARCHAR(40), "+
-                COL_NASCIONALIDADE + " VARCHAR(40) )"+
-                COL_TELEFONE_FIXO + " VARCHAR(40) )"+
-                COL_TELEFONE_CELULAR + " VARCHAR(40) )"+
-                COL_EMAIL + " VARCHAR(40) )"+
-                COL_AREA_ATUACAO + " VARCHAR(40) )"+
-                COL_PERIODO_ATUACAO + " VARCHAR(40) )"+
-                COL_INSTITUICAO + " VARCHAR(40) )"+
-                COL_EMPRESA + " VARCHAR(40) )"+
-                COL_CARGO + " VARCHAR(40) )"+
-                COL_PERIODO_CARGO + " VARCHAR(40) )"+
-                COL_ATIVIDADESDESENVOLVIDAS + " VARCHAR(40) )"+
-                COL_IDIOMA + " VARCHAR(40) )"+
+                COL_NASCIONALIDADE + " VARCHAR(40), "+
+                COL_TELEFONE_FIXO + " VARCHAR(40), "+
+                COL_TELEFONE_CELULAR + " VARCHAR(40), "+
+                COL_EMAIL + " VARCHAR(40), "+
+                COL_AREA_ATUACAO + " VARCHAR(40), "+
+                COL_PERIODO_ATUACAO + " VARCHAR(40), "+
+                COL_INSTITUICAO + " VARCHAR(40), "+
+                COL_EMPRESA + " VARCHAR(40), "+
+                COL_CARGO + " VARCHAR(40), "+
+                COL_PERIODO_CARGO + " VARCHAR(40), "+
+                COL_ATIVIDADESDESENVOLVIDAS + " VARCHAR(40), "+
+                COL_IDIOMA + " VARCHAR(40), "+
                 COL_NIVEL_IDIOMA + " VARCHAR(40) )"
 
     db?.execSQL(createTable)
@@ -65,6 +67,7 @@ class DataBaseHandle(var context: Context) :SQLiteOpenHelper(context, DATABASE_N
         val cv = ContentValues()
         cv.put(COL_Nome, user.nome)
         cv.put(COL_DATANASCIMENTO, user.dataNascimento)
+        cv.put(COL_CPF, user.cpf)
         cv.put(COL_SEXO, user.sexo)
         cv.put(COL_NASCIONALIDADE, user.nacionalidade)
         cv.put(COL_TELEFONE_FIXO, user.telefonefixo)
@@ -99,13 +102,14 @@ class DataBaseHandle(var context: Context) :SQLiteOpenHelper(context, DATABASE_N
 
         if (result.moveToFirst()){
             do {
-                var user = User(0,"",0,"","",0,
+                var user = User(0,"",0,"","","",0,
                         0,"","","","",
                 "", "", "","","","")
 
                 user.id = result.getString(result.getColumnIndex(COL_ID)).toInt()
                 user.nome = result.getString(result.getColumnIndex(COL_Nome))
                 user.dataNascimento = result.getString(result.getColumnIndex(COL_DATANASCIMENTO)).toInt()
+                user.cpf = result.getString(result.getColumnIndex(COL_CPF))
                 user.sexo = result.getString(result.getColumnIndex(COL_SEXO))
                 user.nacionalidade = result.getString(result.getColumnIndex(COL_NASCIONALIDADE))
                 user.telefonefixo = result.getString(result.getColumnIndex(COL_TELEFONE_FIXO)).toInt()
@@ -142,6 +146,9 @@ class DataBaseHandle(var context: Context) :SQLiteOpenHelper(context, DATABASE_N
                 var cv = ContentValues()
                 cv.put(COL_ID, result.getInt(result.getColumnIndex(COL_ID)))
                 cv.put(COL_DATANASCIMENTO, result.getInt(result.getColumnIndex(COL_DATANASCIMENTO)))
+                cv.put(COL_CPF, result.getInt(result.getColumnIndex(COL_CPF)))
+
+
                 val update = db.update(
                         TABLE_NAME,
                         cv,
@@ -167,6 +174,7 @@ class DataBaseHandle(var context: Context) :SQLiteOpenHelper(context, DATABASE_N
                 var cv = ContentValues()
                 cv.put(COL_ID, result.getInt(result.getColumnIndex(COL_ID)))
                 cv.put(COL_DATANASCIMENTO, result.getInt(result.getColumnIndex(COL_DATANASCIMENTO)))
+                cv.put(COL_CPF, result.getInt(result.getColumnIndex(COL_CPF)))
                 val update = db.update(
                         TABLE_NAME,
                         cv,
@@ -186,6 +194,7 @@ class DataBaseHandle(var context: Context) :SQLiteOpenHelper(context, DATABASE_N
         val cv = ContentValues()
         cv.put(COL_Nome, user.nome)
         cv.put(COL_DATANASCIMENTO, user.dataNascimento)
+        cv.put(COL_CPF, user.cpf)
         cv.put(COL_SEXO, user.sexo)
         cv.put(COL_NASCIONALIDADE, user.nacionalidade)
         cv.put(COL_TELEFONE_FIXO, user.telefonefixo)
@@ -213,9 +222,6 @@ class DataBaseHandle(var context: Context) :SQLiteOpenHelper(context, DATABASE_N
         db.close()
 
     }
-
-
-
 
 
     fun deleteData(){
