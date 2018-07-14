@@ -1,17 +1,24 @@
 package ufg.go.br.recrutame
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.view.ViewPager
 import android.view.MotionEvent
 import android.view.View
+import com.google.firebase.auth.FirebaseAuth
 import ufg.go.br.recrutame.adapter.PagerAdapter
 
 class TabActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (FirebaseAuth.getInstance().currentUser == null) {
+            startActivity(Intent(this, MainActivity :: class.java))
+            return
+        }
+
         setContentView(R.layout.tab_layout)
 
         var tabLayout = findViewById(R.id.tab_layout) as TabLayout;

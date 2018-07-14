@@ -1,14 +1,13 @@
 package ufg.go.br.recrutame.api.activities
 
-import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Toast
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import retrofit2.Call
 import retrofit2.Callback
@@ -19,10 +18,7 @@ import ufg.go.br.recrutame.api.model.LIProfileInfo
 import ufg.go.br.recrutame.api.service.LIService
 import ufg.go.br.recrutame.api.service.ServiceGenerator
 
-class LILoginActivity : Activity() {
-    private lateinit var liProfileInfo: LIProfileInfo
-    private lateinit var mAuth: FirebaseAuth
-
+class LILoginActivity : LoginActivity() {
     private val url = "$AUTHORIZATION_URL?$RESPONSE_TYPE_PARAM=$RESPONSE_TYPE_VALUE&$CLIENT_ID_PARAM=$CLIENT_ID&$REDIRECT_URI_PARAM=$REDIRECT_URI&$SCOPE_PARAM=$SCOPES"
 
     private lateinit var webView: WebView
@@ -64,8 +60,7 @@ class LILoginActivity : Activity() {
                                 val token = response.body()
                                 prefs.edit().putBoolean(OAUTH_LOGGEDIN, true).apply()
                                 prefs.edit().putString(OAUTH_ACCESSTOKEN, token!!.accessToken).apply()
-
-                                fillLinkedinInfo(token?.accessToken.toString())
+                                fillLinkedinInfo(token.accessToken.toString())
                             } else {
                                 Toast.makeText(applicationContext, getString(R.string.linkedin_login_failed), Toast.LENGTH_SHORT).show()
                             }
@@ -95,11 +90,10 @@ class LILoginActivity : Activity() {
                         liProfileInfo = response.body()!!
                         application.getSharedPreferences(BuildConfig.APPLICATION_ID, Context.MODE_PRIVATE)
                                 .edit().putString(LINKEDIN_USER, liProfileInfo.emailAddress).apply()
+                        handleFirebaseLogin(liProfileInfo.emailAddress!!)
                     } else {
                         Toast.makeText(applicationContext, "Failed in", Toast.LENGTH_SHORT).show()
                     }
-
-                    finish()
                 }
 
                 override fun onFailure(call: Call<LIProfileInfo>, t: Throwable) {
@@ -107,6 +101,26 @@ class LILoginActivity : Activity() {
                     finish()
                 }
             })
+        }
+    }
+
+    private fun handleFirebaseLogin(email: String) {
+        mAuth.fetchProvidersForEmail(email).addOnCompleteListener(this) { task ->
+            if (task.isSuccessful) {
+                if (task.result.providers!!.size > 0) {
+                    handleLogin(email, LINKEDIN_PASSWORD)
+                } else {
+                    mAuth.createUserWithEmailAndPassword(email, LINKEDIN_PASSWORD).addOnCompleteListener(this, OnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            handleLogin(email, LINKEDIN_PASSWORD)
+                        } else {
+                            Toast.makeText(this, getString(R.string.login_failed), Toast.LENGTH_LONG).show()
+                        }
+                    })
+                }
+            } else {
+                Toast.makeText(this, getString(R.string.login_failed), Toast.LENGTH_LONG).show()
+            }
         }
     }
 }

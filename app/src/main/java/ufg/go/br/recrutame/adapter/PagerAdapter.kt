@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentPagerAdapter
 import ufg.go.br.recrutame.enum.EnumTabs
 import android.support.v4.app.FragmentManager
 import ufg.go.br.recrutame.fragment.ChatFragment
+import ufg.go.br.recrutame.fragment.HomeFragment
 import ufg.go.br.recrutame.fragment.JobFragment
 import ufg.go.br.recrutame.fragment.ProfileFragment
 
@@ -16,7 +17,7 @@ class PagerAdapter(fragmentManager: FragmentManager, private val numOfTabs: Int)
 
     override fun getItem(position: Int): Fragment {
         return when(position){
-            EnumTabs.PROFILE.indice -> ProfileFragment()
+            EnumTabs.HOME.indice -> HomeFragment()
             EnumTabs.JOBS.indice -> JobFragment()
             else -> ChatFragment()
         }
