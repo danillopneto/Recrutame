@@ -29,14 +29,12 @@ class ProfileFragment : Fragment(), View.OnClickListener {
       //  val btn_update = findViewById(R.id.btnUpdate) as Button
 
 
+        /// trocar o campo de data para formato data do android
+        // olhar o programa do likedin para ver como ele separa essas informacoes
+
         val cpf = view!!.findViewById<EditText>(R.id.Cpf)
 
         cpf.addTextChangedListener(Mask.mask("###.###.###-##", cpf))
-
-
-
-
-
 
         return view
     }
@@ -69,7 +67,6 @@ class ProfileFragment : Fragment(), View.OnClickListener {
 
         val btnDeleta = view.findViewById<Button>(R.id.btnDeleta)
         btnDeleta.setOnClickListener(this)
-
 
     }
 
