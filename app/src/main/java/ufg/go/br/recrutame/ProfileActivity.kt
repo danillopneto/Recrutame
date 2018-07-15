@@ -81,7 +81,7 @@ class ProfileActivity : Activity() , View.OnClickListener {
             R.id.btnDeleta -> handleDelete()
             R.id.btnSave  -> handleSave()
             R.id.btnUpdate -> handleUpdate()
-            R.id.Result -> handleResult()
+            R.id.btnRead -> handleResult()
         }
     }
 
@@ -149,13 +149,12 @@ class ProfileActivity : Activity() , View.OnClickListener {
         else
             showSnackFeedback("CPF Invalid", false)
 
-
         val user = User(1,Nome.text.toString(),
                 DataNascimento.text.toString().toInt(),
                 Cpf.text.toString(),
                 Sexo.text.toString(),
                 Nacionalidade.text.toString(),
-                Telefonefixo.text.toString().toInt(),
+                Integer.parseInt(Telefonefixo.text.toString()),
                 Telefonecelular.text.toString().toInt(),
                 Email.text.toString(),
                 Area_Atuacao.text.toString(),

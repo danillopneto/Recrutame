@@ -11,25 +11,25 @@ import android.widget.Toast
  * Created by Vinicius on 24/06/2018.
  */
 val DATABASE_NAME = "RecrutameDB"
-val TABLE_NAME = "Users"
-val COL_ID = "Id"
-val COL_Nome = "Nome"
-val COL_DATANASCIMENTO = "Nascimento"
-val COL_CPF = "Cpf"
-val COL_SEXO = "Sexo"
-val COL_NASCIONALIDADE = "Nascionalidade"
-val COL_TELEFONE_FIXO = "TelefoneFixo"
-val COL_TELEFONE_CELULAR = "TelefoneCelular"
-val COL_EMAIL = "Email"
-val COL_AREA_ATUACAO = "AreaAtuacao"
-val COL_PERIODO_ATUACAO = "PeriodoAtuacao"
-val COL_INSTITUICAO = "Instituicao"
-val COL_EMPRESA = "Empresa"
-val COL_CARGO = "Cargo"
-val COL_PERIODO_CARGO = "PeriodoCargo"
-val COL_ATIVIDADESDESENVOLVIDAS = "AtividadesDesenvolvidas"
-val COL_IDIOMA = "Idioma"
-val COL_NIVEL_IDIOMA = "NivelIdioma"
+val TABLE_NAME = " Users "
+val COL_ID = "[ Id ]"
+val COL_Nome = "[ Nome ]"
+val COL_DATANASCIMENTO = "[ Nascimento] "
+val COL_CPF = "[ Cpf ]"
+val COL_SEXO = "[ Sexo ]"
+val COL_NASCIONALIDADE = "[ Nascionalidade ]"
+val COL_TELEFONE_FIXO = "[ TelefoneFixo ]"
+val COL_TELEFONE_CELULAR = "[ TelefoneCelular ]"
+val COL_EMAIL = "[ Email ]"
+val COL_AREA_ATUACAO = "[ AreaAtuacao ]"
+val COL_PERIODO_ATUACAO = "[ PeriodoAtuacao ]"
+val COL_INSTITUICAO = "[ Instituicao ]"
+val COL_EMPRESA = "[ Empresa ]"
+val COL_CARGO = "[ Cargo ]"
+val COL_PERIODO_CARGO = "[ PeriodoCargo ]"
+val COL_ATIVIDADESDESENVOLVIDAS = "[ AtividadesDesenvolvidas ]"
+val COL_IDIOMA = "[ Idioma ]"
+val COL_NIVEL_IDIOMA = "[ NivelIdioma ]"
 
 
 class DataBaseHandle(var context: Context) :SQLiteOpenHelper(context, DATABASE_NAME,null,1){
@@ -37,45 +37,53 @@ class DataBaseHandle(var context: Context) :SQLiteOpenHelper(context, DATABASE_N
 
         val createTable = "CREATE TABLE "+ TABLE_NAME + " ("+
                 COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "+
-                COL_Nome + " VARCHAR(256), "+
+                COL_Nome + " TEXT , "+
                 COL_DATANASCIMENTO + " INTEGER, "+
-                COL_CPF + " VARCHAR(40), "+
-                COL_SEXO + " VARCHAR(40), "+
-                COL_NASCIONALIDADE + " VARCHAR(40), "+
-                COL_TELEFONE_FIXO + " VARCHAR(40), "+
-                COL_TELEFONE_CELULAR + " VARCHAR(40), "+
-                COL_EMAIL + " VARCHAR(40), "+
-                COL_AREA_ATUACAO + " VARCHAR(40), "+
-                COL_PERIODO_ATUACAO + " VARCHAR(40), "+
-                COL_INSTITUICAO + " VARCHAR(40), "+
-                COL_EMPRESA + " VARCHAR(40), "+
-                COL_CARGO + " VARCHAR(40), "+
-                COL_PERIODO_CARGO + " VARCHAR(40), "+
-                COL_ATIVIDADESDESENVOLVIDAS + " VARCHAR(40), "+
-                COL_IDIOMA + " VARCHAR(40), "+
-                COL_NIVEL_IDIOMA + " VARCHAR(40) )"
+                COL_CPF + " TEXT, "+
+                COL_SEXO + " TEXT, "+
+                COL_NASCIONALIDADE + " TEXT, "+
+                COL_TELEFONE_FIXO + " INTEGER, "+
+                COL_TELEFONE_CELULAR + " INTEGER, "+
+                COL_EMAIL + " TEXT, "+
+                COL_AREA_ATUACAO + " TEXT, "+
+                COL_PERIODO_ATUACAO + " TEXT, "+
+                COL_INSTITUICAO + " TEXT, "+
+                COL_EMPRESA + " TEXT, "+
+                COL_CARGO + " TEXT, "+
+                COL_PERIODO_CARGO + " TEXT, "+
+                COL_ATIVIDADESDESENVOLVIDAS + " TEXT, "+
+                COL_IDIOMA + " TEXT, "+
+                COL_NIVEL_IDIOMA + " TEXT )"
 
     db?.execSQL(createTable)
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, p1: Int, p2: Int) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        // Drop older table if existed
+        db?.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+
+        // Create tables again
+        onCreate(db);
     }
+
+
+
 
     fun insertData(user: User){
         val db = this.writableDatabase
         val cv = ContentValues()
         cv.put(COL_Nome, user.nome)
-        cv.put(COL_DATANASCIMENTO, user.dataNascimento)
+        cv.put(COL_DATANASCIMENTO, user.dataNascimento.toInt())
         cv.put(COL_CPF, user.cpf)
         cv.put(COL_SEXO, user.sexo)
         cv.put(COL_NASCIONALIDADE, user.nacionalidade)
-        cv.put(COL_TELEFONE_FIXO, user.telefonefixo)
-        cv.put(COL_TELEFONE_CELULAR, user.telefonecelular)
+        cv.put(COL_TELEFONE_FIXO, user.telefonefixo.toInt())
+        cv.put(COL_TELEFONE_CELULAR, user.telefonecelular.toInt())
         cv.put(COL_EMAIL, user.email)
         cv.put(COL_AREA_ATUACAO, user.areaatuacao)
         cv.put(COL_PERIODO_ATUACAO, user.periodoatuacao)
-        cv.put(COL_INSTITUICAO, user.instituicao)
+        cv.put(COL_INSTITUICAO, user.instituicao.toString())
         cv.put(COL_EMPRESA, user.empresa)
         cv.put(COL_CARGO, user.cargo)
         cv.put(COL_PERIODO_CARGO, user.periodocargo)

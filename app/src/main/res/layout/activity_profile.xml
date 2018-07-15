@@ -239,7 +239,7 @@
                             android:id="@+id/Instituicao"
                             android:layout_height="wrap_content"
                             android:hint="Instituição"
-                            android:inputType="textMultiLine"
+                            android:inputType="text"
                             android:layout_width="fill_parent">
                         </EditText>
 
