@@ -22,7 +22,8 @@
         <activity android:name=".api.activities.LILoginActivity" />
         <activity
             android:name=".ProfileActivity"
-            android:label="ProfileActivity"></activity>
+            android:label="ProfileActivity" />
+        <activity android:name=".RegisterActivity"></activity>
     </application>
 
 </manifest>

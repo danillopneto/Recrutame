@@ -3,6 +3,7 @@ package ufg.go.br.recrutame.fragment
 import android.os.Bundle
 import android.content.Context
 import android.content.Intent
+import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -21,8 +22,8 @@ class HomeFragment : Fragment(), View.OnClickListener {
                               savedInstanceState: Bundle?): View? {
         mAuth = FirebaseAuth.getInstance()
         val view = inflater.inflate(R.layout.fragment_home, container, false)
-        view.findViewById<CircleButton>(R.id.settingsBtn).setOnClickListener(this)
-        view.findViewById<CircleButton>(R.id.editProfileBtn).setOnClickListener(this)
+        view.findViewById<FloatingActionButton>(R.id.settingsBtn).setOnClickListener(this)
+        view.findViewById<FloatingActionButton>(R.id.editProfileBtn).setOnClickListener(this)
         return view
     }
 

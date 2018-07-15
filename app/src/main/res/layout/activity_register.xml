@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -6,7 +7,7 @@
     android:orientation="vertical"
     android:scrollbarAlwaysDrawVerticalTrack="true"
     android:paddingTop="20dp"
-    tools:context=".MainActivity" >
+    tools:context=".RegisterActivity">
 
     <ImageButton
         android:id="@+id/user_profile_photo"
@@ -65,22 +66,21 @@
                     android:inputType="numberPassword" />
             </android.support.design.widget.TextInputLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:paddingTop="5dp"
-                android:text="@string/forgot_password" />
-
-            <Button
-                android:layout_marginTop="20dp"
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/linkedinColor"
-                android:text="@string/login"
-                android:id="@+id/loginBtn"
-                android:textColor="@color/white"
-                android:textSize="18sp" />
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/confirmPasswordTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:singleLine="true"
+                    android:drawableLeft="@drawable/ic_lock"
+                    android:drawableTint="@color/grey"
+                    android:hint="@string/confirmPassword"
+                    android:inputType="numberPassword" />
+            </android.support.design.widget.TextInputLayout>
 
             <Button
                 android:layout_marginTop="20dp"
@@ -93,19 +93,4 @@
                 android:textSize="18sp" />
         </LinearLayout>
     </RelativeLayout>
-
-    <Button
-        android:id="@+id/linkedinLoginBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:background="@drawable/linkedin_logo"
-        android:text="@string/sign_in_with_linkedin"
-        android:textColor="@android:color/white"
-        android:textSize="14sp"
-        android:gravity="center"
-        android:layout_centerInParent="true"
-        android:layout_below="@+id/loginContainer"
-        android:paddingLeft="10dp"
-        android:layout_marginTop="20dp" />
-
 </RelativeLayout>
