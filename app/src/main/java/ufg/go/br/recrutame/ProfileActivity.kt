@@ -92,9 +92,15 @@ class ProfileActivity : Activity() , View.OnClickListener {
     }
 
     private fun handleResult() {
+
+        try {
+
         val data = db.readData()
 
         Result.text = ""
+
+
+
         for (i in 0..(data.size -1)){
             Result.append(data[i].id.toString() + "\n" +
                     ""+ data[i].nome + "\n"+
@@ -133,15 +139,23 @@ class ProfileActivity : Activity() , View.OnClickListener {
                 Idioma.text.toString(),
                 "")
 
-        Toast.makeText(this, "Falha ao inserir"+user, Toast.LENGTH_LONG).show()
 
 
-        db.updateUser(user)
+        }catch (e: Exception){
+            Toast.makeText(this, ""+e.message, Toast.LENGTH_LONG).show()
+        }
+
+
+
+
+      //  db.updateUser(user)
         // btn_read.performClick()
     }
 
     private fun handleSave() {
 
+        try {
+            
         val cpf = this!!.findViewById<EditText>(R.id.Cpf)
 
         if (CPFUtil.myValidateCPF(cpf.text.toString()))
@@ -167,9 +181,15 @@ class ProfileActivity : Activity() , View.OnClickListener {
                 Idioma.text.toString(),
                 "")
 
-        db.insertData(user)
 
-        Toast.makeText(this, "You clicked me.", Toast.LENGTH_SHORT).show()
+
+            db.insertData(user)
+        }catch (e: Exception){
+            Toast.makeText(this, ""+e.message.toString(), Toast.LENGTH_SHORT).show()
+        }
+
+
+
     }
 
     private fun handleUpdate() {

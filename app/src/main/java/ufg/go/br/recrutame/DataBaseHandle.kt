@@ -61,10 +61,10 @@ class DataBaseHandle(var context: Context) :SQLiteOpenHelper(context, DATABASE_N
     override fun onUpgrade(db: SQLiteDatabase?, p1: Int, p2: Int) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
         // Drop older table if existed
-        db?.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+     //   db?.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
 
         // Create tables again
-        onCreate(db);
+      //  onCreate(db);
     }
 
 
@@ -108,8 +108,8 @@ class DataBaseHandle(var context: Context) :SQLiteOpenHelper(context, DATABASE_N
         val query = "SELECT * FROM " + TABLE_NAME
         val result = db.rawQuery(query, null)
 
-        if (result.moveToFirst()){
-            do {
+       // if (result.moveToFirst()){
+      //      do {
                 var user = User(0,"",0,"","","",0,
                         0,"","","","",
                 "", "", "","","","")
@@ -135,8 +135,8 @@ class DataBaseHandle(var context: Context) :SQLiteOpenHelper(context, DATABASE_N
 
 
                 list.add(user)
-            }while (result.moveToNext())
-        }
+       //     }while (result.moveToNext())
+     //   }
 
         result.close()
         db.close()
