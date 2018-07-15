@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.ProgressBar
 import kotlinx.android.synthetic.main.activity_main.*
 import ufg.go.br.recrutame.api.activities.LILoginActivity
 
@@ -36,6 +37,10 @@ class MainActivity : LoginActivity(), View.OnClickListener {
         }
     }
 
+    override fun getProgressBar(): ProgressBar {
+        return progressBar
+    }
+
     private fun inicializeControls() {
         loginBtn.setOnClickListener(this)
         linkedinLoginBtn.setOnClickListener(this)
@@ -47,6 +52,7 @@ class MainActivity : LoginActivity(), View.OnClickListener {
     }
 
     private fun handleRegister() {
+        hideKeyboard()
         startActivity(Intent(this, RegisterActivity :: class.java))
     }
 }

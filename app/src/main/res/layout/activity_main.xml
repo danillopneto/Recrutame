@@ -42,7 +42,7 @@
                     android:id="@+id/emailTxt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/ic_user"
+                    android:drawableStart="@drawable/ic_user"
                     android:drawableTint="@color/grey"
                     android:singleLine="true"
                     android:hint="@string/email"
@@ -59,7 +59,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:singleLine="true"
-                    android:drawableLeft="@drawable/ic_lock"
+                    android:drawableStart="@drawable/ic_lock"
                     android:drawableTint="@color/grey"
                     android:hint="@string/password"
                     android:inputType="numberPassword" />
@@ -107,5 +107,13 @@
         android:layout_below="@+id/loginContainer"
         android:paddingLeft="10dp"
         android:layout_marginTop="20dp" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_below="@+id/linkedinLoginBtn"
+        android:visibility="gone"/>
 
 </RelativeLayout>
