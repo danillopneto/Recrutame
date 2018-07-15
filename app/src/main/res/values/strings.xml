@@ -12,6 +12,17 @@
     <string name="fill_credential">Por favor, preencha as credenciais.</string>
     <string name="login_failed">Erro ao realizar o login!</string>
     <string name="linkedin_login_failed">Falha ao logar com LinkedIn.</string>
+    <string name="register">Registrar</string>
+    <string name="settings">Configurações</string>
+    <string name="editProfile">Editar perfil</string>
+    <string name="confirmPassword">Confirme a senha</string>
+    <string name="password_doesnt_match">Senhas não combinam</string>
+    <string name="user_registered">Usuário registrado com sucesso.</string>
+    <string name="error_weak_password">A senha informada é fraca.</string>
+    <string name="error_invalid_email">O e-mail informado é inválido.</string>
+    <string name="error_user_exists">O usuário informado já existe.</string>
+    <string name="invalid_credentials">Credenciais inválidas.</string>
+    <string name="error_register">Erro ao registrar o usuário.</string>
     <string-array name="nivel">
         <item>Profissional</item>
         <item>Superior</item>
@@ -24,4 +35,10 @@
         <item>avançado</item>
         <item>fluente</item>
     </string-array>
+
+    <string-array name="sexo">
+        <item>Masculino</item>
+        <item>Feminino</item>
+    </string-array>
+
 </resources>

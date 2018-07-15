@@ -1,5 +1,7 @@
 package ufg.go.br.recrutame
 
+const val TAG = "Recruta.me"
+
 const val CLIENT_ID = "77567lpmjntdti"
 const val CLIENT_SECRET = "0y88whgSChJkldrl"
 const val LINKEDIN_USER = "user.linkedin"

@@ -19,6 +19,7 @@ class MainActivity : LoginActivity(), View.OnClickListener {
         when (v?.id) {
             R.id.loginBtn -> handleLogin(emailTxt.text.toString(), passwordTxt.text.toString())
             R.id.linkedinLoginBtn -> handleLinkedInLogin()
+            R.id.registerBtn -> handleRegister()
         }
     }
 
@@ -38,9 +39,14 @@ class MainActivity : LoginActivity(), View.OnClickListener {
     private fun inicializeControls() {
         loginBtn.setOnClickListener(this)
         linkedinLoginBtn.setOnClickListener(this)
+        registerBtn.setOnClickListener(this)
     }
 
     private fun handleLinkedInLogin() {
         startActivity(Intent(this, LILoginActivity :: class.java))
+    }
+
+    private fun handleRegister() {
+        startActivity(Intent(this, RegisterActivity :: class.java))
     }
 }

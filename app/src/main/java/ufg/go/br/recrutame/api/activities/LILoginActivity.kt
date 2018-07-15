@@ -7,7 +7,6 @@ import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Toast
-import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import retrofit2.Call
 import retrofit2.Callback
@@ -110,13 +109,13 @@ class LILoginActivity : LoginActivity() {
                 if (task.result.providers!!.size > 0) {
                     handleLogin(email, LINKEDIN_PASSWORD)
                 } else {
-                    mAuth.createUserWithEmailAndPassword(email, LINKEDIN_PASSWORD).addOnCompleteListener(this, OnCompleteListener { task ->
+                    mAuth.createUserWithEmailAndPassword(email, LINKEDIN_PASSWORD).addOnCompleteListener(this) { task ->
                         if (task.isSuccessful) {
                             handleLogin(email, LINKEDIN_PASSWORD)
                         } else {
                             Toast.makeText(this, getString(R.string.login_failed), Toast.LENGTH_LONG).show()
                         }
-                    })
+                    }
                 }
             } else {
                 Toast.makeText(this, getString(R.string.login_failed), Toast.LENGTH_LONG).show()

@@ -5,8 +5,13 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException
+import kotlinx.android.synthetic.main.activity_register.*
 import ufg.go.br.recrutame.api.model.LIProfileInfo
 
 abstract class LoginActivity : AppCompatActivity() {
@@ -24,16 +29,19 @@ abstract class LoginActivity : AppCompatActivity() {
     fun handleLogin(email: String, password: String) {
         if (!email.isEmpty() && !password.isEmpty()) {
             mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
+                if (!task.isSuccessful) {
+                    try {
+                        throw task.exception!!
+                    } catch (e: FirebaseAuthInvalidCredentialsException) {
+                        Toast.makeText(this, getString(R.string.invalid_credentials), Toast.LENGTH_LONG).show()
+                    } catch (e: Exception) {
+                        Toast.makeText(this, getString(R.string.login_failed), Toast.LENGTH_LONG).show()
+                        Log.e(TAG, e.message)
+                    }
+                } else {
                     this.finishAffinity()
                     getSharedPreferences().edit().putString(USER_EMAIL, email).apply()
                     startActivity(Intent(this, TabActivity :: class.java))
-                } else {
-                    if (task.exception != null) {
-                        Toast.makeText(this, task.exception?.localizedMessage, Toast.LENGTH_LONG).show()
-                    } else {
-                        Toast.makeText(this, getString(R.string.login_failed), Toast.LENGTH_LONG).show()
-                    }
                 }
             }
         } else {
