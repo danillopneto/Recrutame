@@ -11,6 +11,7 @@ import at.markushi.ui.CircleButton
 import com.google.firebase.auth.FirebaseAuth
 import ufg.go.br.recrutame.BuildConfig
 import ufg.go.br.recrutame.MainActivity
+import ufg.go.br.recrutame.ProfileActivity
 import ufg.go.br.recrutame.R
 
 class HomeFragment : Fragment(), View.OnClickListener {
@@ -33,7 +34,8 @@ class HomeFragment : Fragment(), View.OnClickListener {
     }
 
     private fun handleProfileEdit() {
-
+        val intent = Intent(activity!!.application, ProfileActivity :: class.java)
+        startActivity(intent)
     }
 
     private fun handleSettings() {

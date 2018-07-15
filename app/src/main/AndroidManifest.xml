@@ -20,6 +20,9 @@
         </activity>
         <activity android:name=".MainActivity" />
         <activity android:name=".api.activities.LILoginActivity" />
+        <activity
+            android:name=".ProfileActivity"
+            android:label="ProfileActivity"></activity>
     </application>
 
 </manifest>
