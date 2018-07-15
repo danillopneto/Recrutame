@@ -29,12 +29,24 @@ class JobCard(private val mContext: Context, private val mJob: JobModel, private
     @View(R.id.jobLocationTxt)
     private val jobLocationTxt: TextView? = null
 
+    @View(R.id.jobTypeTxt)
+    private val jobTypeTxt: TextView? = null
+
+    @View(R.id.jobSalaryTxt)
+    private val jobSalaryTxt: TextView? = null
+
+    @View(R.id.jobSalaryTxt)
+    private val jobDescriptionTxt: TextView? = null
+
     @Resolve
     private fun onResolved() {
 
         Picasso.get().load(mJob.image).into(jobImg);
         jobTitleTxt!!.setText(mJob.title)
         jobLocationTxt!!.setText(mJob.location)
+        jobTypeTxt!!.setText(mJob.type)
+        jobSalaryTxt!!.setText(mJob.salary.toString())
+        jobDescriptionTxt!!.setText(mJob.description)
     }
 
     @SwipeOut

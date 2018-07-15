@@ -1,14 +1,11 @@
 package ufg.go.br.recrutame.model
 
-class JobModel(title:String, image: String, location: String) {
-    var title: String? = null;
-    var image:String? = null
-    var location:String? = null
-
-    init{
-        this.title = title;
-        this.image = image;
-        this.location = location
-    }
+class JobModel(
+        public var title:String,
+        public var image: String,
+        public var location: String,
+        public var type: String,
+        public var salary: Double,
+        public var description: String) {
 
 }

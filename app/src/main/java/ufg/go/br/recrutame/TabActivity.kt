@@ -3,12 +3,14 @@ package ufg.go.br.recrutame
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.design.widget.TabLayout
-import android.support.v4.view.ViewPager
-import android.view.MotionEvent
-import android.view.View
+import android.support.design.widget.BottomNavigationView
+import android.support.v4.app.Fragment
+import android.view.MenuItem
 import com.google.firebase.auth.FirebaseAuth
-import ufg.go.br.recrutame.adapter.PagerAdapter
+import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx
+import ufg.go.br.recrutame.fragment.ChatFragment
+import ufg.go.br.recrutame.fragment.JobFragment
+import ufg.go.br.recrutame.fragment.ProfileFragment
 
 class TabActivity : AppCompatActivity() {
 
@@ -19,37 +21,33 @@ class TabActivity : AppCompatActivity() {
             return
         }
 
-        setContentView(R.layout.tab_layout)
+        setContentView(R.layout.activity_tab)
 
-        var tabLayout = findViewById(R.id.tab_layout) as TabLayout;
-        tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ic_account_circle));
-        tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ic_work));
-        tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ic_chat));
-        tabLayout.tabGravity = TabLayout.GRAVITY_FILL;
+        var bottonNavigationView: BottomNavigationViewEx = findViewById(R.id.navigation)
+        bottonNavigationView.setIconSize(27f,27f)
+        bottonNavigationView.setTextVisibility(false)
+        bottonNavigationView.currentItem = 0
+        bottonNavigationView.setOnNavigationItemSelectedListener(object: BottomNavigationView.OnNavigationItemSelectedListener{
+            override fun onNavigationItemSelected(item: MenuItem): Boolean {
+                loadFragment(item.itemId)
+                return true
+            }
+        } )
 
-        var viewPager = findViewById(R.id.pager) as ViewPager;
-        var pagerAdapter = PagerAdapter(supportFragmentManager, tabLayout.tabCount);
-        viewPager.adapter = pagerAdapter;
+        loadFragment(R.id.action_work)
+    }
 
+    private fun loadFragment(id: Int){
+        var selectedFragment: Fragment? = null
 
-        viewPager.setOnTouchListener {v: View, m: MotionEvent ->
-            true
+        when (id) {
+            R.id.action_settings -> selectedFragment = ProfileFragment()
+            R.id.action_work -> selectedFragment = JobFragment()
+            R.id.action_chat -> selectedFragment = ChatFragment()
         }
 
-        viewPager.addOnPageChangeListener( TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-
-        tabLayout.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener{
-            override fun onTabSelected(tab: TabLayout.Tab) {
-                viewPager.currentItem = tab.position
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab) {
-
-            }
-
-            override fun onTabReselected(tab: TabLayout.Tab) {
-
-            }
-        })
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.frame_layout, selectedFragment)
+        transaction.commit()
     }
 }

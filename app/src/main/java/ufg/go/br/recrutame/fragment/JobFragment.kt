@@ -17,8 +17,7 @@ import android.util.Log
 import android.view.*
 import ufg.go.br.recrutame.Util.Utils
 import android.view.GestureDetector
-
-
+import android.widget.Button
 
 
 class JobFragment : Fragment(){
@@ -31,15 +30,16 @@ class JobFragment : Fragment(){
 
         val windowSize = Utils.getDisplaySize(activity!!.windowManager)
         val width = Utils.dpToPx(350)
-        val height = (windowSize.y / 1.5).toInt()
+        val height = (windowSize.y / 1.15).toInt()
         mSwipeView.getBuilder<SwipePlaceHolderView, SwipeViewBuilder<SwipePlaceHolderView>>()
                 .setDisplayViewCount(2)
-                .setHeightSwipeDistFactor(10f)
+                .setHeightSwipeDistFactor(0f)
                 .setWidthSwipeDistFactor(5f)
                 .setSwipeDecor(SwipeDecor()
                         .setViewHeight(height)
                         .setViewWidth(width)
-                        .setPaddingTop(20)
+                        .setPaddingTop(0)
+                        .setMarginTop(0)
                         .setRelativeScale(0.01f)
                         .setSwipeInMsgLayoutId(R.layout.card_swipe_in)
                         .setSwipeOutMsgLayoutId(R.layout.card_swipe_out))
@@ -48,12 +48,12 @@ class JobFragment : Fragment(){
             mSwipeView.addView(JobCard(rootView.context, job, mSwipeView))
         }
 
-        var rejectBtn = rootView.findViewById(R.id.rejectBtn) as ImageButton;
+        var rejectBtn: Button = rootView.findViewById(R.id.rejectBtn);
         rejectBtn.setOnClickListener(View.OnClickListener(function = {
             mSwipeView.doSwipe(false)
         }))
 
-        var acceptBtn = rootView.findViewById(R.id.acceptBtn) as ImageButton;
+        var acceptBtn:Button = rootView.findViewById(R.id.acceptBtn);
         acceptBtn.setOnClickListener(View.OnClickListener(function = {
             mSwipeView.doSwipe(true)
         }))

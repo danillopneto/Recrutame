@@ -3,8 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="350dp"
-    android:layout_height="425dp"
-    android:layout_marginBottom="50dp"
+    android:layout_height="475dp"
     android:orientation="vertical">
 
     <android.support.v7.widget.CardView
@@ -12,15 +11,41 @@
         android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="10dp"
-        app:cardCornerRadius="7dp"
-        app:cardElevation="4dp">
-        <ImageView
-            android:id="@+id/jobImg"
-            android:scaleType="centerCrop"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="75dp"/>
+        android:layout_margin="5dp"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="5dp">
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <ImageView
+                android:id="@+id/jobImg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="150dp"
+                android:scaleType="centerCrop"
+                android:maxHeight="150dp"
+                android:adjustViewBounds="true"/>
+
+            <TextView
+                android:id="@+id/jobTitleTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/jobImg"
+                android:layout_alignEnd="@id/jobImg"
+                android:layout_alignStart="@id/jobImg"
+                android:layout_alignTop="@id/jobImg"
+                android:layout_margin="1dp"
+                android:layout_gravity="center_vertical"
+                android:gravity="bottom|start"
+                android:textSize="22dp"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:shadowColor="#000000"
+                android:shadowDx="3"
+                android:shadowDy="3"
+                android:shadowRadius="1"/>
+        </RelativeLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="75dp"
@@ -28,15 +53,29 @@
             android:layout_gravity="bottom"
             android:gravity="center|left"
             android:paddingLeft="20dp">
-            <TextView
-                android:id="@+id/jobTitleTxt"
+             <TextView
+                android:id="@+id/jobTypeTxt"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:textColor="@color/colorPrimaryDark"
-                android:textSize="18dp"
-                android:textStyle="bold"
-                android:layout_height="wrap_content"/>
+                android:textSize="14dp"
+                android:textStyle="normal"/>
             <TextView
                 android:id="@+id/jobLocationTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="14dp"
+                android:textStyle="normal"/>
+            <TextView
+                android:id="@+id/jobSalaryTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="14dp"
+                android:textStyle="normal"/>
+            <TextView
+                android:id="@+id/jobDescriptionTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorPrimaryDark"

@@ -1,33 +1,55 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="ufg.go.br.recrutame.fragment.JobFragment"
     android:background="@color/white">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:layout_gravity="bottom"
-            android:gravity="center"
-            android:orientation="horizontal">
-            <ImageButton
-                android:id="@+id/rejectBtn"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:contentDescription="@string/ignorar"
-                android:background="@drawable/ic_cancel"/>
-            <ImageButton
-                android:id="@+id/acceptBtn"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:contentDescription="@string/aplicar"
-                android:layout_marginStart="30dp"
-                android:background="@drawable/ic_favorite"/>
-        </LinearLayout>
-        <com.mindorks.placeholderview.SwipePlaceHolderView
-            android:id="@+id/swipeView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>   
+    <com.mindorks.placeholderview.SwipePlaceHolderView
+        android:id="@+id/swipeView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="top" />
 
-</FrameLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="20dp"
+        android:gravity="bottom"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/rejectBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="false"
+            android:layout_alignParentEnd="false"
+            android:layout_alignParentStart="false"
+            android:layout_toStartOf="@id/acceptBtn"
+            android:layout_weight="1"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:textColor="@color/colorAccent"
+            android:drawableTint="@color/colorAccent"
+            android:drawableStart="@drawable/ic_cancel"
+            android:text="@string/ignorar"></Button>
+
+        <Button
+            android:id="@+id/acceptBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="false"
+            android:layout_alignParentEnd="false"
+            android:layout_alignParentLeft="false"
+            android:layout_alignParentStart="false"
+            android:layout_alignParentTop="false"
+            android:layout_alignTop="@+id/rejectBtn"
+            android:layout_weight="1"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:textColor="@color/colorPrimary"
+            android:drawableEnd="@drawable/ic_check"
+            android:drawableTint="@color/colorPrimary"
+            android:text="@string/aplicar"></Button>
+    </LinearLayout>
+
+
+</RelativeLayout>
