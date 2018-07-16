@@ -34,6 +34,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
+                                                <entry key="scalingPercent" value="76" />
                                                 <entry key="trimmed" value="true" />
                                               </map>
                                             </option>
@@ -57,7 +58,7 @@
                                     <map>
                                       <entry key="backgroundAssetType" value="COLOR" />
                                       <entry key="backgroundColor" value="ffffff" />
-                                      <entry key="foregroundImage" value="C:\Users\danil\Desktop\Assets\recruitment-icon-9.png" />
+                                      <entry key="foregroundImage" value="C:\Users\danil\Desktop\Assets\icon.svg" />
                                     </map>
                                   </option>
                                 </PersistentState>
