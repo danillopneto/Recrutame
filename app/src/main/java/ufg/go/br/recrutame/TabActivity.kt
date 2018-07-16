@@ -11,7 +11,6 @@ import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx
 import ufg.go.br.recrutame.fragment.ChatFragment
 import ufg.go.br.recrutame.fragment.HomeFragment
 import ufg.go.br.recrutame.fragment.JobFragment
-import ufg.go.br.recrutame.fragment.ProfileFragment
 
 class TabActivity : AppCompatActivity() {
 
