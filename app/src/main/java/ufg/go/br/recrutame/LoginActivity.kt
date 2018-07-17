@@ -6,12 +6,13 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import android.view.View
+import android.view.inputmethod.InputMethodManager
+import android.widget.ProgressBar
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
-import com.google.firebase.auth.FirebaseAuthUserCollisionException
-import com.google.firebase.auth.FirebaseAuthWeakPasswordException
-import kotlinx.android.synthetic.main.activity_register.*
+import kotlinx.android.synthetic.main.activity_main.*
 import ufg.go.br.recrutame.api.model.LIProfileInfo
 
 abstract class LoginActivity : AppCompatActivity() {
@@ -26,9 +27,16 @@ abstract class LoginActivity : AppCompatActivity() {
         }
     }
 
+    fun getSharedPreferences(): SharedPreferences {
+        return application.getSharedPreferences(BuildConfig.APPLICATION_ID, Context.MODE_PRIVATE)
+    }
+
     fun handleLogin(email: String, password: String) {
+        hideKeyboard()
         if (!email.isEmpty() && !password.isEmpty()) {
+            getProgressBar().visibility = View.VISIBLE
             mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this) { task ->
+                getProgressBar().visibility = View.INVISIBLE
                 if (!task.isSuccessful) {
                     try {
                         throw task.exception!!
@@ -49,7 +57,13 @@ abstract class LoginActivity : AppCompatActivity() {
         }
     }
 
-    fun getSharedPreferences(): SharedPreferences {
-        return application.getSharedPreferences(BuildConfig.APPLICATION_ID, Context.MODE_PRIVATE)
+    fun hideKeyboard() {
+        val view = this.currentFocus
+        if (view != null) {
+            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm!!.hideSoftInputFromWindow(view.windowToken, 0)
+        }
     }
+
+    abstract fun getProgressBar(): ProgressBar
 }

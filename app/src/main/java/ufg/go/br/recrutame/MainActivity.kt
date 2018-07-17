@@ -4,8 +4,12 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.ProgressBar
 import kotlinx.android.synthetic.main.activity_main.*
 import ufg.go.br.recrutame.api.activities.LILoginActivity
+import android.app.ProgressDialog
+
+
 
 class MainActivity : LoginActivity(), View.OnClickListener {
 
@@ -28,12 +32,15 @@ class MainActivity : LoginActivity(), View.OnClickListener {
         if (mAuth.currentUser != null) {
             startActivity(Intent(this, TabActivity :: class.java))
         } else {
-            val prefs = application.getSharedPreferences(BuildConfig.APPLICATION_ID, Context.MODE_PRIVATE)
-            val user = prefs.getString(LINKEDIN_USER, "")
+            val user = getSharedPreferences().getString(LINKEDIN_USER, "")
             if (!user.isEmpty()) {
                 handleLogin(user, LINKEDIN_PASSWORD)
             }
         }
+    }
+
+    override fun getProgressBar(): ProgressBar {
+        return progressBar
     }
 
     private fun inicializeControls() {
@@ -47,6 +54,7 @@ class MainActivity : LoginActivity(), View.OnClickListener {
     }
 
     private fun handleRegister() {
+        hideKeyboard()
         startActivity(Intent(this, RegisterActivity :: class.java))
     }
 }

@@ -6,8 +6,10 @@ import android.util.Log
 import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.ProgressBar
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.android.synthetic.main.activity_login.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -26,6 +28,10 @@ class LILoginActivity : LoginActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         initializeControls()
+    }
+
+    override fun getProgressBar(): ProgressBar {
+        return progressBarLI
     }
 
     private fun initializeControls() {
@@ -52,8 +58,10 @@ class LILoginActivity : LoginActivity() {
                     val client = ServiceGenerator(LI_BASE_URL).createService(LIService::class.java)
                     val call = client.getNewAccessToken(access_token)
 
+                    getProgressBar().visibility = View.VISIBLE
                     call.enqueue(object : Callback<LIAccessToken> {
                         override fun onResponse(call: Call<LIAccessToken>, response: Response<LIAccessToken>) {
+                            getProgressBar().visibility = View.INVISIBLE
                             val statusCode = response.code()
                             if (statusCode == 200) {
                                 val token = response.body()
@@ -71,6 +79,7 @@ class LILoginActivity : LoginActivity() {
                     })
                 } else if (url.contains("?error")) {
                     Toast.makeText(applicationContext, getString(R.string.linkedin_login_failed), Toast.LENGTH_SHORT).show()
+                    getProgressBar().visibility = View.INVISIBLE
                 }
             }
         }
@@ -82,8 +91,11 @@ class LILoginActivity : LoginActivity() {
             val map = HashMap<String, String>()
             map["Authorization"] = "Bearer $token"
             val call = client.getUserInfo(map)
+
+            getProgressBar().visibility = View.VISIBLE
             call.enqueue(object : Callback<LIProfileInfo> {
                 override fun onResponse(call: Call<LIProfileInfo>, response: Response<LIProfileInfo>) {
+                    getProgressBar().visibility = View.INVISIBLE
                     val statusCode = response.code()
                     if (statusCode == 200) {
                         liProfileInfo = response.body()!!
@@ -104,12 +116,14 @@ class LILoginActivity : LoginActivity() {
     }
 
     private fun handleFirebaseLogin(email: String) {
+        getProgressBar().visibility = View.VISIBLE
         mAuth.fetchProvidersForEmail(email).addOnCompleteListener(this) { task ->
             if (task.isSuccessful) {
                 if (task.result.providers!!.size > 0) {
                     handleLogin(email, LINKEDIN_PASSWORD)
                 } else {
                     mAuth.createUserWithEmailAndPassword(email, LINKEDIN_PASSWORD).addOnCompleteListener(this) { task ->
+                        getProgressBar().visibility = View.INVISIBLE
                         if (task.isSuccessful) {
                             handleLogin(email, LINKEDIN_PASSWORD)
                         } else {
@@ -119,6 +133,7 @@ class LILoginActivity : LoginActivity() {
                 }
             } else {
                 Toast.makeText(this, getString(R.string.login_failed), Toast.LENGTH_LONG).show()
+                getProgressBar().visibility = View.INVISIBLE
             }
         }
     }

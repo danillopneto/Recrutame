@@ -3,6 +3,7 @@ package ufg.go.br.recrutame
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.ProgressBar
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_register.*
@@ -23,7 +24,12 @@ class RegisterActivity : LoginActivity(), View.OnClickListener {
         }
     }
 
+    override fun getProgressBar(): ProgressBar {
+        return progressBarRegister
+    }
+
     private fun handleRegister() {
+        hideKeyboard()
         if (!emailTxt.text.isEmpty()
                 && !passwordTxt.text.isEmpty()
                 && !confirmPasswordTxt.text.isEmpty()) {
