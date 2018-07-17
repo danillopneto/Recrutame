@@ -79,7 +79,10 @@ class LILoginActivity : LoginActivity() {
                             Toast.makeText(applicationContext, getString(R.string.linkedin_login_failed), Toast.LENGTH_SHORT).show()
                         }
                     })
-                } else if (url.contains("?error")) {
+                } else if (url.contains("user_cancelled")) {
+                    finish()
+                }
+                else if (url.contains("?error")) {
                     Toast.makeText(applicationContext, getString(R.string.linkedin_login_failed), Toast.LENGTH_SHORT).show()
                     getProgressBar().visibility = View.INVISIBLE
                 }
