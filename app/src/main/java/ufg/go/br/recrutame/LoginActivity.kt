@@ -10,6 +10,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ProgressBar
 import android.widget.Toast
+import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import kotlinx.android.synthetic.main.activity_main.*
@@ -42,6 +43,8 @@ abstract class LoginActivity : AppCompatActivity() {
                         throw task.exception!!
                     } catch (e: FirebaseAuthInvalidCredentialsException) {
                         Toast.makeText(this, getString(R.string.invalid_credentials), Toast.LENGTH_LONG).show()
+                    } catch (e: FirebaseNetworkException) {
+                        Toast.makeText(this, getString(R.string.no_connection), Toast.LENGTH_LONG).show()
                     } catch (e: Exception) {
                         Toast.makeText(this, getString(R.string.login_failed), Toast.LENGTH_LONG).show()
                         Log.e(TAG, e.message)
