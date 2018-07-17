@@ -2,26 +2,26 @@ package ufg.go.br.recrutame
 
 import android.os.Bundle
 import android.app.Activity
-import ufg.go.br.recrutame.R
+import android.arch.persistence.room.Room
+import android.content.Context
 import android.support.design.widget.Snackbar
-import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
-import android.view.LayoutInflater
+import android.util.Log
 import android.view.View
-import android.view.ViewGroup
-import android.widget.Toast
-import rec.protelas.DataBaseHandle
 import rec.protelas.User
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
-import ufg.go.br.recrutame.Util.CPFUtil
+import android.widget.Toast
 import ufg.go.br.recrutame.Util.Mask
 import kotlinx.android.synthetic.main.activity_profile.*
-import ufg.go.br.recrutame.R.id.activity_chooser_view_content
-import ufg.go.br.recrutame.R.id.container
+import ufg.go.br.recrutame.dao.AppDb
+import ufg.go.br.recrutame.dao.UserDao
+import kotlin.concurrent.thread
 
-lateinit var db: DataBaseHandle
+private lateinit var userDao: UserDao
+
+//private var userDb: AppDb? = null
 
 class ProfileActivity : Activity() , View.OnClickListener {
 
@@ -29,13 +29,18 @@ class ProfileActivity : Activity() , View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
 
+      //  userDb = AppDb.getInstance(this)
 
-      //  val view = inflater.inflate(R.layout.activity_profile, container, false)
+      // provideAppDatabase(this)
+
+       val database =  Room.databaseBuilder(applicationContext, AppDb::class.java, "userDb")
+               .allowMainThreadQueries()
+               .fallbackToDestructiveMigration()
+               .build()
+
+        userDao = database.userDao()
 
         inicializeControls()
-        //   val helper = DataBaseHandle(getContext()!!)
-
-        //  val btn_update = findViewById(R.id.btnUpdate) as Button
 
         /// trocar o campo de data para formato data do android
         // olhar o programa do likedin para ver como ele separa essas informacoes
@@ -45,6 +50,10 @@ class ProfileActivity : Activity() , View.OnClickListener {
         cpf.addTextChangedListener(Mask.mask("###.###.###-##", cpf))
 
     }
+
+  //  fun provideAppDatabase(applicationContext: Context): AppDb {
+ //       return Room.databaseBuilder(applicationContext, AppDb::class.java, "banco.db").build()
+   // }
 
 
     fun showSnackFeedback(message : String, isValid : Boolean){
@@ -60,7 +69,7 @@ class ProfileActivity : Activity() , View.OnClickListener {
 
 
     private fun inicializeControls() {
-        db = DataBaseHandle(this)
+        //db = DataBaseHandle(this)
 
         val result = this!!.findViewById<TextView>(R.id.Result)
         result.setOnClickListener(this)
@@ -85,84 +94,81 @@ class ProfileActivity : Activity() , View.OnClickListener {
         }
     }
 
-    private fun handleDelete() {
-        val data = db.readData()
-        db.deletaData(data[0])
-        btnRead.performClick()
+    private fun handleUpdate(){
+
+        try {
+            val user = User(1,Nome.text.toString(),
+                    DataNascimento.text.toString().toInt(),
+                    Cpf.text.toString(),
+                    Sexo.text.toString(),
+                    Nacionalidade.text.toString(),
+                    Integer.parseInt(Telefonefixo.text.toString()),
+                    Telefonecelular.text.toString().toInt(),
+                    Email.text.toString(),
+                    Area_Atuacao.text.toString(),
+                    Periodo.text.toString(),
+                    Instituicao.text.toString(),
+                    Empresas.text.toString(),
+                    Cargo.text.toString(),
+                    Periodocargo.text.toString(),
+                    Atividades_Desenvolvidas.text.toString(),
+                    Idioma.text.toString(),
+                    "")
+
+            userDao.update(user)
+            val cpf = this!!.findViewById<EditText>(R.id.Cpf)
+            cpf.addTextChangedListener(Mask.mask("###.###.###-##", cpf))
+            showSnackFeedback("Atualizado com sucesso!",false)
+
+        }catch (e: Exception){
+            showSnackFeedback("Erro ao atualizar",false)
+        }
+
+    }
+
+    private fun handleDelete(){
+
+        userDao.delete()
     }
 
     private fun handleResult() {
 
-        try {
-
-        val data = db.readData()
-
         Result.text = ""
 
+      //  Result.append(userDb?.userDao()?.all().toString())
+
+       // Result.append(userDb?.userDao()?.loadAllUsers().toString())
+
+      //  Result.append(userDb?.userDao()?.findUserEmail("bakural3000@gmail.com").toString())
 
 
-        for (i in 0..(data.size -1)){
-            Result.append(data[i].id.toString() + "\n" +
-                    ""+ data[i].nome + "\n"+
-                    ""+ data[i].dataNascimento + "\n"+
-                    ""+ data[i].sexo + "\n"+
-                    ""+ data[i].nacionalidade + "\n"+
-                    ""+ data[i].telefonefixo + "\n"+
-                    ""+ data[i].telefonecelular + "\n"+
-                    ""+ data[i].email + "\n"+
-                    ""+ data[i].areaatuacao + "\n"+
-                    ""+ data[i].periodoatuacao + "\n"+
-                    ""+ data[i].instituicao + "\n"+
-                    ""+ data[i].empresa + "\n"+
-                    ""+ data[i].cargo + "\n"+
-                    ""+ data[i].periodocargo + "\n"+
-                    ""+ data[i].atividadesdesenvolvidas + "\n"+
-                    ""+ data[i].idioma + "\n"
-            )
-        }
+        Toast.makeText(this, ""+ userDao.getById(1)?.nome.toString(), Toast.LENGTH_LONG).show()
+        //  userDb?.userDao()?.loadAllUsers()?.forEach { e -> Log.e("", e.nome.toString()) }
+        try {
+            Nome.setText(userDao.getById(1)?.nome.toString())
+            DataNascimento.setText(userDao.getById(1)?.dataNascimento.toString())
+            Sexo.setText(userDao.getById(1)?.sexo.toString())
+            Nacionalidade.setText(userDao.getById(1)?.nacionalidade.toString())
+            Cpf.setText(userDao.getById(1)?.cpf.toString())
+            Telefonefixo.setText(userDao.getById(1)?.telefonefixo.toString())
+            Telefonecelular.setText(userDao.getById(1)?.telefonecelular.toString())
+            Email.setText(userDao.getById(1)?.email.toString())
+            Area_Atuacao.setText(userDao.getById(1)?.areaatuacao.toString())
+            Periodo.setText(userDao.getById(1)?.periodoatuacao.toString())
+            Instituicao.setText(userDao.getById(1)?.instituicao.toString())
+            Empresas.setText(userDao.getById(1)?.empresa.toString())
+            Cargo.setText(userDao.getById(1)?.cargo.toString())
+            Periodocargo.setText(userDao.getById(1)?.periodocargo.toString())
+            Atividades_Desenvolvidas.setText(userDao.getById(1)?.atividadesdesenvolvidas.toString())
+            Idioma.setText(userDao.getById(1)?.idioma.toString())
 
-        val user = User(1,Nome.text.toString(),
-                DataNascimento.text.toString().toInt(),
-                Cpf.text.toString(),
-                Sexo.text.toString(),
-                Nacionalidade.text.toString(),
-                Telefonefixo.text.toString().toInt(),
-                Telefonecelular.text.toString().toInt(),
-                Email.text.toString(),
-                Area_Atuacao.text.toString(),
-                Periodo.text.toString(),
-                Instituicao.text.toString(),
-                Empresas.text.toString(),
-                Cargo.text.toString(),
-                Periodocargo.text.toString(),
-                Atividades_Desenvolvidas.text.toString(),
-                Idioma.text.toString(),
-                "")
-
-
-
-        }catch (e: Exception){
-            Toast.makeText(this, ""+e.message, Toast.LENGTH_LONG).show()
-        }
-
-
-
-
-      //  db.updateUser(user)
-        // btn_read.performClick()
+            }catch (e: Exception){
+            showSnackFeedback("Não existe cadastro",false)
+            }
     }
 
     private fun handleSave() {
-
         try {
-            
-        val cpf = this!!.findViewById<EditText>(R.id.Cpf)
-
-        if (CPFUtil.myValidateCPF(cpf.text.toString()))
-            showSnackFeedback("CPF valid", true)
-        else
-            showSnackFeedback("CPF Invalid", false)
-
         val user = User(1,Nome.text.toString(),
                 DataNascimento.text.toString().toInt(),
                 Cpf.text.toString(),
@@ -181,22 +187,31 @@ class ProfileActivity : Activity() , View.OnClickListener {
                 Idioma.text.toString(),
                 "")
 
+            userDao.add(user)
 
+        Toast.makeText(this, ""+user.toString(), Toast.LENGTH_LONG).show()
+        Log.d("Inserirdo", user.toString());
 
-            db.insertData(user)
         }catch (e: Exception){
-            Toast.makeText(this, ""+e.message.toString(), Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, ""+e.message, Toast.LENGTH_LONG).show()
+            Log.d("Erro ao buscar", e.toString());
         }
-
 
 
     }
 
+
+    private fun insertUserDb(user: User) {
+       // val task = Runnable { userDb?.userDao()?.add(user)
+      //  val task = Runnable { userDao.add(user)}
+        userDao.add(user)
+    }
+
+/*
     private fun handleUpdate() {
         val data = db.readData()
-
         Result.text = ""
-        for (i in 0..(data.size -1)){
+    /*    for (i in 0..(data.size -1)){
             Result.append(data[i].id.toString() + "\n" +
                     ""+ data[i].nome + "\n"+
                     ""+ data[i].dataNascimento + "\n"+
@@ -214,11 +229,10 @@ class ProfileActivity : Activity() , View.OnClickListener {
                     ""+ data[i].atividadesdesenvolvidas + "\n"+
                     ""+ data[i].idioma + "\n"+
                     ""+ data[i].nivel_idioma + "\n"
-
             )
         }
 
-        val user = User(1, data[0].nome, data[0].dataNascimento, data[0].cpf, data[0].sexo, data[0].nacionalidade,
+       val user = User(1, data[0].nome, data[0].dataNascimento, data[0].cpf, data[0].sexo, data[0].nacionalidade,
                 data[0].telefonefixo, data[0].telefonecelular, data[0].email, data[0].areaatuacao,
                 data[0].periodoatuacao, data[0].instituicao, data[0].empresa, data[0].cargo,
                 data[0].periodocargo, data[0].atividadesdesenvolvidas, data[0].idioma, data[0].nivel_idioma )
@@ -227,5 +241,9 @@ class ProfileActivity : Activity() , View.OnClickListener {
         DataNascimento.setText(data[0].dataNascimento.toString())
         Sexo.setText(data[0].sexo)
         Nacionalidade.setText(data[0].nacionalidade)
-    }
+
+        */
+
+*/
+
 }
