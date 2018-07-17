@@ -4,6 +4,8 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.webkit.WebResourceError
+import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.ProgressBar
@@ -77,10 +79,17 @@ class LILoginActivity : LoginActivity() {
                             Toast.makeText(applicationContext, getString(R.string.linkedin_login_failed), Toast.LENGTH_SHORT).show()
                         }
                     })
-                } else if (url.contains("?error")) {
+                } else if (url.contains("user_cancelled")) {
+                    finish()
+                }
+                else if (url.contains("?error")) {
                     Toast.makeText(applicationContext, getString(R.string.linkedin_login_failed), Toast.LENGTH_SHORT).show()
                     getProgressBar().visibility = View.INVISIBLE
                 }
+            }
+
+            override fun onReceivedError(view: WebView?, request: WebResourceRequest?, error: WebResourceError?) {
+                webView.loadUrl("file:///android_asset/error.html")
             }
         }
     }
