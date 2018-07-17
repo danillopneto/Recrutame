@@ -2,20 +2,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".MainActivity" >
+
+    <ProgressBar
+        android:id="@+id/progressBarLI"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:max="100"
+        android:layout_centerInParent="true"
+        android:backgroundTint="#d3d3d3"
+        android:indeterminateTint="@color/colorAccent"
+        android:visibility="invisible"/>
 
     <WebView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/web_view"/>
-
-    <ProgressBar
-        android:id="@+id/progressBarLI"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:layout_centerInParent="true"
-        android:visibility="gone"/>
 
 </RelativeLayout>

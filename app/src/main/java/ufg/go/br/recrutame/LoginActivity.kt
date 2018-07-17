@@ -36,7 +36,7 @@ abstract class LoginActivity : AppCompatActivity() {
         if (!email.isEmpty() && !password.isEmpty()) {
             getProgressBar().visibility = View.VISIBLE
             mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this) { task ->
-                getProgressBar().visibility = View.GONE
+                getProgressBar().visibility = View.INVISIBLE
                 if (!task.isSuccessful) {
                     try {
                         throw task.exception!!

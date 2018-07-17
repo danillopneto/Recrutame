@@ -38,7 +38,6 @@ class LILoginActivity : LoginActivity() {
         mAuth = FirebaseAuth.getInstance()
         webView = findViewById(R.id.web_view)
         webView.loadUrl(url)
-        getProgressBar().visibility = View.VISIBLE
         webView.webViewClient = object : WebViewClient() {
             var authComplete = false
 
@@ -62,7 +61,7 @@ class LILoginActivity : LoginActivity() {
                     getProgressBar().visibility = View.VISIBLE
                     call.enqueue(object : Callback<LIAccessToken> {
                         override fun onResponse(call: Call<LIAccessToken>, response: Response<LIAccessToken>) {
-                            getProgressBar().visibility = View.GONE
+                            getProgressBar().visibility = View.INVISIBLE
                             val statusCode = response.code()
                             if (statusCode == 200) {
                                 val token = response.body()
@@ -80,7 +79,7 @@ class LILoginActivity : LoginActivity() {
                     })
                 } else if (url.contains("?error")) {
                     Toast.makeText(applicationContext, getString(R.string.linkedin_login_failed), Toast.LENGTH_SHORT).show()
-                    getProgressBar().visibility = View.GONE
+                    getProgressBar().visibility = View.INVISIBLE
                 }
             }
         }
@@ -96,7 +95,7 @@ class LILoginActivity : LoginActivity() {
             getProgressBar().visibility = View.VISIBLE
             call.enqueue(object : Callback<LIProfileInfo> {
                 override fun onResponse(call: Call<LIProfileInfo>, response: Response<LIProfileInfo>) {
-                    getProgressBar().visibility = View.GONE
+                    getProgressBar().visibility = View.INVISIBLE
                     val statusCode = response.code()
                     if (statusCode == 200) {
                         liProfileInfo = response.body()!!
@@ -124,7 +123,7 @@ class LILoginActivity : LoginActivity() {
                     handleLogin(email, LINKEDIN_PASSWORD)
                 } else {
                     mAuth.createUserWithEmailAndPassword(email, LINKEDIN_PASSWORD).addOnCompleteListener(this) { task ->
-                        getProgressBar().visibility = View.GONE
+                        getProgressBar().visibility = View.INVISIBLE
                         if (task.isSuccessful) {
                             handleLogin(email, LINKEDIN_PASSWORD)
                         } else {
@@ -134,7 +133,7 @@ class LILoginActivity : LoginActivity() {
                 }
             } else {
                 Toast.makeText(this, getString(R.string.login_failed), Toast.LENGTH_LONG).show()
-                getProgressBar().visibility = View.GONE
+                getProgressBar().visibility = View.INVISIBLE
             }
         }
     }

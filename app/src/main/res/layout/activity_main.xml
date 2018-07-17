@@ -7,10 +7,22 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:max="100"
+        android:backgroundTint="@color/white"
+        android:indeterminateTint="@color/white"
+        android:layout_marginTop="7dp"
+        android:visibility="invisible"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
+        android:gravity="center_horizontal"
         android:orientation="vertical"
         android:padding="20dp">
         <ImageView
@@ -41,7 +53,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColorHint="@color/white"
-            app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
+            app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="@color/white">
             <EditText
                 android:id="@+id/passwordTxt"
                 android:layout_width="match_parent"
@@ -51,7 +65,9 @@
                 android:drawableStart="@drawable/baseline_lock_white_24dp"
                 android:drawablePadding="5dp"
                 android:hint="@string/password"
-                android:inputType="numberPassword" />
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:inputType="textPassword" />
         </android.support.design.widget.TextInputLayout>
 
         <Button
@@ -108,7 +124,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="7dp"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 android:layout_gravity="center_vertical"
                 android:textColor="@color/white"/>
 
@@ -123,24 +139,18 @@
 
         <Button
             android:id="@+id/linkedinLoginBtn"
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
             android:layout_height="40dp"
-            android:background="@drawable/linkedin_logo"
+            android:background="@null"
             android:text="@string/sign_in_with_linkedin"
             android:textColor="@android:color/white"
+            android:drawableEnd="@drawable/li_logo"
             android:textSize="14sp"
             android:gravity="center"
-            android:paddingLeft="10dp"
+            android:paddingStart="10dp"
             android:visibility="visible"
+            android:textAllCaps="false"
             android:layout_marginTop="10dp" />
 
     </LinearLayout>
-
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:visibility="gone"/>
-
 </LinearLayout>

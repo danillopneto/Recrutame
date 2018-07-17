@@ -7,11 +7,23 @@
     android:orientation="vertical"
     tools:context=".RegisterActivity">
 
+    <ProgressBar
+        android:id="@+id/progressBarRegister"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:max="100"
+        android:backgroundTint="@color/white"
+        android:indeterminateTint="@color/white"
+        android:layout_marginTop="7dp"
+        android:visibility="invisible"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
         android:orientation="vertical"
+        android:gravity="center_horizontal"
         android:padding="20dp">
         <ImageView
             android:layout_width="150dp"
@@ -42,7 +54,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColorHint="@color/white"
-            app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
+            app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="@color/white">
             <EditText
                 android:id="@+id/passwordTxt"
                 android:layout_width="match_parent"
@@ -52,14 +66,18 @@
                 android:drawableStart="@drawable/baseline_lock_white_24dp"
                 android:drawablePadding="5dp"
                 android:hint="@string/password"
-                android:inputType="numberPassword" />
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:inputType="textPassword" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColorHint="@color/white"
-            app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
+            app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="@color/white">
             <EditText
                 android:id="@+id/confirmPasswordTxt"
                 android:layout_width="match_parent"
@@ -69,7 +87,9 @@
                 android:drawableStart="@drawable/baseline_lock_white_24dp"
                 android:drawablePadding="5dp"
                 android:hint="@string/confirmPassword"
-                android:inputType="numberPassword" />
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:inputType="textPassword" />
         </android.support.design.widget.TextInputLayout>
 
         <Button
@@ -84,13 +104,5 @@
             android:textColor="@color/white"
             android:textSize="18sp"/>
     </LinearLayout>
-
-    <ProgressBar
-        android:id="@+id/progressBarRegister"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/registerContainer"
-        android:padding="10dp"
-        android:visibility="gone"/>
 
 </LinearLayout>
