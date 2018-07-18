@@ -1,9 +1,11 @@
         <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="vertical"
             android:id="@+id/profileactivity"
+            android:background="@color/white"
             tools:context="ufg.go.br.recrutame.ProfileActivity">
             <LinearLayout
                 android:layout_width="match_parent"
@@ -39,20 +41,20 @@
                     android:orientation="vertical"
                     >
 
-                    <android.support.design.widget.TextInputLayout
+                    <com.rengwuxian.materialedittext.MaterialEditText
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <EditText
-                            android:id="@+id/Nome"
-                            android:layout_height="wrap_content"
-                            android:hint="Nome"
-                            android:drawableTint="@color/grey"
-                            android:singleLine="true"
-                            android:layout_width="fill_parent"
-                            android:layout_below="@+id/Perfil"></EditText>
-
-                    </android.support.design.widget.TextInputLayout>
+                        android:layout_height="wrap_content"
+                        app:met_floatingLabel="highlight"
+                        app:met_maxCharacters="80"
+                        app:met_singleLineEllipsis="true"
+                        app:met_helperText="Ex: João da Silva Sauro"
+                        android:textColor="@color/colorPrimary"
+                        android:id="@+id/Nome"
+                        android:hint="Nome"
+                        android:drawableTint="@color/grey"
+                        android:singleLine="true"
+                        android:layout_below="@+id/Perfil"
+                        />
 
                     <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
@@ -68,21 +70,18 @@
 
                     </android.support.design.widget.TextInputLayout>
 
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <EditText
-                            android:id="@+id/Cpf"
+                    <com.rengwuxian.materialedittext.MaterialEditText
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_width="fill_parent"
+                            app:met_floatingLabel="highlight"
+                            app:met_maxCharacters="14"
+                            app:met_singleLineEllipsis="true"
+                            app:met_helperText="123.456.789-99"
+                            android:id="@+id/Cpf"
                             android:ems="10"
                             android:hint="CPF"
                             android:inputType="number"
-                            android:maxLength="14"
-                            />
-
-                    </android.support.design.widget.TextInputLayout>
+                    />
 
                     <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
@@ -97,19 +96,18 @@
 
                     </android.support.design.widget.TextInputLayout>
 
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <EditText
-                            android:id="@+id/Nacionalidade"
+                    <com.rengwuxian.materialedittext.MaterialEditText
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            app:met_floatingLabel="highlight"
+                            app:met_maxCharacters="14"
+                            app:met_singleLineEllipsis="true"
+                            app:met_helperText="Ex: Brasileiro(a)"
+                            android:id="@+id/Nacionalidade"
                             android:hint="Nacionalidade"
                             android:inputType="textPersonName"
-                            android:layout_width="match_parent"
-                            android:layout_below="@+id/Sexo"></EditText>
-
-                    </android.support.design.widget.TextInputLayout>
+                            android:layout_below="@+id/Sexo"
+                        />
 
                 </LinearLayout>
 
@@ -133,53 +131,47 @@
                     android:orientation="vertical"
                     >
 
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <EditText
-                            android:id="@+id/Telefonefixo"
+                    <com.rengwuxian.materialedittext.MaterialEditText
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            app:met_floatingLabel="highlight"
+                            app:met_maxCharacters="14"
+                            app:met_singleLineEllipsis="true"
+                            app:met_helperText="(64) 3999-9999"
+                            android:id="@+id/Telefonefixo"
                             android:hint="Telefone fixo"
                             android:digits="1234567890"
                             android:ems="10"
                             android:inputType="phone"
                             android:maxLength="12"
-                            android:layout_width="fill_parent">
-                        </EditText>
+                        />
 
-                    </android.support.design.widget.TextInputLayout>
-
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <EditText
-                            android:id="@+id/Telefonecelular"
+                    <com.rengwuxian.materialedittext.MaterialEditText
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            app:met_floatingLabel="highlight"
+                            app:met_maxCharacters="14"
+                            app:met_singleLineEllipsis="true"
+                            app:met_helperText="(64) 9999-9999"
+                            android:id="@+id/Telefonecelular"
                             android:hint="Telefone celular"
                             android:digits="1234567890"
                             android:ems="10"
                             android:inputType="phone"
                             android:maxLength="12"
-                            android:layout_width="fill_parent">
-                        </EditText>
+                        />
 
-                    </android.support.design.widget.TextInputLayout>
-
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <EditText
-                            android:id="@+id/Email"
+                    <com.rengwuxian.materialedittext.MaterialEditText
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            app:met_floatingLabel="highlight"
+                            app:met_maxCharacters="14"
+                            app:met_singleLineEllipsis="true"
+                            app:met_helperText="Ex: Fulano@zika.com.br"
+                            android:id="@+id/Email"
                             android:hint="E-mail"
                             android:inputType="textPersonName"
-                            android:layout_width="fill_parent">
-                        </EditText>
-
-                    </android.support.design.widget.TextInputLayout>
+                        />
 
 
                 </LinearLayout>
@@ -204,102 +196,87 @@
                     android:orientation="vertical"
                     >
 
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <EditText
+                    <com.rengwuxian.materialedittext.MaterialEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:met_floatingLabel="highlight"
+                            app:met_maxCharacters="14"
+                            app:met_singleLineEllipsis="true"
+                            app:met_helperText="Ex: Construção Civíl"
                             android:id="@+id/Area_Atuacao"
-                            android:layout_height="wrap_content"
                             android:hint="Área de atuação"
-                            android:layout_width="fill_parent">
-                        </EditText>
+                        />
 
-                    </android.support.design.widget.TextInputLayout>
-
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <EditText
-                            android:id="@+id/Periodo"
+                    <com.rengwuxian.materialedittext.MaterialEditText
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            app:met_floatingLabel="highlight"
+                            app:met_maxCharacters="14"
+                            app:met_singleLineEllipsis="true"
+                            app:met_helperText="Ex: 10 anos"
+                            android:id="@+id/Periodo"
                             android:hint="Período"
                             android:inputType="textMultiLine"
-                            android:layout_width="fill_parent">
-                        </EditText>
+                        />
 
-                    </android.support.design.widget.TextInputLayout>
-
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <EditText
-                            android:id="@+id/Instituicao"
+                    <com.rengwuxian.materialedittext.MaterialEditText
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            app:met_floatingLabel="highlight"
+                            app:met_maxCharacters="14"
+                            app:met_singleLineEllipsis="true"
+                            app:met_helperText="Ex: UFZ - Universidade Federal de Zika"
+                            android:id="@+id/Instituicao"
                             android:hint="Instituição"
                             android:inputType="text"
-                            android:layout_width="fill_parent">
-                        </EditText>
+                        />
 
-                    </android.support.design.widget.TextInputLayout>
-
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <EditText
-                            android:id="@+id/Empresas"
+                    <com.rengwuxian.materialedittext.MaterialEditText
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            app:met_floatingLabel="highlight"
+                            app:met_maxCharacters="14"
+                            app:met_singleLineEllipsis="true"
+                            app:met_helperText="Ex: Zika LTDA"
+                            android:id="@+id/Empresas"
                             android:hint="Empresa"
                             android:inputType="textMultiLine"
-                            android:layout_width="fill_parent">
-                        </EditText>
+                        />
 
-                    </android.support.design.widget.TextInputLayout>
-
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <EditText
-                            android:id="@+id/Cargo"
+                    <com.rengwuxian.materialedittext.MaterialEditText
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            app:met_floatingLabel="highlight"
+                            app:met_maxCharacters="14"
+                            app:met_singleLineEllipsis="true"
+                            app:met_helperText="Ex: Eng. Cicíl"
+                            android:id="@+id/Cargo"
                             android:hint="Cargo"
                             android:inputType="textMultiLine"
-                            android:layout_width="fill_parent">
-                        </EditText>
+                        />
 
-                    </android.support.design.widget.TextInputLayout>
-
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <EditText
-                            android:id="@+id/Periodocargo"
+                    <com.rengwuxian.materialedittext.MaterialEditText
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            app:met_floatingLabel="highlight"
+                            app:met_maxCharacters="14"
+                            app:met_singleLineEllipsis="true"
+                            app:met_helperText="Ex: 20 anos"
+                            android:id="@+id/Periodocargo"
                             android:hint="Período"
                             android:inputType="textMultiLine"
-                            android:layout_width="fill_parent">
-                        </EditText>
+                        />
 
-                    </android.support.design.widget.TextInputLayout>
-
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <EditText
-                            android:id="@+id/Atividades_Desenvolvidas"
+                    <com.rengwuxian.materialedittext.MaterialEditText
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            app:met_floatingLabel="highlight"
+                            app:met_maxCharacters="14"
+                            app:met_singleLineEllipsis="true"
+                            app:met_helperText="Ex: Construção Cicíl"
+                            android:id="@+id/Atividades_Desenvolvidas"
                             android:hint="Atividades desenvolvidas"
-                            android:inputType="textMultiLine"
-                            android:layout_width="fill_parent">
-                        </EditText>
-
-                    </android.support.design.widget.TextInputLayout>
+                        />
 
                     <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
@@ -345,15 +322,96 @@
 
                 </LinearLayout>
 
-                <Button
-                    android:id="@+id/btnSave"
-                    android:layout_height="wrap_content"
-                    android:text="Salvar"
-                    android:layout_marginLeft="150dp"
-                    android:layout_marginRight="150dp"
-                    android:layout_width="wrap_content">
-                </Button>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    app:cardCornerRadius="20dp"
+                    android:elevation="20dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    app:cardBackgroundColor="@android:color/holo_blue_dark" >
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/btnSave"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:textColor="@color/white"
+                        android:text="Salvar" />
+
+                    </RelativeLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    app:cardCornerRadius="20dp"
+                    android:elevation="20dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    app:cardBackgroundColor="@android:color/holo_blue_dark" >
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/btnRead"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:textColor="@color/white"
+                            android:text="Leitura" />
+
+
+
+                    </RelativeLayout>
+
+
+                </android.support.v7.widget.CardView>
+
+
+                    <android.support.v7.widget.CardView
+                        android:layout_width="100dp"
+                        android:layout_height="40dp"
+                        app:cardCornerRadius="20dp"
+                        android:elevation="20dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        app:cardBackgroundColor="@android:color/holo_blue_dark" >
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <TextView
+                                android:id="@+id/btnUpdate"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:textColor="@color/white"
+                                android:text="Atualizar" />
+
+
+
+                        </RelativeLayout>
+
+
+                    </android.support.v7.widget.CardView>
+
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_marginLeft="15dp"
@@ -363,23 +421,6 @@
                     android:orientation="horizontal"
                     android:weightSum="3"
                     >
-
-                    <Button
-                        android:id="@+id/btnRead"
-                        android:layout_height="wrap_content"
-                        android:text="Leitura"
-                        android:layout_width="match_parent"
-                        android:layout_weight="1">
-                    </Button>
-
-
-                    <Button
-                        android:id="@+id/btnUpdate"
-                        android:layout_height="wrap_content"
-                        android:text="Atualizar"
-                        android:layout_width="match_parent"
-                        android:layout_weight="1">
-                    </Button>
 
 
                     <Button
@@ -391,19 +432,6 @@
                     </Button>
 
                 </LinearLayout>
-
-
-                <ScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/Result"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Resultado"/>
-
-                </ScrollView>
 
             </LinearLayout>
 
