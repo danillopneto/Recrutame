@@ -23,7 +23,8 @@
         <activity
             android:name=".ProfileActivity"
             android:label="ProfileActivity" />
-        <activity android:name=".RegisterActivity"></activity>
+        <activity android:name=".RegisterActivity" />
+        <activity android:name=".ForgotPasswordActivity"></activity>
     </application>
 
 </manifest>

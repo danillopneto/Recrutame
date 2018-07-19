@@ -1,15 +1,11 @@
 package ufg.go.br.recrutame
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ProgressBar
 import kotlinx.android.synthetic.main.activity_main.*
 import ufg.go.br.recrutame.api.activities.LILoginActivity
-import android.app.ProgressDialog
-
-
 
 class MainActivity : LoginActivity(), View.OnClickListener {
 
@@ -21,8 +17,9 @@ class MainActivity : LoginActivity(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.loginBtn -> handleLogin(emailTxt.text.toString(), passwordTxt.text.toString())
+            R.id.forgotPasswordBtn -> handleForgotPassword()
             R.id.linkedinLoginBtn -> handleLinkedInLogin()
+            R.id.loginBtn -> handleLogin(emailTxt.text.toString(), passwordTxt.text.toString())
             R.id.registerBtn -> handleRegister()
         }
     }
@@ -43,10 +40,8 @@ class MainActivity : LoginActivity(), View.OnClickListener {
         return progressBar
     }
 
-    private fun inicializeControls() {
-        loginBtn.setOnClickListener(this)
-        linkedinLoginBtn.setOnClickListener(this)
-        registerBtn.setOnClickListener(this)
+    private fun handleForgotPassword() {
+        startActivity(Intent(this, ForgotPasswordActivity :: class.java))
     }
 
     private fun handleLinkedInLogin() {
@@ -57,4 +52,12 @@ class MainActivity : LoginActivity(), View.OnClickListener {
         hideKeyboard()
         startActivity(Intent(this, RegisterActivity :: class.java))
     }
+
+    private fun inicializeControls() {
+        forgotPasswordBtn.setOnClickListener(this)
+        loginBtn.setOnClickListener(this)
+        linkedinLoginBtn.setOnClickListener(this)
+        registerBtn.setOnClickListener(this)
+    }
+
 }
