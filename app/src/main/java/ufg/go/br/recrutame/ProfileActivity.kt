@@ -21,6 +21,9 @@ import kotlinx.android.synthetic.main.activity_profile.*
 import ufg.go.br.recrutame.dao.AppDb
 import ufg.go.br.recrutame.dao.UserDao
 import kotlin.concurrent.thread
+import com.jaredrummler.materialspinner.MaterialSpinner
+
+
 
 private lateinit var userDao: UserDao
 
@@ -35,6 +38,10 @@ class ProfileActivity : Activity() , View.OnClickListener {
       //  userDb = AppDb.getInstance(this)
 
       // provideAppDatabase(this)
+
+        spinnerProfissional()
+        spinnerNivelIdioma()
+        spinnerSexo()
 
         val prefs = application.getSharedPreferences(
                 BuildConfig.APPLICATION_ID, Context.MODE_PRIVATE)
@@ -88,6 +95,25 @@ class ProfileActivity : Activity() , View.OnClickListener {
             v.setBackgroundColor(ContextCompat.getColor(this, android.R.color.holo_red_dark))
 
         snackbar.show()
+    }
+
+    private fun spinnerProfissional(){
+        val spinner = findViewById<View>(R.id.nivel) as MaterialSpinner
+        spinner.setItems("Profissional" , "Superior" , "Técnico" , "Sem Escolaridade")
+        spinner.setOnItemSelectedListener { view , position , id , item -> Snackbar.make(view , "Selecionado " + item , Snackbar.LENGTH_LONG).show() }
+    }
+
+
+    private fun spinnerNivelIdioma(){
+        val spinner = findViewById<View>(R.id.Nivel_Idioma) as MaterialSpinner
+        spinner.setItems("Básico" , "Intermediário" , "Avançado" , "Fluente")
+        spinner.setOnItemSelectedListener { view , position , id , item -> Snackbar.make(view , "Selecionado " + item , Snackbar.LENGTH_LONG).show() }
+    }
+
+    private fun spinnerSexo(){
+        val spinner = findViewById<View>(R.id.Sexo) as MaterialSpinner
+        spinner.setItems("Masculino" , "Feminino")
+        spinner.setOnItemSelectedListener { view , position , id , item -> Snackbar.make(view , "Selecionado " + item , Snackbar.LENGTH_LONG).show() }
     }
 
 

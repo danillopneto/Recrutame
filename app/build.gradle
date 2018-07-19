@@ -59,6 +59,9 @@ dependencies {
     kapt 'android.arch.persistence.room:compiler:' + rootProject.archRoomVersion;
 
     compile 'com.rengwuxian.materialedittext:library:2.1.4'
+    compile 'com.jaredrummler:material-spinner:1.2.5'
+
+
 
 }
 

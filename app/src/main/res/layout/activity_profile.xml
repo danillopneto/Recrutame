@@ -83,18 +83,15 @@
                             android:inputType="number"
                     />
 
-                    <android.support.design.widget.TextInputLayout
+
+                    <com.jaredrummler.materialspinner.MaterialSpinner
+                        android:id="@+id/Sexo"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        app:ms_hint="Sexo"
+                        app:ms_arrow_tint="@color/background"
+                        android:layout_height="wrap_content"
 
-
-                        <EditText
-                            android:id="@+id/Sexo"
-                            android:layout_height="wrap_content"
-                            android:layout_width="fill_parent"
-                            android:hint="sexo "></EditText>
-
-                    </android.support.design.widget.TextInputLayout>
+                        />
 
                     <com.rengwuxian.materialedittext.MaterialEditText
                             android:layout_width="match_parent"
@@ -291,37 +288,26 @@
 
                     </android.support.design.widget.TextInputLayout>
 
-                    <Spinner
+
+                    <com.jaredrummler.materialspinner.MaterialSpinner
                         android:id="@+id/Nivel_Idioma"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:entries="@array/nivel_idioma"/>
+                        app:ms_arrow_tint="@color/background"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/spinner_bottom_border"
+                        android:hint="Nível do Idioma"/>
 
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        >
-
-
-                        <TextView
-                            android:id="@+id/textView"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:text="TextView" />
-
-                        <Spinner
-                            android:id="@+id/nivel"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:entries="@array/nivel"/>
-
-                    </LinearLayout>
 
                 </LinearLayout>
 
+                <com.jaredrummler.materialspinner.MaterialSpinner
+                    android:id="@+id/nivel"
+                    android:layout_width="match_parent"
+                    app:ms_hint="Nível "
+                    app:ms_arrow_tint="@color/background"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/spinner_bottom_border"
+                />
 
                 <LinearLayout
                     android:layout_width="match_parent"
