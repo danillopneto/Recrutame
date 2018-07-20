@@ -3,44 +3,31 @@ package ufg.go.br.recrutame.fragment
 import android.os.Bundle
 import android.content.Context
 import android.content.Intent
-import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import at.markushi.ui.CircleButton
+import android.widget.Button
 import com.google.firebase.auth.FirebaseAuth
 import ufg.go.br.recrutame.BuildConfig
 import ufg.go.br.recrutame.MainActivity
-import ufg.go.br.recrutame.ProfileActivity
 import ufg.go.br.recrutame.R
 
-class HomeFragment : Fragment(), View.OnClickListener {
+class SettingsFragment : Fragment(), View.OnClickListener {
     private lateinit var mAuth: FirebaseAuth
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         mAuth = FirebaseAuth.getInstance()
-        val view = inflater.inflate(R.layout.fragment_home, container, false)
-        view.findViewById<FloatingActionButton>(R.id.settingsBtn).setOnClickListener(this)
-        view.findViewById<FloatingActionButton>(R.id.editProfileBtn).setOnClickListener(this)
+        val view = inflater.inflate(R.layout.fragment_settings, container, false)
+        view.findViewById<Button>(R.id.logoutBtn).setOnClickListener(this)
         return view
     }
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.settingsBtn -> handleSettings()
-            R.id.editProfileBtn -> handleProfileEdit()
+            R.id.logoutBtn -> handleLogout()
         }
-    }
-
-    private fun handleProfileEdit() {
-        val intent = Intent(activity!!.application, ProfileActivity :: class.java)
-        startActivity(intent)
-    }
-
-    private fun handleSettings() {
-        handleLogout()
     }
 
     private fun handleLogout() {

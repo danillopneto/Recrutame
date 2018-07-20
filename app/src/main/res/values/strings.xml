@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Recruta.me</string>
     <string name="login">Login</string>
-    <string name="logout">Logout</string>
+    <string name="logout">Sair</string>
     <string name="loading">Carregando</string>
     <string name="ignorar">Ignorar</string>
     <string name="aplicar">Aplicar</string>
