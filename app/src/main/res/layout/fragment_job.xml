@@ -1,25 +1,25 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical"
-    tools:context="ufg.go.br.recrutame.fragment.JobFragment"
-    android:background="@color/white">
-    <com.mindorks.placeholderview.SwipePlaceHolderView
-        android:id="@+id/swipeView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="top" />
+    android:weightSum="1"
+    tools:context="ufg.go.br.recrutame.fragment.JobFragment">
+
 
     <LinearLayout
+        android:id="@+id/actionBtn"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="20dp"
-        android:gravity="bottom"
+        android:layout_height="80dp"
+        android:layout_gravity="bottom"
+        android:elevation="10dp"
+        android:gravity="center"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/rejectBtn"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="false"
@@ -27,14 +27,14 @@
             android:layout_alignParentStart="false"
             android:layout_toStartOf="@id/acceptBtn"
             android:layout_weight="1"
-            style="@style/Widget.AppCompat.Button.Borderless.Colored"
-            android:textColor="@color/colorAccent"
-            android:drawableTint="@color/colorAccent"
             android:drawableStart="@drawable/ic_cancel"
-            android:text="@string/ignorar"></Button>
+            android:drawableTint="@color/colorAccent"
+            android:text="@string/ignorar"
+            android:textColor="@color/colorAccent"></Button>
 
         <Button
             android:id="@+id/acceptBtn"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="false"
@@ -44,12 +44,18 @@
             android:layout_alignParentTop="false"
             android:layout_alignTop="@+id/rejectBtn"
             android:layout_weight="1"
-            style="@style/Widget.AppCompat.Button.Borderless.Colored"
-            android:textColor="@color/colorPrimary"
             android:drawableEnd="@drawable/ic_check"
             android:drawableTint="@color/colorPrimary"
-            android:text="@string/aplicar"></Button>
+            android:text="@string/aplicar"
+            android:textColor="@color/colorPrimary"></Button>
+
     </LinearLayout>
 
+    <com.mindorks.placeholderview.SwipePlaceHolderView
+        android:id="@+id/swipeView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-</RelativeLayout>
+    </com.mindorks.placeholderview.SwipePlaceHolderView>
+
+</FrameLayout>

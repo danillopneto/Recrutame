@@ -35,8 +35,11 @@ class JobCard(private val mContext: Context, private val mJob: JobModel, private
     @View(R.id.jobSalaryTxt)
     private val jobSalaryTxt: TextView? = null
 
-    @View(R.id.jobSalaryTxt)
+    @View(R.id.jobDescriptionTxt)
     private val jobDescriptionTxt: TextView? = null
+
+    @View(R.id.jobCompanyTxt)
+    private val jobCompanyTxt: TextView? = null
 
     @Resolve
     private fun onResolved() {
@@ -47,6 +50,7 @@ class JobCard(private val mContext: Context, private val mJob: JobModel, private
         jobTypeTxt!!.setText(mJob.type)
         jobSalaryTxt!!.setText(mJob.salary.toString())
         jobDescriptionTxt!!.setText(mJob.description)
+        jobCompanyTxt!!.setText(mJob.company)
     }
 
     @SwipeOut

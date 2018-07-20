@@ -6,6 +6,7 @@ class JobModel(
         public var location: String,
         public var type: String,
         public var salary: Double,
-        public var description: String) {
+        public var description: String,
+        public var company:String) {
 
 }
