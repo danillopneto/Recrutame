@@ -145,7 +145,7 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
     private fun inicializeControls(view: View) {
         maximumDistanceSlider = view.findViewById(R.id.maximumDistanceSlider)
         val distance = getMyPreferences().getMaximumDistance().toFloat()
-        maximumDistanceSlider.position = distance/100
+        maximumDistanceSlider.position = distance
         maximumDistanceSlider.positionListener = { p -> getMyPreferences().setMaximumDistance(p.toString()) }
 
         view.findViewById<Button>(R.id.deleteAccountBtn).setOnClickListener(this)
