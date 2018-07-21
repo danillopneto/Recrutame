@@ -1,19 +1,21 @@
 package ufg.go.br.recrutame.fragment
 
+import android.app.AlertDialog
 import android.os.Bundle
-import android.content.Context
 import android.content.Intent
-import android.support.v4.app.Fragment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import com.google.firebase.auth.FirebaseAuth
+import android.widget.Toast
+import com.google.firebase.FirebaseNetworkException
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.ramotion.fluidslider.FluidSlider
-import ufg.go.br.recrutame.BuildConfig
-import ufg.go.br.recrutame.MainActivity
-import ufg.go.br.recrutame.R
+import ufg.go.br.recrutame.*
+import android.widget.EditText
+import com.google.firebase.auth.EmailAuthProvider
+
 
 class SettingsFragment : BaseFragment(), View.OnClickListener {
     private lateinit var maximumDistanceSlider: FluidSlider
@@ -28,22 +30,125 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when (v?.id) {
+            R.id.deleteAccountBtn -> handleDeleteAccount()
             R.id.logoutBtn -> handleLogout()
         }
     }
 
-    private fun inicializeControls(view: View) {
-        view.findViewById<Button>(R.id.logoutBtn).setOnClickListener(this)
-        maximumDistanceSlider = view.findViewById(R.id.maximumDistanceSlider)
-        maximumDistanceSlider.position = preferences.getMaximumDistance().toFloat()
-        maximumDistanceSlider.positionListener = { p -> preferences.setMaximumDistance(p.toString()) }
+    private fun deleteAccount(password: String) {
+        val user = mAuth.currentUser
+        if (user != null) {
+            val credential = EmailAuthProvider.getCredential(user.email!!, password)
+            user.reauthenticate(credential).addOnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    try {
+                        throw task.exception!!
+                    } catch (e: FirebaseAuthInvalidCredentialsException) {
+                        Toast.makeText(context, getString(R.string.invalid_credentials), Toast.LENGTH_LONG).show()
+                    } catch (e: FirebaseNetworkException) {
+                        Toast.makeText(context, getString(R.string.no_connection), Toast.LENGTH_LONG).show()
+                    } catch (e: Exception) {
+                        Toast.makeText(context, getString(R.string.delete_account_failed), Toast.LENGTH_LONG).show()
+                        Log.e(TAG, e.message)
+                    }
+                } else {
+                    user.delete().addOnCompleteListener { task ->
+                        if (!task.isSuccessful) {
+                            try {
+                                throw task.exception!!
+                            } catch (e: FirebaseAuthInvalidCredentialsException) {
+                                Toast.makeText(context, getString(R.string.invalid_credentials), Toast.LENGTH_LONG).show()
+                            } catch (e: FirebaseNetworkException) {
+                                Toast.makeText(context, getString(R.string.no_connection), Toast.LENGTH_LONG).show()
+                            } catch (e: Exception) {
+                                Toast.makeText(context, getString(R.string.delete_account_failed), Toast.LENGTH_LONG).show()
+                                Log.e(TAG, e.message)
+                            }
+                        } else {
+                            Toast.makeText(context, getString(R.string.delete_user_success), Toast.LENGTH_LONG).show()
+                            handleLogout()
+                        }
+                    }
+                }
+            }
+        } else {
+            Toast.makeText(context, getString(R.string.no_user_found), Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun handleDeleteAccount() {
+        val isLIUser = getMyPreferences().getIsLIUser()
+        if (isLIUser) {
+            handleDeleteLIUserAccount()
+        } else {
+            handleDeleteEmailUserAccount()
+        }
+    }
+
+    private fun handleDeleteEmailUserAccount() {
+        val li = LayoutInflater.from(context)
+        val promptsView = li.inflate(R.layout.dialog_password, null)
+
+        val alertDialogBuilder = AlertDialog.Builder(context)
+        alertDialogBuilder.setView(promptsView)
+        val userPassword = promptsView.findViewById(R.id.passwordDialogTxt) as EditText
+
+        alertDialogBuilder
+                .setCancelable(false)
+                .setPositiveButton("OK"
+                ) { dialog, id ->
+                    deleteAccount(userPassword.text.toString())
+                }
+                .setNegativeButton(getString(R.string.cancelar)
+                ) { dialog, id -> dialog.cancel() }
+
+        val alertDialog = alertDialogBuilder.create()
+        alertDialog.setTitle(R.string.deleteAccount)
+        alertDialog.show()
+        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+            if (userPassword.text.isEmpty()) {
+                Toast.makeText(context, getString(R.string.confirmPassword), Toast.LENGTH_LONG).show()
+            } else {
+                deleteAccount(userPassword.text.toString())
+                alertDialog.dismiss()
+            }
+        }
+    }
+
+    private fun handleDeleteLIUserAccount() {
+        val li = LayoutInflater.from(context)
+        val promptsView = li.inflate(R.layout.dialog_delete_li, null)
+
+        val alertDialogBuilder = AlertDialog.Builder(context)
+        alertDialogBuilder.setView(promptsView)
+        alertDialogBuilder
+                .setCancelable(false)
+                .setPositiveButton(getString(R.string.yes)
+                ) { dialog, id ->
+                    deleteAccount(LINKEDIN_PASSWORD)
+                }
+                .setNegativeButton(getString(R.string.no)
+                ) { dialog, id -> dialog.cancel() }
+
+        val alertDialog = alertDialogBuilder.create()
+        alertDialog.show()
     }
 
     private fun handleLogout() {
-        preferences.clear()
+        getMyPreferences().clear()
         mAuth.signOut()
         activity!!.finishAffinity()
-        val intent = Intent(activity!!.application, MainActivity :: class.java)
+        val intent = Intent(activity!!.application, MainActivity::class.java)
         startActivity(intent)
+    }
+
+    private fun inicializeControls(view: View) {
+        maximumDistanceSlider = view.findViewById(R.id.maximumDistanceSlider)
+        val distance = getMyPreferences().getMaximumDistance().toFloat()
+        maximumDistanceSlider.position = distance/100
+        maximumDistanceSlider.positionListener = { p -> getMyPreferences().setMaximumDistance(p.toString()) }
+
+        view.findViewById<Button>(R.id.deleteAccountBtn).setOnClickListener(this)
+        view.findViewById<Button>(R.id.logoutBtn).setOnClickListener(this)
     }
 }

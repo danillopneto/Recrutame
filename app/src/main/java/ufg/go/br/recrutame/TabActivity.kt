@@ -23,7 +23,7 @@ class TabActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_tab)
 
-        var bottonNavigationView: BottomNavigationViewEx = findViewById(R.id.navigation)
+        val bottonNavigationView: BottomNavigationViewEx = findViewById(R.id.navigation)
         bottonNavigationView.setIconSize(27f,27f)
         bottonNavigationView.setTextVisibility(false)
         bottonNavigationView.currentItem = 0

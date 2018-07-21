@@ -19,7 +19,7 @@ class MainActivity : LoginActivity(), View.OnClickListener {
         when (v?.id) {
             R.id.forgotPasswordBtn -> handleForgotPassword()
             R.id.linkedinLoginBtn -> handleLinkedInLogin()
-            R.id.loginBtn -> handleLogin(emailTxt.text.toString(), passwordTxt.text.toString())
+            R.id.loginBtn ->  handleLogin(emailTxt.text.toString(), passwordTxt.text.toString(), false,false)
             R.id.registerBtn -> handleRegister()
         }
     }
@@ -28,11 +28,6 @@ class MainActivity : LoginActivity(), View.OnClickListener {
         super.onResume()
         if (mAuth.currentUser != null) {
             startActivity(Intent(this, TabActivity :: class.java))
-        } else {
-            val user = preferences.getUserEmail()
-            if (!user.isEmpty()) {
-                handleLogin(user, LINKEDIN_PASSWORD)
-            }
         }
     }
 

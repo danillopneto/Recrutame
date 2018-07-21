@@ -65,7 +65,7 @@ class RegisterActivity : LoginActivity(), View.OnClickListener {
                 }
             } else {
                 Toast.makeText(this, getString(R.string.user_registered), Toast.LENGTH_LONG).show()
-                handleLogin(email, password)
+                handleLogin(email, password, true, false)
             }
         }
     }

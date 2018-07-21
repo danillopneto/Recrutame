@@ -19,7 +19,6 @@ import ufg.go.br.recrutame.model.MyPreferences
 abstract class LoginActivity : AppCompatActivity() {
     lateinit var liProfileInfo: LIProfileInfo
     lateinit var mAuth: FirebaseAuth
-    lateinit var preferences: MyPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,7 +28,9 @@ abstract class LoginActivity : AppCompatActivity() {
         }
     }
 
-    fun handleLogin(email: String, password: String) {
+    fun handleLogin(email: String, password: String, isNewUser: Boolean, isLIUser: Boolean) {
+        getMyPreferences().setIsNewUser(isNewUser)
+        getMyPreferences().setIsLIUser(isLIUser)
         hideKeyboard()
         if (!email.isEmpty() && !password.isEmpty()) {
             getProgressBar().visibility = View.VISIBLE
@@ -48,7 +49,7 @@ abstract class LoginActivity : AppCompatActivity() {
                     }
                 } else {
                     this.finishAffinity()
-                    preferences.setUserEmail(email)
+                    getMyPreferences().setUserEmail(email)
                     startActivity(Intent(this, TabActivity :: class.java))
                 }
             }
@@ -67,7 +68,10 @@ abstract class LoginActivity : AppCompatActivity() {
 
     private fun inicializeApis() {
         mAuth = FirebaseAuth.getInstance()
-        preferences = StoreBox.create(applicationContext, MyPreferences::class.java)
+    }
+
+    fun getMyPreferences(): MyPreferences {
+        return StoreBox.create(applicationContext, MyPreferences::class.java)
     }
 
     abstract fun getProgressBar(): ProgressBar
