@@ -3,38 +3,83 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="20dp"
     tools:context=".fragment.SettingsFragment">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/profile_image"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:src="@drawable/user_logo"
-        android:layout_alignParentTop="true"
-        android:layout_centerInParent="true"/>
-
-    <TextView
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/userTxt"
-        android:layout_below="@+id/profile_image"
-        android:layout_centerInParent="true"
-        android:hint="User"/>
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:id="@+id/settingContainer"
+            android:padding="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_rounded">
+            <TextView
+                android:id="@+id/maximumDistanceLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/maximum_distance"
+                android:layout_alignParentTop="true"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:id="@+id/distanceLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/distance"
+                android:layout_alignParentTop="true"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:layout_alignParentEnd="true" />
+
+            <com.ramotion.fluidslider.FluidSlider
+                android:id="@+id/maximumDistanceSlider"
+                android:layout_below="@+id/maximumDistanceLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:bar_color="@color/startBlue"
+                app:size="small" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/logoutBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:background="@drawable/background_signup"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/background_login"
         android:text="@string/logout"
-        android:padding="16dp"
         android:textAllCaps="false"
-        android:textColor="@color/white"
+        android:textColor="@color/startBlue"
+        android:textSize="18sp"
+        android:layout_above="@+id/appLogo" />
+
+    <ImageView
+        android:id="@+id/appLogo"
+        android:layout_width="150dp"
+        android:layout_height="100dp"
+        android:src="@drawable/icon"
+        android:tint="@color/blue_grey_800"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/deleteAccountBtn" />
+
+    <Button
+        android:id="@+id/deleteAccountBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/background_login"
+        android:text="@string/deleteAccount"
+        android:textAllCaps="false"
+        android:textColor="@color/red_A700"
         android:layout_alignParentBottom="true"
         android:textSize="18sp"/>
 

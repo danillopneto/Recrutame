@@ -30,6 +30,11 @@
     <string name="type_email_address">Informe o endereço de e-mail!</string>
     <string name="reset_password_failed">Falha ao recuperar senha.</string>
     <string name="no_user_found">Não existe usuário com o e-mail informado.</string>
+    <string name="maximum_distance">Distância máxima</string>
+    <string name="distance">Km</string>
+    <string name="default_maximum_distance">50</string>
+    <string name="empty"></string>
+    <string name="deleteAccount">Deletar conta</string>
     <string-array name="nivel">
         <item>Profissional</item>
         <item>Superior</item>

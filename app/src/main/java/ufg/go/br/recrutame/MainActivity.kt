@@ -29,7 +29,7 @@ class MainActivity : LoginActivity(), View.OnClickListener {
         if (mAuth.currentUser != null) {
             startActivity(Intent(this, TabActivity :: class.java))
         } else {
-            val user = getSharedPreferences().getString(LINKEDIN_USER, "")
+            val user = preferences.getUserEmail()
             if (!user.isEmpty()) {
                 handleLogin(user, LINKEDIN_PASSWORD)
             }

@@ -20,10 +20,11 @@ import android.view.GestureDetector
 import android.widget.Button
 
 
-class JobFragment : Fragment(){
+class JobFragment : BaseFragment(){
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        inicializeApis()
         var rootView = inflater.inflate(R.layout.fragment_job, container, false);
 
         var mSwipeView = rootView.findViewById(R.id.swipeView) as SwipePlaceHolderView;
@@ -58,6 +59,6 @@ class JobFragment : Fragment(){
             mSwipeView.doSwipe(true)
         }))
 
-        return rootView;
+        return rootView
     }
 }
