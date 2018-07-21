@@ -14,6 +14,7 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.ramotion.fluidslider.FluidSlider
 import ufg.go.br.recrutame.*
 import android.widget.EditText
+import android.widget.TextView
 import com.google.firebase.auth.EmailAuthProvider
 
 
@@ -66,7 +67,7 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
                             }
                         } else {
                             Toast.makeText(context, getString(R.string.delete_user_success), Toast.LENGTH_LONG).show()
-                            handleLogout()
+                            logout()
                         }
                     }
                 }
@@ -116,30 +117,11 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
     }
 
     private fun handleDeleteLIUserAccount() {
-        val li = LayoutInflater.from(context)
-        val promptsView = li.inflate(R.layout.dialog_delete_li, null)
-
-        val alertDialogBuilder = AlertDialog.Builder(context)
-        alertDialogBuilder.setView(promptsView)
-        alertDialogBuilder
-                .setCancelable(false)
-                .setPositiveButton(getString(R.string.yes)
-                ) { dialog, id ->
-                    deleteAccount(LINKEDIN_PASSWORD)
-                }
-                .setNegativeButton(getString(R.string.no)
-                ) { dialog, id -> dialog.cancel() }
-
-        val alertDialog = alertDialogBuilder.create()
-        alertDialog.show()
+        handleYesNoDialog(R.string.really_delete_account) { deleteAccount(LINKEDIN_PASSWORD) }
     }
 
     private fun handleLogout() {
-        getMyPreferences().clear()
-        mAuth.signOut()
-        activity!!.finishAffinity()
-        val intent = Intent(activity!!.application, MainActivity::class.java)
-        startActivity(intent)
+        handleYesNoDialog(R.string.really_logout) { logout() }
     }
 
     private fun inicializeControls(view: View) {
@@ -150,5 +132,13 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
 
         view.findViewById<Button>(R.id.deleteAccountBtn).setOnClickListener(this)
         view.findViewById<Button>(R.id.logoutBtn).setOnClickListener(this)
+    }
+
+    private fun logout() {
+        getMyPreferences().clear()
+        mAuth.signOut()
+        activity!!.finishAffinity()
+        val intent = Intent(activity!!.application, MainActivity::class.java)
+        startActivity(intent)
     }
 }
