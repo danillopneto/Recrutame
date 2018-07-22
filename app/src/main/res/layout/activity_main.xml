@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -17,11 +17,13 @@
         android:backgroundTint="@color/white"
         android:indeterminateTint="@color/white"
         android:layout_marginTop="7dp"
+        android:layout_alignParentTop="true"
         android:visibility="invisible"/>
 
     <LinearLayout
+        android:layout_below="@+id/progressBar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:orientation="vertical"
         android:padding="20dp">
@@ -40,7 +42,6 @@
                 android:id="@+id/emailTxt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableStart="@drawable/baseline_email_white_24dp"
                 android:drawablePadding="5dp"
                 android:singleLine="true"
                 android:hint="@string/email"
@@ -62,7 +63,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:singleLine="true"
-                android:drawableStart="@drawable/baseline_lock_white_24dp"
                 android:drawablePadding="5dp"
                 android:hint="@string/password"
                 android:textColor="@color/white"
@@ -83,26 +83,18 @@
             android:textSize="18sp"/>
 
         <Button
-            android:id="@+id/registerBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/background_signup"
-            android:padding="16dp"
-            android:text="@string/register"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="18sp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/forgotPasswordBtn"
+            android:layout_width="200dp"
+            android:layout_height="40dp"
+            android:background="@null"
             android:text="@string/forgot_password"
-            style="@style/Base.TextAppearance.AppCompat.Body2"
-            android:textColor="@color/white"
-            android:layout_marginTop="6dp"
-            android:textSize="16sp"
-            android:padding="10dp"/>
+            android:textColor="@android:color/white"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:paddingStart="10dp"
+            android:visibility="visible"
+            android:textAllCaps="false"
+            android:layout_marginTop="10dp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -153,4 +145,16 @@
             android:layout_marginTop="10dp" />
 
     </LinearLayout>
-</LinearLayout>
+
+    <Button
+        android:id="@+id/registerBtn"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/background_transparent"
+        android:text="@string/no_user_yet"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        android:visibility="visible"
+        android:textAllCaps="false"
+        android:layout_alignParentBottom="true" />
+</RelativeLayout>

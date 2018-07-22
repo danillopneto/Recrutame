@@ -9,8 +9,9 @@ import android.view.MenuItem
 import com.google.firebase.auth.FirebaseAuth
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx
 import ufg.go.br.recrutame.fragment.ChatFragment
-import ufg.go.br.recrutame.fragment.HomeFragment
+import ufg.go.br.recrutame.fragment.SettingsFragment
 import ufg.go.br.recrutame.fragment.JobFragment
+import ufg.go.br.recrutame.fragment.ProfileFragment
 
 class TabActivity : AppCompatActivity() {
 
@@ -23,7 +24,7 @@ class TabActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_tab)
 
-        var bottonNavigationView: BottomNavigationViewEx = findViewById(R.id.navigation)
+        val bottonNavigationView: BottomNavigationViewEx = findViewById(R.id.navigation)
         bottonNavigationView.setIconSize(27f,27f)
         bottonNavigationView.setTextVisibility(false)
         bottonNavigationView.currentItem = 0
@@ -41,9 +42,10 @@ class TabActivity : AppCompatActivity() {
         var selectedFragment: Fragment? = null
 
         when (id) {
-            R.id.action_settings -> selectedFragment = HomeFragment()
             R.id.action_work -> selectedFragment = JobFragment()
             R.id.action_chat -> selectedFragment = ChatFragment()
+            R.id.action_profile -> selectedFragment = ProfileFragment()
+            R.id.action_settings -> selectedFragment = SettingsFragment()
         }
 
         val transaction = supportFragmentManager.beginTransaction()

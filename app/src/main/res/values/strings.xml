@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Recruta.me</string>
     <string name="login">Login</string>
-    <string name="logout">Logout</string>
+    <string name="logout">Sair</string>
     <string name="loading">Carregando</string>
     <string name="ignorar">Ignorar</string>
     <string name="aplicar">Candidatar</string>
@@ -15,8 +15,8 @@
     <string name="register">Registrar</string>
     <string name="settings">Configurações</string>
     <string name="editProfile">Editar perfil</string>
-    <string name="confirmPassword">Confirme a senha</string>
-    <string name="password_doesnt_match">Senhas não combinam</string>
+    <string name="confirmPassword">Confirme a senha.</string>
+    <string name="password_doesnt_match">Senhas não combinam.</string>
     <string name="user_registered">Usuário registrado com sucesso.</string>
     <string name="error_weak_password">A senha informada é fraca.</string>
     <string name="error_invalid_email">O e-mail informado é inválido.</string>
@@ -25,6 +25,28 @@
     <string name="error_register">Erro ao registrar o usuário.</string>
     <string name="or">OU</string>
     <string name="no_connection">Sem acesso à internet. Verifique sua conexão.</string>
+    <string name="resetPassword">Redefinir senha</string>
+    <string name="email_reset_password">E-mail de recuperação de senha enviado com sucesso!</string>
+    <string name="type_email_address">Informe o endereço de e-mail!</string>
+    <string name="reset_password_failed">Falha ao recuperar senha.</string>
+    <string name="no_user_found">Não existe usuário com o e-mail informado.</string>
+    <string name="maximum_distance">Distância máxima</string>
+    <string name="distance">Km</string>
+    <string name="default_maximum_distance">50</string>
+    <string name="empty"></string>
+    <string name="deleteAccount">Deletar conta</string>
+    <string name="delete_account_failed">Falha ao deletar usuário.</string>
+    <string name="delete_user_success">Usuário deletado com sucesso!</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="type_password">Digite a sua senha</string>
+    <string name="yes">Sim</string>
+    <string name="no">Não</string>
+    <string name="really_delete_account">Deseja realmente deletar a sua conta?</string>
+    <string name="no_user_yet">Ainda não tem uma conta? Registre-se aqui.</string>
+    <string name="really_logout">Deseja realmente sair?</string>
+    <string name="fill_filters">Cadastre aqui os filtros para a busca das vagas desejadas</string>
+    <string name="new_filter_hint">Ex: Analista, Recepcionista, etc...</string>
+    <string name="insert_filter_term">Insira algum termo como filtro.</string>
     <string-array name="nivel">
         <item>Profissional</item>
         <item>Superior</item>

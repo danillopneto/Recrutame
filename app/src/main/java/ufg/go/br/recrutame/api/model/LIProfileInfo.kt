@@ -12,4 +12,8 @@ class LIProfileInfo {
     var pictureUrl: String? = null
 
     var publicProfileUrl: String? = null
+
+    fun getFullName(): String {
+        return "$firstName $lastName"
+    }
 }

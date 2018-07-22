@@ -1,6 +1,5 @@
 package ufg.go.br.recrutame.api.activities
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -54,9 +53,6 @@ class LILoginActivity : LoginActivity() {
                     Log.i("", "CODE : $access_token")
                     authComplete = true
 
-                    val prefs = application.getSharedPreferences(
-                            BuildConfig.APPLICATION_ID, Context.MODE_PRIVATE)
-
                     val client = ServiceGenerator(LI_BASE_URL).createService(LIService::class.java)
                     val call = client.getNewAccessToken(access_token)
 
@@ -67,9 +63,7 @@ class LILoginActivity : LoginActivity() {
                             val statusCode = response.code()
                             if (statusCode == 200) {
                                 val token = response.body()
-                                prefs.edit().putBoolean(OAUTH_LOGGEDIN, true).apply()
-                                prefs.edit().putString(OAUTH_ACCESSTOKEN, token!!.accessToken).apply()
-                                fillLinkedinInfo(token.accessToken.toString())
+                                fillLinkedinInfo(token?.accessToken.toString())
                             } else {
                                 Toast.makeText(applicationContext, getString(R.string.linkedin_login_failed), Toast.LENGTH_SHORT).show()
                             }
@@ -108,8 +102,7 @@ class LILoginActivity : LoginActivity() {
                     val statusCode = response.code()
                     if (statusCode == 200) {
                         liProfileInfo = response.body()!!
-                        application.getSharedPreferences(BuildConfig.APPLICATION_ID, Context.MODE_PRIVATE)
-                                .edit().putString(LINKEDIN_USER, liProfileInfo.emailAddress).apply()
+                        setNewUserData(liProfileInfo.getFullName(), liProfileInfo.pictureUrl!!)
                         handleFirebaseLogin(liProfileInfo.emailAddress!!)
                     } else {
                         Toast.makeText(applicationContext, "Failed in", Toast.LENGTH_SHORT).show()
@@ -129,12 +122,13 @@ class LILoginActivity : LoginActivity() {
         mAuth.fetchProvidersForEmail(email).addOnCompleteListener(this) { task ->
             if (task.isSuccessful) {
                 if (task.result.providers!!.size > 0) {
-                    handleLogin(email, LINKEDIN_PASSWORD)
+                    handleLogin(email, LINKEDIN_PASSWORD, false, true)
                 } else {
                     mAuth.createUserWithEmailAndPassword(email, LINKEDIN_PASSWORD).addOnCompleteListener(this) { task ->
                         getProgressBar().visibility = View.INVISIBLE
                         if (task.isSuccessful) {
-                            handleLogin(email, LINKEDIN_PASSWORD)
+                            mAuth.currentUser?.updateProfile(profileUpdates.build())
+                            handleLogin(email, LINKEDIN_PASSWORD, true, true)
                         } else {
                             Toast.makeText(this, getString(R.string.login_failed), Toast.LENGTH_LONG).show()
                         }

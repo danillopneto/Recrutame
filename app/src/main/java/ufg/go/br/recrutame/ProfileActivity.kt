@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.app.Activity
 import android.arch.persistence.room.Room
 import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
 import android.support.design.widget.Snackbar
 import android.support.v4.content.ContextCompat
 import android.util.Log
@@ -13,11 +15,15 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import com.google.firebase.auth.FirebaseAuth
 import ufg.go.br.recrutame.Util.Mask
 import kotlinx.android.synthetic.main.activity_profile.*
 import ufg.go.br.recrutame.dao.AppDb
 import ufg.go.br.recrutame.dao.UserDao
 import kotlin.concurrent.thread
+import com.jaredrummler.materialspinner.MaterialSpinner
+
+
 
 private lateinit var userDao: UserDao
 
@@ -32,6 +38,26 @@ class ProfileActivity : Activity() , View.OnClickListener {
       //  userDb = AppDb.getInstance(this)
 
       // provideAppDatabase(this)
+
+        spinnerProfissional()
+        spinnerNivelIdioma()
+        spinnerSexo()
+
+        val prefs = application.getSharedPreferences(
+                BuildConfig.APPLICATION_ID, Context.MODE_PRIVATE)
+
+      val email =  prefs.getString("oauth.accesstoken", "")
+        val email2 =  prefs.getString("OAUTH_LOGGEDIN", "")
+
+
+
+            Toast.makeText(this, "Login: "+email+""+email2+""+FirebaseAuth.getInstance().currentUser.toString(), Toast.LENGTH_LONG).show()
+
+
+
+       // Toast.makeText(this, "Email: "+email+""+email2, Toast.LENGTH_LONG).show()
+
+
 
        val database =  Room.databaseBuilder(applicationContext, AppDb::class.java, "userDb")
                .allowMainThreadQueries()
@@ -56,6 +82,10 @@ class ProfileActivity : Activity() , View.OnClickListener {
    // }
 
 
+    fun getSharedPreferences(): SharedPreferences {
+        return application.getSharedPreferences(BuildConfig.APPLICATION_ID, Context.MODE_PRIVATE)
+    }
+
     fun showSnackFeedback(message : String, isValid : Boolean){
         val snackbar : Snackbar = Snackbar.make(profileactivity!!, message, Snackbar.LENGTH_SHORT)
         var v : View = snackbar.view
@@ -67,20 +97,34 @@ class ProfileActivity : Activity() , View.OnClickListener {
         snackbar.show()
     }
 
+    private fun spinnerProfissional(){
+        val spinner = findViewById<View>(R.id.nivel) as MaterialSpinner
+        spinner.setItems("Profissional" , "Superior" , "Técnico" , "Sem Escolaridade")
+        spinner.setOnItemSelectedListener { view , position , id , item -> Snackbar.make(view , "Selecionado " + item , Snackbar.LENGTH_LONG).show() }
+    }
+
+
+    private fun spinnerNivelIdioma(){
+        val spinner = findViewById<View>(R.id.Nivel_Idioma) as MaterialSpinner
+        spinner.setItems("Básico" , "Intermediário" , "Avançado" , "Fluente")
+        spinner.setOnItemSelectedListener { view , position , id , item -> Snackbar.make(view , "Selecionado " + item , Snackbar.LENGTH_LONG).show() }
+    }
+
+    private fun spinnerSexo(){
+        val spinner = findViewById<View>(R.id.Sexo) as MaterialSpinner
+        spinner.setItems("Masculino" , "Feminino")
+        spinner.setOnItemSelectedListener { view , position , id , item -> Snackbar.make(view , "Selecionado " + item , Snackbar.LENGTH_LONG).show() }
+    }
+
 
     private fun inicializeControls() {
-        //db = DataBaseHandle(this)
-
-        val result = this!!.findViewById<TextView>(R.id.Result)
-        result.setOnClickListener(this)
-
-        val btnSave = this!!.findViewById<Button>(R.id.btnSave)
+        val btnSave = this!!.findViewById<TextView>(R.id.btnSave)
         btnSave.setOnClickListener(this)
 
-        val btnRead = this!!.findViewById<Button>(R.id.btnRead)
+        val btnRead = this!!.findViewById<TextView>(R.id.btnRead)
         btnRead.setOnClickListener(this)
 
-        val btnDeleta = this!!.findViewById<Button>(R.id.btnDeleta)
+        val btnDeleta = this!!.findViewById<TextView>(R.id.btnDeleta)
         btnDeleta.setOnClickListener(this)
 
     }
@@ -133,17 +177,10 @@ class ProfileActivity : Activity() , View.OnClickListener {
 
     private fun handleResult() {
 
-        Result.text = ""
+        val cpf = this!!.findViewById<EditText>(R.id.Cpf)
 
-      //  Result.append(userDb?.userDao()?.all().toString())
+        cpf.addTextChangedListener(Mask.mask("###.###.###-##", cpf))
 
-       // Result.append(userDb?.userDao()?.loadAllUsers().toString())
-
-      //  Result.append(userDb?.userDao()?.findUserEmail("bakural3000@gmail.com").toString())
-
-
-        Toast.makeText(this, ""+ userDao.getById(1)?.nome.toString(), Toast.LENGTH_LONG).show()
-        //  userDb?.userDao()?.loadAllUsers()?.forEach { e -> Log.e("", e.nome.toString()) }
         try {
             Nome.setText(userDao.getById(1)?.nome.toString())
             DataNascimento.setText(userDao.getById(1)?.dataNascimento.toString())
@@ -161,6 +198,8 @@ class ProfileActivity : Activity() , View.OnClickListener {
             Periodocargo.setText(userDao.getById(1)?.periodocargo.toString())
             Atividades_Desenvolvidas.setText(userDao.getById(1)?.atividadesdesenvolvidas.toString())
             Idioma.setText(userDao.getById(1)?.idioma.toString())
+
+
 
             }catch (e: Exception){
             showSnackFeedback("Não existe cadastro",false)
