@@ -24,6 +24,10 @@ class ItemFilterAdapter(filters: MutableList<String>) : RecyclerView.Adapter<Lin
         return mFilters.size
     }
 
+    fun getItens(): MutableList<String> {
+        return mFilters
+    }
+
     fun updateList(filter: String) {
         insertItem(filter)
     }

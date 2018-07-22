@@ -82,6 +82,7 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
 
     private fun handleAddFilter() {
         mAdapter.updateList(newFilterTxt.text.toString())
+        getMyPreferences().setFilters(mAdapter.getItens())
         newFilterTxt.text = ""
     }
 
@@ -162,6 +163,10 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
         mRecyclerView.layoutManager = layoutManager
 
         val list: MutableList<String> = mutableListOf()
+        val currentFilters = getMyPreferences().getFilters()
+        if (currentFilters != null && currentFilters.isNotEmpty()) {
+            list.addAll(currentFilters)
+        }
 
         mAdapter = ItemFilterAdapter(list)
         mRecyclerView.adapter = mAdapter

@@ -74,7 +74,7 @@
                     android:layout_weight="0.8"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="Ex: Analista, Recepcionista"
+                    android:hint="@string/new_filter_hint"
                     android:textColorHint="@color/startBlue"
                     android:textColor="@color/startBlue"
                     android:textSize="11sp" />
@@ -92,7 +92,6 @@
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="130dp"
-                android:layout_marginTop="10dp"
                 android:scrollbars="vertical">
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recyclerFilterItems"

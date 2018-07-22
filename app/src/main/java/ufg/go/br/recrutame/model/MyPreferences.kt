@@ -3,6 +3,7 @@ package ufg.go.br.recrutame.model
 import net.orange_box.storebox.annotations.method.ClearMethod
 import net.orange_box.storebox.annotations.method.DefaultValue
 import net.orange_box.storebox.annotations.method.KeyByString
+import net.orange_box.storebox.annotations.method.TypeAdapter
 import ufg.go.br.recrutame.R
 
 interface MyPreferences {
@@ -34,4 +35,12 @@ interface MyPreferences {
 
     @KeyByString("key_is_new_user")
     fun setIsNewUser(value: Boolean): Boolean
+
+    @KeyByString("key_filters")
+    @TypeAdapter(FiltersTypeAdapter :: class)
+    fun getFilters(): List<String>
+
+    @KeyByString("key_filters")
+    @TypeAdapter(FiltersTypeAdapter :: class)
+    fun setFilters(filters: List<String>)
 }
