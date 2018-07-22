@@ -1,9 +1,9 @@
 package ufg.go.br.recrutame
 
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
 import android.view.View
-import android.widget.ProgressBar
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_register.*
@@ -20,36 +20,27 @@ class RegisterActivity : LoginActivity(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.registerBtn -> handleRegister()
+            R.id.mRegisterButton -> handleRegister()
         }
-    }
-
-    override fun getProgressBar(): ProgressBar {
-        return progressBarRegister
     }
 
     private fun handleRegister() {
         hideKeyboard()
-        if (!emailTxt.text.isEmpty()
-                && !passwordTxt.text.isEmpty()
-                && !confirmPasswordTxt.text.isEmpty()) {
-            if (passwordTxt.text.toString() == confirmPasswordTxt.text.toString()) {
-                registerUser(emailTxt.text.toString(), passwordTxt.text.toString())
-            } else {
-                Toast.makeText(this, getString(R.string.password_doesnt_match), Toast.LENGTH_LONG).show()
-            }
-        } else {
-            Toast.makeText(this, getString(R.string.fill_credential), Toast.LENGTH_LONG).show()
+        if (validateForm()) {
+            registerUser(mEmailTxt.text.toString(), mPasswordTxt.text.toString())
         }
     }
 
     private fun inicializeControls() {
         mAuth = FirebaseAuth.getInstance()
-        registerBtn.setOnClickListener(this)
+        mActionButton = findViewById(R.id.mRegisterButton)
+        mRegisterButton.setOnClickListener(this)
     }
 
     private fun registerUser(email: String, password: String) {
+        mActionButton.startAnimation()
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this) { task ->
+            mActionButton.revertAnimation()
             if (!task.isSuccessful) {
                 try {
                     throw task.exception!!
@@ -67,6 +58,22 @@ class RegisterActivity : LoginActivity(), View.OnClickListener {
                 Toast.makeText(this, getString(R.string.user_registered), Toast.LENGTH_LONG).show()
                 handleLogin(email, password, true, false)
             }
+        }
+    }
+
+    private fun validateForm(): Boolean {
+        return if (!TextUtils.isEmpty(mEmailTxt.text)
+                && !TextUtils.isEmpty(mPasswordTxt.text)
+                && !TextUtils.isEmpty(mConfirmPasswordTxt.text)) {
+            if (mPasswordTxt.text.toString() == mConfirmPasswordTxt.text.toString()) {
+                true
+            } else {
+                Toast.makeText(this, getString(R.string.password_doesnt_match), Toast.LENGTH_LONG).show()
+                false
+            }
+        } else {
+            Toast.makeText(this, getString(R.string.fill_credential), Toast.LENGTH_LONG).show()
+            false
         }
     }
 }

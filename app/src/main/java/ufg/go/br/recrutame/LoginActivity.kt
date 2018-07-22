@@ -5,11 +5,13 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ProgressBar
 import android.widget.Toast
+import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
@@ -21,6 +23,8 @@ import ufg.go.br.recrutame.model.MyPreferences
 abstract class LoginActivity : AppCompatActivity() {
     lateinit var liProfileInfo: LIProfileInfo
     lateinit var mAuth: FirebaseAuth
+    lateinit var mActionButton: CircularProgressButton
+    lateinit var progressBar: ProgressBar
     val profileUpdates = UserProfileChangeRequest.Builder()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,16 +35,19 @@ abstract class LoginActivity : AppCompatActivity() {
         }
     }
 
-    abstract fun getProgressBar(): ProgressBar
+    override fun onDestroy() {
+        super.onDestroy()
+        mActionButton.dispose()
+    }
 
     fun handleLogin(email: String, password: String, isNewUser: Boolean, isLIUser: Boolean) {
         getMyPreferences().setIsNewUser(isNewUser)
         getMyPreferences().setIsLIUser(isLIUser)
         hideKeyboard()
-        if (!email.isEmpty() && !password.isEmpty()) {
-            getProgressBar().visibility = View.VISIBLE
+        if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)) {
+            showLoading()
             mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this) { task ->
-                getProgressBar().visibility = View.INVISIBLE
+                hideLoading()
                 if (!task.isSuccessful) {
                     try {
                         throw task.exception!!
@@ -82,5 +89,21 @@ abstract class LoginActivity : AppCompatActivity() {
 
     private fun getMyPreferences(): MyPreferences {
         return StoreBox.create(applicationContext, MyPreferences::class.java)
+    }
+
+    private fun hideLoading() {
+        if (mActionButton != null) {
+            mActionButton.revertAnimation()
+        } else if (progressBar != null) {
+            progressBar.visibility = View.INVISIBLE
+        }
+    }
+
+    private fun showLoading() {
+        if (mActionButton != null) {
+            mActionButton.startAnimation()
+        } else if (progressBar != null) {
+            progressBar.visibility = View.VISIBLE
+        }
     }
 }

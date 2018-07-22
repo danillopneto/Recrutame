@@ -7,21 +7,7 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:indeterminate="true"
-        android:max="100"
-        android:backgroundTint="@color/white"
-        android:indeterminateTint="@color/white"
-        android:layout_marginTop="7dp"
-        android:layout_alignParentTop="true"
-        android:visibility="invisible"/>
-
     <LinearLayout
-        android:layout_below="@+id/progressBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
@@ -39,7 +25,7 @@
             android:textColorHint="@color/white"
             app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
             <EditText
-                android:id="@+id/emailTxt"
+                android:id="@+id/mEmailTxt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawablePadding="5dp"
@@ -58,7 +44,7 @@
             app:passwordToggleEnabled="true"
             app:passwordToggleTint="@color/white">
             <EditText
-                android:id="@+id/passwordTxt"
+                android:id="@+id/mPasswordTxt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -70,12 +56,15 @@
                 android:inputType="textPassword" />
         </android.support.design.widget.TextInputLayout>
 
-        <Button
-            android:id="@+id/loginBtn"
+        <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
+            android:id="@+id/mLoginButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:background="@drawable/background_login"
+            app:spinning_bar_width="4dp"
+            app:spinning_bar_color="@color/startBlue"
+            app:spinning_bar_padding="6dp"
             android:text="@string/login"
             android:padding="16dp"
             android:textAllCaps="false"
@@ -147,7 +136,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/registerBtn"
+        android:id="@+id/mRegisterButton"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@drawable/background_transparent"

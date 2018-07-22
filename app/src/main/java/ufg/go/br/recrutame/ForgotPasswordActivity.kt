@@ -8,34 +8,44 @@ import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_forgot_password.*
 import android.text.TextUtils
 import android.util.Log
+import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 
 class ForgotPasswordActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var mAuth: FirebaseAuth
+    private lateinit var mResetPasswordButton: CircularProgressButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_forgot_password)
         mAuth = FirebaseAuth.getInstance()
-        resetPasswordBtn.setOnClickListener(this)
+        mResetPasswordButton = findViewById(R.id.mResetPasswordButton)
+        mResetPasswordButton.setOnClickListener(this)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mResetPasswordButton.dispose()
     }
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.resetPasswordBtn -> handleResetPassword()
+            R.id.mResetPasswordButton -> handleResetPassword()
         }
     }
 
     private fun handleResetPassword() {
-        val email = emailTxt.text.toString()
+        val email = mEmailTxt.text.toString()
         if (!validateForm(email)) {
             return
         }
 
+        mResetPasswordButton.startAnimation()
         mAuth.sendPasswordResetEmail(email)
             .addOnCompleteListener { task ->
+                mResetPasswordButton.revertAnimation()
                 if (!task.isSuccessful) {
                     try {
                         throw task.exception!!
