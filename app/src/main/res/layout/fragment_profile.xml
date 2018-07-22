@@ -27,20 +27,6 @@
         app:civ_border_color="#FF000000"/>
 
 
-
-
-
-    <TextView
-        android:id="@+id/mFullUsername"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical|center_horizontal"
-        android:gravity="center"
-        android:textColor="@color/cardview_shadow_end_color"
-        android:text="@string/email"
-        android:ems="10"
-        android:textSize="24dp" />
-
     <LinearLayout
         android:id="@+id/linear_nome"
         android:layout_width="match_parent"
@@ -231,7 +217,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:met_floatingLabel="highlight"
-            app:met_maxCharacters="14"
+            app:met_maxCharacters="80"
             app:met_singleLineEllipsis="true"
             app:met_helperText="Ex: Fulano@zika.com.br"
             android:id="@+id/Email"

@@ -29,7 +29,6 @@ private lateinit var userDao: UserDao
 
 class ProfileFragment : BaseFragment(), View.OnClickListener  {
     private lateinit var mProfileImage: CircleImageView
-    private lateinit var mFullUsername: TextView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         inicializeApis()
@@ -79,7 +78,6 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
 
     private fun inicializeControls(view: View) {
         mProfileImage = view.findViewById(R.id.mProfileImage)
-        mFullUsername = view.findViewById(R.id.mFullUsername)
 
         val user = mAuth.currentUser!!
         if (user.photoUrl != null) {
@@ -87,14 +85,15 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
         }
 
         if (user.displayName != null) {
-            mFullUsername.text = user.displayName
-        }
 
-      /*  if (user.displayName != null) {
-            mFullUsername.setText(user.displayName)
-        }else
-            mFullUsername.setText(" não encontrado")
-        */
+            val nome = view.findViewById<EditText>(R.id.Nome)
+            val email = view.findViewById<EditText>(R.id.Email)
+
+            // carrega perfil se existir cadastro
+            nome.setText(user.displayName)
+            email.setText(user.email)
+            handlePerfil(user.email.toString())
+        }
 
         val cpf = view.findViewById<EditText>(R.id.Cpf)
         cpf.addTextChangedListener(Mask.mask("###.###.###-##", cpf))
@@ -193,6 +192,36 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
     private fun handleDelete(){
 
         userDao.delete()
+    }
+
+
+    private fun handlePerfil(email: String) {
+
+        //   val cpf = view.findViewById<EditText>(R.id.Cpf)
+
+        //  cpf.addTextChangedListener(Mask.mask("###.###.###-##", cpf))
+
+        try {
+            Nome.setText(userDao.getUserEmail(email)?.nome.toString())
+            DataNascimento.setText(userDao.getUserEmail(email)?.dataNascimento.toString())
+            Sexo.setText(userDao.getUserEmail(email)?.sexo.toString())
+            Nacionalidade.setText(userDao.getUserEmail(email)?.nacionalidade.toString())
+            Cpf.setText(userDao.getUserEmail(email)?.cpf.toString())
+            Telefonefixo.setText(userDao.getUserEmail(email)?.telefonefixo.toString())
+            Telefonecelular.setText(userDao.getUserEmail(email)?.telefonecelular.toString())
+            Email.setText(userDao.getUserEmail(email)?.email.toString())
+            Area_Atuacao.setText(userDao.getUserEmail(email)?.areaatuacao.toString())
+            Periodo.setText(userDao.getUserEmail(email)?.periodoatuacao.toString())
+            Instituicao.setText(userDao.getUserEmail(email)?.instituicao.toString())
+            Empresas.setText(userDao.getUserEmail(email)?.empresa.toString())
+            Cargo.setText(userDao.getUserEmail(email)?.cargo.toString())
+            Periodocargo.setText(userDao.getUserEmail(email)?.periodocargo.toString())
+            Atividades_Desenvolvidas.setText(userDao.getUserEmail(email)?.atividadesdesenvolvidas.toString())
+            Idioma.setText(userDao.getUserEmail(email)?.idioma.toString())
+
+        }catch (e: Exception){
+            showSnackFeedback("Não existe cadastro",false)
+        }
     }
 
     private fun handleResult() {
