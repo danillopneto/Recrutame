@@ -3,6 +3,7 @@ package ufg.go.br.recrutame.fragment
 import android.app.AlertDialog
 import android.os.Bundle
 import android.content.Intent
+import android.database.DataSetObserver
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -82,9 +83,12 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
     }
 
     private fun handleAddFilter() {
-        mAdapter.updateList(newFilterTxt.text.toString())
-        getMyPreferences().setFilters(mAdapter.getItens())
-        newFilterTxt.text = ""
+        if (newFilterTxt.text.isEmpty()) {
+            Toast.makeText(context, getString(R.string.insert_filter_term), Toast.LENGTH_SHORT).show()
+        } else {
+            mAdapter.updateList(newFilterTxt.text.toString())
+            newFilterTxt.text = ""
+        }
     }
 
     private fun handleDeleteAccount() {
@@ -171,6 +175,11 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
 
         mAdapter = ItemFilterAdapter(list)
         mRecyclerView.adapter = mAdapter
+        mAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+            override fun onChanged() {
+                getMyPreferences().setFilters(mAdapter.getItens())
+            }
+        })
 
         mRecyclerView.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
     }

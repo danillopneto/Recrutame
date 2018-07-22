@@ -46,6 +46,7 @@
     <string name="really_logout">Deseja realmente sair?</string>
     <string name="fill_filters">Cadastre aqui os filtros para a busca das vagas desejadas</string>
     <string name="new_filter_hint">Ex: Analista, Recepcionista, etc...</string>
+    <string name="insert_filter_term">Insira algum termo como filtro.</string>
     <string-array name="nivel">
         <item>Profissional</item>
         <item>Superior</item>

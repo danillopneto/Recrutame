@@ -30,16 +30,19 @@ class ItemFilterAdapter(filters: MutableList<String>) : RecyclerView.Adapter<Lin
 
     fun updateList(filter: String) {
         insertItem(filter)
+        notifyDataSetChanged()
     }
 
     private fun insertItem(filter: String) {
-        mFilters.add(filter)
+        mFilters.add(0, filter)
         notifyItemInserted(itemCount)
+        notifyDataSetChanged()
     }
 
     private fun removeItem(position: Int) {
         mFilters.removeAt(position)
         notifyItemRemoved(position)
         notifyItemRangeChanged(position, mFilters.count())
+        notifyDataSetChanged()
     }
 }
