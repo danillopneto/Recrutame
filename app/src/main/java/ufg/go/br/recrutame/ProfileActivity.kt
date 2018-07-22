@@ -2,6 +2,8 @@ package ufg.go.br.recrutame
 
 import android.os.Bundle
 import android.app.Activity
+import android.app.DatePickerDialog
+import android.app.DatePickerDialog.OnDateSetListener
 import android.arch.persistence.room.Room
 import android.content.Context
 import android.content.Intent
@@ -22,7 +24,8 @@ import ufg.go.br.recrutame.dao.AppDb
 import ufg.go.br.recrutame.dao.UserDao
 import kotlin.concurrent.thread
 import com.jaredrummler.materialspinner.MaterialSpinner
-
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 private lateinit var userDao: UserDao
@@ -42,6 +45,8 @@ class ProfileActivity : Activity() , View.OnClickListener {
         spinnerProfissional()
         spinnerNivelIdioma()
         spinnerSexo()
+
+
 
         val prefs = application.getSharedPreferences(
                 BuildConfig.APPLICATION_ID, Context.MODE_PRIVATE)
@@ -117,6 +122,8 @@ class ProfileActivity : Activity() , View.OnClickListener {
     }
 
 
+
+
     private fun inicializeControls() {
         val btnSave = this!!.findViewById<TextView>(R.id.btnSave)
         btnSave.setOnClickListener(this)
@@ -127,6 +134,8 @@ class ProfileActivity : Activity() , View.OnClickListener {
         val btnDeleta = this!!.findViewById<TextView>(R.id.btnDeleta)
         btnDeleta.setOnClickListener(this)
 
+
+
     }
 
     override fun onClick(v: View?) {
@@ -135,6 +144,7 @@ class ProfileActivity : Activity() , View.OnClickListener {
             R.id.btnSave  -> handleSave()
             R.id.btnUpdate -> handleUpdate()
             R.id.btnRead -> handleResult()
+
         }
     }
 

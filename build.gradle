@@ -37,4 +37,3 @@ ext {
     supportLibVersion = "27.1.1"
     archRoomVersion = "1.1.1"
 }
-

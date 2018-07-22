@@ -32,5 +32,11 @@ class ProfileFragment : BaseFragment() {
         if (user.displayName != null) {
             mFullUsername.text = user.displayName
         }
+
+      /*  if (user.displayName != null) {
+            mFullUsername.setText(user.displayName)
+        }else
+            mFullUsername.setText(" não encontrado")
+        */
     }
 }
