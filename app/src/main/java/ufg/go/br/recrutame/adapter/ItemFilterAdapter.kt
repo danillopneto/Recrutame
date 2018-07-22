@@ -1,4 +1,4 @@
-package ufg.go.br.recrutame.fragment
+package ufg.go.br.recrutame.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

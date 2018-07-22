@@ -102,7 +102,7 @@ class LILoginActivity : LoginActivity() {
                     val statusCode = response.code()
                     if (statusCode == 200) {
                         liProfileInfo = response.body()!!
-                        getMyPreferences().setIsLIUser(false)
+                        setNewUserData(liProfileInfo.getFullName(), liProfileInfo.pictureUrl!!)
                         handleFirebaseLogin(liProfileInfo.emailAddress!!)
                     } else {
                         Toast.makeText(applicationContext, "Failed in", Toast.LENGTH_SHORT).show()
@@ -127,6 +127,7 @@ class LILoginActivity : LoginActivity() {
                     mAuth.createUserWithEmailAndPassword(email, LINKEDIN_PASSWORD).addOnCompleteListener(this) { task ->
                         getProgressBar().visibility = View.INVISIBLE
                         if (task.isSuccessful) {
+                            mAuth.currentUser?.updateProfile(profileUpdates.build())
                             handleLogin(email, LINKEDIN_PASSWORD, true, true)
                         } else {
                             Toast.makeText(this, getString(R.string.login_failed), Toast.LENGTH_LONG).show()

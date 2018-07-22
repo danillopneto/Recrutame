@@ -2,6 +2,7 @@ package ufg.go.br.recrutame
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
@@ -12,6 +13,7 @@ import android.widget.Toast
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.UserProfileChangeRequest
 import net.orange_box.storebox.StoreBox
 import ufg.go.br.recrutame.api.model.LIProfileInfo
 import ufg.go.br.recrutame.model.MyPreferences
@@ -19,6 +21,7 @@ import ufg.go.br.recrutame.model.MyPreferences
 abstract class LoginActivity : AppCompatActivity() {
     lateinit var liProfileInfo: LIProfileInfo
     lateinit var mAuth: FirebaseAuth
+    val profileUpdates = UserProfileChangeRequest.Builder()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +30,8 @@ abstract class LoginActivity : AppCompatActivity() {
             startActivity(Intent(this, TabActivity :: class.java))
         }
     }
+
+    abstract fun getProgressBar(): ProgressBar
 
     fun handleLogin(email: String, password: String, isNewUser: Boolean, isLIUser: Boolean) {
         getMyPreferences().setIsNewUser(isNewUser)
@@ -66,13 +71,16 @@ abstract class LoginActivity : AppCompatActivity() {
         }
     }
 
+    fun setNewUserData(displayName: String, photoUri: String) {
+        profileUpdates.setDisplayName(displayName)
+        profileUpdates.setPhotoUri(Uri.parse(photoUri))
+    }
+
     private fun inicializeApis() {
         mAuth = FirebaseAuth.getInstance()
     }
 
-    fun getMyPreferences(): MyPreferences {
+    private fun getMyPreferences(): MyPreferences {
         return StoreBox.create(applicationContext, MyPreferences::class.java)
     }
-
-    abstract fun getProgressBar(): ProgressBar
 }

@@ -16,6 +16,7 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.widget.*
+import ufg.go.br.recrutame.adapter.ItemFilterAdapter
 
 class SettingsFragment : BaseFragment(), View.OnClickListener {
     private lateinit var maximumDistanceSlider: FluidSlider

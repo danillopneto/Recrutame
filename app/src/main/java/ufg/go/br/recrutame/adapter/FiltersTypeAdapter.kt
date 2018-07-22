@@ -1,4 +1,4 @@
-package ufg.go.br.recrutame.model
+package ufg.go.br.recrutame.adapter
 
 import android.support.annotation.Nullable
 import com.google.gson.reflect.TypeToken
