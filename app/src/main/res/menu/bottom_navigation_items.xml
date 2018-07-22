@@ -12,7 +12,7 @@
         android:title=""/>
     <item
         android:id="@+id/action_profile"
-        android:icon="@drawable/ic_person_outline"
+        android:icon="@drawable/custom_icon_user"
         android:title=""/>
     <item
         android:id="@+id/action_settings"

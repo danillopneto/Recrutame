@@ -12,12 +12,15 @@ import com.mindorks.placeholderview.SwipeViewBuilder
 import ufg.go.br.recrutame.Util.JobUtils
 import android.R.attr.y
 import android.graphics.Path
+import android.media.Image
 import android.support.constraint.Constraints.TAG
 import android.util.Log
 import android.view.*
 import ufg.go.br.recrutame.Util.Utils
 import android.view.GestureDetector
 import android.widget.Button
+import android.content.Intent
+import ufg.go.br.recrutame.JobDetailActivity
 
 
 class JobFragment : BaseFragment(){
@@ -50,14 +53,14 @@ class JobFragment : BaseFragment(){
         }
 
         var rejectBtn: ImageButton = rootView.findViewById(R.id.rejectBtn);
-        rejectBtn.setOnClickListener(View.OnClickListener(function = {
+        rejectBtn.setOnClickListener({
             mSwipeView.doSwipe(false)
-        }))
+        })
 
         var acceptBtn:ImageButton = rootView.findViewById(R.id.acceptBtn);
-        acceptBtn.setOnClickListener(View.OnClickListener(function = {
+        acceptBtn.setOnClickListener({
             mSwipeView.doSwipe(true)
-        }))
+        })
 
         return rootView
     }

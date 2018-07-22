@@ -27,6 +27,8 @@ class TabActivity : AppCompatActivity() {
         val bottonNavigationView: BottomNavigationViewEx = findViewById(R.id.navigation)
         bottonNavigationView.setIconSize(27f,27f)
         bottonNavigationView.setTextVisibility(false)
+        bottonNavigationView.enableItemShiftingMode(false)
+        bottonNavigationView.enableShiftingMode(false)
         bottonNavigationView.currentItem = 0
         bottonNavigationView.setOnNavigationItemSelectedListener(object: BottomNavigationView.OnNavigationItemSelectedListener{
             override fun onNavigationItemSelected(item: MenuItem): Boolean {

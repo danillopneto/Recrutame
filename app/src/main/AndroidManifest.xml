@@ -25,6 +25,7 @@
             android:label="ProfileActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".ForgotPasswordActivity"></activity>
+        <activity android:name=".JobDetailActivity"></activity>
     </application>
 
 </manifest>
