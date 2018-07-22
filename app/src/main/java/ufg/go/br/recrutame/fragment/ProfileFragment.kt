@@ -179,7 +179,7 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
                     Idioma.text.toString(),
                     "")
 
-            userDao.update(user)
+            userDao.update(user = user)
           //  val cpf = this!!.findViewById<EditText>(R.id.Cpf)
             Cpf.addTextChangedListener(Mask.mask("###.###.###-##", Cpf))
             showSnackFeedback("Atualizado com sucesso!",false)
@@ -244,7 +244,15 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
                     Idioma.text.toString(),
                     "")
 
-            userDao.add(user)
+            try {
+                userDao.add(user)
+            }catch (e: Exception){
+                userDao.update(user = user)
+            }
+
+
+
+
 
             Toast.makeText( context , ""+user.toString(), Toast.LENGTH_LONG).show()
             Log.d("Inserirdo", user.toString());
@@ -252,6 +260,7 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
         }catch (e: Exception){
             Toast.makeText(context, ""+e.message, Toast.LENGTH_LONG).show()
             Log.d("Erro ao buscar", e.toString());
+
         }
 
 
