@@ -48,12 +48,12 @@ class JobFragment : Fragment(){
             mSwipeView.addView(JobCard(rootView.context, job, mSwipeView))
         }
 
-        var rejectBtn: Button = rootView.findViewById(R.id.rejectBtn);
+        var rejectBtn: ImageButton = rootView.findViewById(R.id.rejectBtn);
         rejectBtn.setOnClickListener(View.OnClickListener(function = {
             mSwipeView.doSwipe(false)
         }))
 
-        var acceptBtn:Button = rootView.findViewById(R.id.acceptBtn);
+        var acceptBtn:ImageButton = rootView.findViewById(R.id.acceptBtn);
         acceptBtn.setOnClickListener(View.OnClickListener(function = {
             mSwipeView.doSwipe(true)
         }))
