@@ -7,19 +7,21 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.Toast
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.ramotion.fluidslider.FluidSlider
 import ufg.go.br.recrutame.*
-import android.widget.EditText
-import android.widget.TextView
 import com.google.firebase.auth.EmailAuthProvider
-
+import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.DividerItemDecoration
+import android.support.v7.widget.LinearLayoutManager
+import android.widget.*
 
 class SettingsFragment : BaseFragment(), View.OnClickListener {
     private lateinit var maximumDistanceSlider: FluidSlider
+    private lateinit var mRecyclerView: RecyclerView
+    private lateinit var mAdapter: ItemFilterAdapter
+    private lateinit var newFilterTxt: TextView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -31,6 +33,7 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when (v?.id) {
+            R.id.addFilterBtn -> handleAddFilter()
             R.id.deleteAccountBtn -> handleDeleteAccount()
             R.id.logoutBtn -> handleLogout()
         }
@@ -75,6 +78,11 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
         } else {
             Toast.makeText(context, getString(R.string.no_user_found), Toast.LENGTH_LONG).show()
         }
+    }
+
+    private fun handleAddFilter() {
+        mAdapter.updateList(newFilterTxt.text.toString())
+        newFilterTxt.text = ""
     }
 
     private fun handleDeleteAccount() {
@@ -125,11 +133,16 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
     }
 
     private fun inicializeControls(view: View) {
+        newFilterTxt = view.findViewById(R.id.newFilterTxt)
+
+        setupRecycler(view)
+
         maximumDistanceSlider = view.findViewById(R.id.maximumDistanceSlider)
         val distance = getMyPreferences().getMaximumDistance().toFloat()
         maximumDistanceSlider.position = distance
         maximumDistanceSlider.positionListener = { p -> getMyPreferences().setMaximumDistance(p.toString()) }
 
+        view.findViewById<ImageButton>(R.id.addFilterBtn).setOnClickListener(this)
         view.findViewById<Button>(R.id.deleteAccountBtn).setOnClickListener(this)
         view.findViewById<Button>(R.id.logoutBtn).setOnClickListener(this)
     }
@@ -140,5 +153,19 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
         activity!!.finishAffinity()
         val intent = Intent(activity!!.application, MainActivity::class.java)
         startActivity(intent)
+    }
+
+    private fun setupRecycler(view: View) {
+        mRecyclerView = view.findViewById(R.id.recyclerFilterItems)
+
+        val layoutManager = LinearLayoutManager(context)
+        mRecyclerView.layoutManager = layoutManager
+
+        val list: MutableList<String> = mutableListOf()
+
+        mAdapter = ItemFilterAdapter(list)
+        mRecyclerView.adapter = mAdapter
+
+        mRecyclerView.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
     }
 }

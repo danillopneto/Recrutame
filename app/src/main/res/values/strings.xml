@@ -44,6 +44,7 @@
     <string name="really_delete_account">Deseja realmente deletar a sua conta?</string>
     <string name="no_user_yet">Ainda não tem uma conta? Registre-se aqui.</string>
     <string name="really_logout">Deseja realmente sair?</string>
+    <string name="fill_filters">Cadastre aqui os filtros para a busca das vagas desejadas</string>
     <string-array name="nivel">
         <item>Profissional</item>
         <item>Superior</item>

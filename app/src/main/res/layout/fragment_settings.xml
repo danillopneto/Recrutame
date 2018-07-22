@@ -4,19 +4,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="20dp"
+    android:paddingTop="20dp"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:paddingBottom="10dp"
+    android:background="@color/grey_200"
     tools:context=".fragment.SettingsFragment">
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <RelativeLayout
-            android:id="@+id/settingContainer"
             android:padding="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/background_rounded">
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:background="@color/white">
             <TextView
                 android:id="@+id/maximumDistanceLabel"
                 android:layout_width="wrap_content"
@@ -24,7 +28,7 @@
                 android:text="@string/maximum_distance"
                 android:layout_alignParentTop="true"
                 android:textStyle="bold"
-                android:textColor="@color/white"
+                android:textColor="@color/colorAccent"
                 android:layout_alignParentStart="true" />
 
             <TextView
@@ -34,7 +38,7 @@
                 android:text="@string/distance"
                 android:layout_alignParentTop="true"
                 android:textStyle="bold"
-                android:textColor="@color/white"
+                android:textColor="@color/colorAccent"
                 android:layout_alignParentEnd="true" />
 
             <com.ramotion.fluidslider.FluidSlider
@@ -47,40 +51,83 @@
 
         </RelativeLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:padding="10dp"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical"
+            android:background="@color/white">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/fill_filters"
+                android:textStyle="bold"
+                android:textColor="@color/colorAccent" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <EditText
+                    android:id="@+id/newFilterTxt"
+                    android:layout_weight="0.8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="Ex: Analista, Recepcionista"
+                    android:textColorHint="@color/startBlue"
+                    android:textColor="@color/startBlue"
+                    android:textSize="11sp" />
+
+                <ImageButton
+                    android:id="@+id/addFilterBtn"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:background="@drawable/ic_add"
+                    android:layout_marginLeft="10dp"
+                    android:backgroundTint="@color/startBlue"
+                    android:layout_gravity="center_vertical"/>
+            </LinearLayout>
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="130dp"
+                android:layout_marginTop="10dp"
+                android:scrollbars="vertical">
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerFilterItems"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:listitem="@layout/item_filter" >
+
+                </android.support.v7.widget.RecyclerView>
+            </ScrollView>
+        </LinearLayout>
+
     </LinearLayout>
 
     <Button
         android:id="@+id/logoutBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="5dp"
         android:background="@drawable/background_login"
         android:text="@string/logout"
         android:textAllCaps="false"
         android:textColor="@color/startBlue"
         android:textSize="18sp"
-        android:layout_above="@+id/appLogo" />
-
-    <ImageView
-        android:id="@+id/appLogo"
-        android:layout_width="150dp"
-        android:layout_height="100dp"
-        android:src="@drawable/icon"
-        android:tint="@color/blue_grey_800"
-        android:layout_centerHorizontal="true"
         android:layout_above="@+id/deleteAccountBtn" />
 
     <Button
         android:id="@+id/deleteAccountBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         android:background="@drawable/background_login"
         android:text="@string/deleteAccount"
         android:textAllCaps="false"
         android:textColor="@color/red_A700"
         android:layout_alignParentBottom="true"
         android:textSize="18sp"/>
-
 </RelativeLayout>
