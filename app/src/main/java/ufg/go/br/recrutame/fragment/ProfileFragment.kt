@@ -30,10 +30,13 @@ private lateinit var userDao: UserDao
 class ProfileFragment : BaseFragment(), View.OnClickListener  {
     private lateinit var mProfileImage: CircleImageView
 
+
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         inicializeApis()
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
-        inicializeControls(view)
+
+
 
         //  userDb = AppDb.getInstance(this)
 
@@ -45,15 +48,15 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
 
 
 
-     //  val prefs = application.getSharedPreferences(
-     //           BuildConfig.APPLICATION_ID, Context.MODE_PRIVATE)
+        //  val prefs = application.getSharedPreferences(
+        //           BuildConfig.APPLICATION_ID, Context.MODE_PRIVATE)
 
-      //  val email =  prefs.getString("oauth.accesstoken", "")
-    //    val email2 =  prefs.getString("OAUTH_LOGGEDIN", "")
+        //  val email =  prefs.getString("oauth.accesstoken", "")
+        //    val email2 =  prefs.getString("OAUTH_LOGGEDIN", "")
 
 
 
-      //  Toast.makeText(this, "Login: "+email+""+email2+""+ FirebaseAuth.getInstance().currentUser.toString(), Toast.LENGTH_LONG).show()
+        //  Toast.makeText(this, "Login: "+email+""+email2+""+ FirebaseAuth.getInstance().currentUser.toString(), Toast.LENGTH_LONG).show()
 
 
 
@@ -70,6 +73,7 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
 
 
 
+        inicializeControls(view)
 
 
 
@@ -92,7 +96,41 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
             // carrega perfil se existir cadastro
             nome.setText(user.displayName)
             email.setText(user.email)
-            handlePerfil(user.email.toString())
+            handlePerfil(user.email!!)
+
+            val dataNascimento = view.findViewById<EditText>(R.id.DataNascimento)
+            val nacionalidade = view.findViewById<EditText>(R.id.Nacionalidade)
+            val cpf = view.findViewById<EditText>(R.id.Cpf)
+            val telefonefixo = view.findViewById<EditText>(R.id.Telefonefixo)
+            val telefonecelular = view.findViewById<EditText>(R.id.Telefonecelular)
+            val area_Atuacao = view.findViewById<EditText>(R.id.Area_Atuacao)
+            val periodo = view.findViewById<EditText>(R.id.Periodo)
+            val instituicao = view.findViewById<EditText>(R.id.Instituicao)
+            val empresas = view.findViewById<EditText>(R.id.Empresas)
+            val cargo = view.findViewById<EditText>(R.id.Cargo)
+            val periodocargo = view.findViewById<EditText>(R.id.Periodocargo)
+            val atividades_Desenvolvidas = view.findViewById<EditText>(R.id.Atividades_Desenvolvidas)
+            val idioma = view.findViewById<EditText>(R.id.Idioma)
+
+            var users = userDao.getUserEmail(user.email!!)
+
+            nome.setText(users.nome)
+            dataNascimento.setText(users.dataNascimento.toString())
+            nacionalidade.setText(users.nacionalidade)
+            cpf.setText(users.cpf)
+            telefonefixo.setText(users.telefonefixo.toString())
+            telefonecelular.setText(users.telefonecelular.toString())
+            email.setText(users.email)
+            area_Atuacao.setText(users.areaatuacao)
+            periodo.setText(users.periodoatuacao)
+            instituicao.setText(users.instituicao)
+            empresas.setText(users.empresa)
+            cargo.setText(users.cargo)
+            periodocargo.setText(users.periodocargo)
+            atividades_Desenvolvidas.setText(users.atividadesdesenvolvidas)
+            idioma.setText("Idioma setado")
+
+
         }
 
         val cpf = view.findViewById<EditText>(R.id.Cpf)
@@ -179,7 +217,7 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
                     "")
 
             userDao.update(user = user)
-          //  val cpf = this!!.findViewById<EditText>(R.id.Cpf)
+            //  val cpf = this!!.findViewById<EditText>(R.id.Cpf)
             Cpf.addTextChangedListener(Mask.mask("###.###.###-##", Cpf))
             showSnackFeedback("Atualizado com sucesso!",false)
 
@@ -200,6 +238,14 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
         //   val cpf = view.findViewById<EditText>(R.id.Cpf)
 
         //  cpf.addTextChangedListener(Mask.mask("###.###.###-##", cpf))
+
+        try {
+            Log.d("Log do perfil", ""+userDao.getUserEmail(email));
+
+        }catch (e: Exception){
+
+        }
+
 
         try {
             Nome.setText(userDao.getUserEmail(email)?.nome.toString())
@@ -226,9 +272,9 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
 
     private fun handleResult() {
 
-     //   val cpf = view.findViewById<EditText>(R.id.Cpf)
+        //   val cpf = view.findViewById<EditText>(R.id.Cpf)
 
-      //  cpf.addTextChangedListener(Mask.mask("###.###.###-##", cpf))
+        //  cpf.addTextChangedListener(Mask.mask("###.###.###-##", cpf))
 
         try {
             Nome.setText(userDao.getById(1)?.nome.toString())
@@ -280,9 +326,6 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
             }
 
 
-
-
-
             Toast.makeText( context , ""+user.toString(), Toast.LENGTH_LONG).show()
             Log.d("Inserirdo", user.toString());
 
@@ -326,17 +369,14 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
                     ""+ data[i].nivel_idioma + "\n"
             )
         }
-
        val user = User(1, data[0].nome, data[0].dataNascimento, data[0].cpf, data[0].sexo, data[0].nacionalidade,
                 data[0].telefonefixo, data[0].telefonecelular, data[0].email, data[0].areaatuacao,
                 data[0].periodoatuacao, data[0].instituicao, data[0].empresa, data[0].cargo,
                 data[0].periodocargo, data[0].atividadesdesenvolvidas, data[0].idioma, data[0].nivel_idioma )
-
         Nome.setText(data[0].nome)
         DataNascimento.setText(data[0].dataNascimento.toString())
         Sexo.setText(data[0].sexo)
         Nacionalidade.setText(data[0].nacionalidade)
-
         */
 
 */
