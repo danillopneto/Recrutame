@@ -53,10 +53,10 @@ class LILoginActivity : LoginActivity() {
                     val client = ServiceGenerator(LI_BASE_URL).createService(LIService::class.java)
                     val call = client.getNewAccessToken(access_token)
 
-                    progressBar.visibility = View.VISIBLE
+                    progressBar?.visibility = View.VISIBLE
                     call.enqueue(object : Callback<LIAccessToken> {
                         override fun onResponse(call: Call<LIAccessToken>, response: Response<LIAccessToken>) {
-                            progressBar.visibility = View.INVISIBLE
+                            progressBar?.visibility = View.INVISIBLE
                             val statusCode = response.code()
                             if (statusCode == 200) {
                                 val token = response.body()
@@ -74,7 +74,7 @@ class LILoginActivity : LoginActivity() {
                     finish()
                 }  else if (url.contains("?error")) {
                     Toast.makeText(applicationContext, getString(R.string.linkedin_login_failed), Toast.LENGTH_SHORT).show()
-                    progressBar.visibility = View.INVISIBLE
+                    progressBar?.visibility = View.INVISIBLE
                 }
             }
 
@@ -91,10 +91,10 @@ class LILoginActivity : LoginActivity() {
             map["Authorization"] = "Bearer $token"
             val call = client.getUserInfo(map)
 
-            progressBar.visibility = View.VISIBLE
+            progressBar?.visibility = View.VISIBLE
             call.enqueue(object : Callback<LIProfileInfo> {
                 override fun onResponse(call: Call<LIProfileInfo>, response: Response<LIProfileInfo>) {
-                    progressBar.visibility = View.INVISIBLE
+                    progressBar?.visibility = View.INVISIBLE
                     val statusCode = response.code()
                     if (statusCode == 200) {
                         liProfileInfo = response.body()!!
@@ -114,14 +114,14 @@ class LILoginActivity : LoginActivity() {
     }
 
     private fun handleFirebaseLogin(email: String) {
-        progressBar.visibility = View.VISIBLE
+        progressBar?.visibility = View.VISIBLE
         mAuth.fetchProvidersForEmail(email).addOnCompleteListener(this) { task ->
             if (task.isSuccessful) {
                 if (task.result.providers!!.size > 0) {
                     handleLogin(email, LINKEDIN_PASSWORD, false, true)
                 } else {
                     mAuth.createUserWithEmailAndPassword(email, LINKEDIN_PASSWORD).addOnCompleteListener(this) { task ->
-                        progressBar.visibility = View.INVISIBLE
+                        progressBar?.visibility = View.INVISIBLE
                         if (task.isSuccessful) {
                             mAuth.currentUser?.updateProfile(profileUpdates.build())
                             handleLogin(email, LINKEDIN_PASSWORD, true, true)
@@ -132,7 +132,7 @@ class LILoginActivity : LoginActivity() {
                 }
             } else {
                 Toast.makeText(this, getString(R.string.login_failed), Toast.LENGTH_LONG).show()
-                progressBar.visibility = View.INVISIBLE
+                progressBar?.visibility = View.INVISIBLE
             }
         }
     }

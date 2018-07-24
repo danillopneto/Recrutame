@@ -38,9 +38,9 @@ class RegisterActivity : LoginActivity(), View.OnClickListener {
     }
 
     private fun registerUser(email: String, password: String) {
-        mActionButton.startAnimation()
+        mActionButton?.startAnimation()
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this) { task ->
-            mActionButton.revertAnimation()
+            mActionButton?.revertAnimation()
             if (!task.isSuccessful) {
                 try {
                     throw task.exception!!
