@@ -23,8 +23,8 @@ import ufg.go.br.recrutame.model.MyPreferences
 abstract class LoginActivity : AppCompatActivity() {
     lateinit var liProfileInfo: LIProfileInfo
     lateinit var mAuth: FirebaseAuth
-    lateinit var mActionButton: CircularProgressButton
-    lateinit var progressBar: ProgressBar
+    var mActionButton: CircularProgressButton? = null
+    var progressBar: ProgressBar? = null
     val profileUpdates = UserProfileChangeRequest.Builder()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,7 +37,7 @@ abstract class LoginActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        mActionButton.dispose()
+        mActionButton?.dispose()
     }
 
     fun handleLogin(email: String, password: String, isNewUser: Boolean, isLIUser: Boolean) {
@@ -93,17 +93,17 @@ abstract class LoginActivity : AppCompatActivity() {
 
     private fun hideLoading() {
         if (mActionButton != null) {
-            mActionButton.revertAnimation()
+            mActionButton?.revertAnimation()
         } else if (progressBar != null) {
-            progressBar.visibility = View.INVISIBLE
+            progressBar?.visibility = View.INVISIBLE
         }
     }
 
     private fun showLoading() {
         if (mActionButton != null) {
-            mActionButton.startAnimation()
+            mActionButton?.startAnimation()
         } else if (progressBar != null) {
-            progressBar.visibility = View.VISIBLE
+            progressBar?.visibility = View.VISIBLE
         }
     }
 }
