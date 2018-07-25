@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import com.jaredrummler.materialspinner.MaterialSpinner
@@ -112,12 +113,17 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
             val atividades_Desenvolvidas = view.findViewById<EditText>(R.id.Atividades_Desenvolvidas)
             val idioma = view.findViewById<EditText>(R.id.Idioma)
 
+            val nivel_idioma = view.findViewById<MaterialSpinner>(R.id.Nivel_Idioma)
+            val sexo = view.findViewById<MaterialSpinner>(R.id.Sexo)
+
+
             var users = userDao.getUserEmail(user.email!!)
 
             nome.setText(users.nome)
             dataNascimento.setText(users.dataNascimento.toString())
             nacionalidade.setText(users.nacionalidade)
             cpf.setText(users.cpf)
+            sexo.setText(users.sexo)
             telefonefixo.setText(users.telefonefixo.toString())
             telefonecelular.setText(users.telefonecelular.toString())
             email.setText(users.email)
@@ -128,8 +134,8 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
             cargo.setText(users.cargo)
             periodocargo.setText(users.periodocargo)
             atividades_Desenvolvidas.setText(users.atividadesdesenvolvidas)
-            idioma.setText("Idioma setado")
-
+            idioma.setText(users.idioma)
+            nivel_idioma.setText(users.nivel_idioma)
 
         }
 
@@ -214,7 +220,7 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
                     Periodocargo.text.toString(),
                     Atividades_Desenvolvidas.text.toString(),
                     Idioma.text.toString(),
-                    "")
+                    Nivel_Idioma.text.toString())
 
             userDao.update(user = user)
             //  val cpf = this!!.findViewById<EditText>(R.id.Cpf)
@@ -253,6 +259,7 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
             Sexo.setText(userDao.getUserEmail(email)?.sexo.toString())
             Nacionalidade.setText(userDao.getUserEmail(email)?.nacionalidade.toString())
             Cpf.setText(userDao.getUserEmail(email)?.cpf.toString())
+            Sexo.setText(userDao.getUserEmail(email)?.sexo.toString())
             Telefonefixo.setText(userDao.getUserEmail(email)?.telefonefixo.toString())
             Telefonecelular.setText(userDao.getUserEmail(email)?.telefonecelular.toString())
             Email.setText(userDao.getUserEmail(email)?.email.toString())
@@ -293,6 +300,7 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
             Periodocargo.setText(userDao.getById(1)?.periodocargo.toString())
             Atividades_Desenvolvidas.setText(userDao.getById(1)?.atividadesdesenvolvidas.toString())
             Idioma.setText(userDao.getById(1)?.idioma.toString())
+            Nivel_Idioma.setText(userDao.getById(1)?.nivel_idioma.toString())
 
         }catch (e: Exception){
             showSnackFeedback("Não existe cadastro",false)
@@ -317,13 +325,14 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
                     Periodocargo.text.toString(),
                     Atividades_Desenvolvidas.text.toString(),
                     Idioma.text.toString(),
-                    "")
+                    Nivel_Idioma.text.toString())
 
             try {
                 userDao.add(user)
             }catch (e: Exception){
                 userDao.update(user = user)
             }
+
 
 
             Toast.makeText( context , ""+user.toString(), Toast.LENGTH_LONG).show()
