@@ -30,8 +30,21 @@
             android:paddingEnd="20dp"
             android:paddingStart="0dp">
 
-            <android.support.design.widget.FloatingActionButton
+            <com.sackcentury.shinebuttonlib.ShineButton
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_gravity="center"
+                android:layout_centerInParent="true"
+                android:src="@android:color/darker_gray"
                 android:id="@+id/rejectBtn"
+                app:btn_color="@android:color/darker_gray"
+                app:btn_fill_color="@android:color/holo_red_dark"
+                app:allow_random_color="false"
+                android:elevation="4dp"
+                app:siShape="@drawable/dislike"/>
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/rejectBtnBackup"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
                 android:layout_gravity="center"
@@ -41,6 +54,7 @@
                 android:src="@drawable/ic_ignore_2"
                 android:tint="@color/red"
                 app:borderWidth="0dp"
+                android:visibility="gone"
                 app:elevation="4dp" />
         </LinearLayout>
 
@@ -53,8 +67,21 @@
             android:paddingEnd="0dp"
             android:paddingStart="20dp">
 
-            <android.support.design.widget.FloatingActionButton
+            <com.sackcentury.shinebuttonlib.ShineButton
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_gravity="center"
+                android:layout_centerInParent="true"
+                android:src="@android:color/darker_gray"
                 android:id="@+id/acceptBtn"
+                app:btn_color="@android:color/darker_gray"
+                app:btn_fill_color="@android:color/holo_green_dark"
+                app:allow_random_color="false"
+                android:elevation="4dp"
+                app:siShape="@drawable/like"/>
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/acceptBtnBackup"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
                 android:layout_gravity="center"
@@ -64,6 +91,7 @@
                 android:src="@drawable/ic_apply_1"
                 android:tint="@color/colorPrimary"
                 app:borderWidth="0dp"
+                android:visibility="gone"
                 app:elevation="4dp" />
         </LinearLayout>
 

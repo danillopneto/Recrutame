@@ -63,6 +63,8 @@ dependencies {
     implementation 'com.ramotion.fluidslider:fluid-slider:0.3.0'
     implementation 'net.orange-box.storebox:storebox-lib:1.4.0'
     implementation 'br.com.simplepass:loading-button-android:1.14.0'
+
+    implementation 'com.sackcentury:shinebutton:0.2.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

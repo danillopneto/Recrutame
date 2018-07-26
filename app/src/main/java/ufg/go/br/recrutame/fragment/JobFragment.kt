@@ -20,6 +20,7 @@ import ufg.go.br.recrutame.Util.Utils
 import android.view.GestureDetector
 import android.widget.Button
 import android.content.Intent
+import com.sackcentury.shinebuttonlib.ShineButton
 import ufg.go.br.recrutame.JobDetailActivity
 
 
@@ -52,15 +53,18 @@ class JobFragment : BaseFragment(){
             mSwipeView.addView(JobCard(rootView.context, job, mSwipeView))
         }
 
-        var rejectBtn: ImageButton = rootView.findViewById(R.id.rejectBtn);
-        rejectBtn.setOnClickListener({
+        var rejectBtn: ShineButton = rootView.findViewById(R.id.rejectBtn)
+        rejectBtn.setOnClickListener {
             mSwipeView.doSwipe(false)
-        })
+            rejectBtn.isChecked = false
+        }
 
-        var acceptBtn:ImageButton = rootView.findViewById(R.id.acceptBtn);
-        acceptBtn.setOnClickListener({
+
+        var acceptBtn: ShineButton = rootView.findViewById(R.id.acceptBtn)
+        acceptBtn.setOnClickListener {
             mSwipeView.doSwipe(true)
-        })
+            acceptBtn.isChecked = false
+        }
 
         return rootView
     }
