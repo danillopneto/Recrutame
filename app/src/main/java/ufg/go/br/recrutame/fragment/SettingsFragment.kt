@@ -18,6 +18,7 @@ import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
 import android.widget.*
+import ufg.go.br.recrutame.Util.Utils
 import ufg.go.br.recrutame.adapter.ItemFilterAdapter
 
 class SettingsFragment : BaseFragment(), View.OnClickListener {
@@ -84,10 +85,10 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
     }
 
     private fun handleAddFilter() {
-        if (TextUtils.isEmpty(newFilterTxt.text)) {
+        if (Utils.isNullOrWhiteSpace(newFilterTxt.text.toString())) {
             Toast.makeText(context, getString(R.string.insert_filter_term), Toast.LENGTH_SHORT).show()
         } else {
-            mAdapter.updateList(newFilterTxt.text.toString())
+            mAdapter.updateList(newFilterTxt.text.toString().trim())
             newFilterTxt.text = ""
         }
     }

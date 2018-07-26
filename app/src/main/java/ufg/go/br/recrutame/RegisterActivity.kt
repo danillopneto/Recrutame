@@ -10,6 +10,7 @@ import kotlinx.android.synthetic.main.activity_register.*
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
+import ufg.go.br.recrutame.Util.Utils
 
 class RegisterActivity : LoginActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,9 +63,9 @@ class RegisterActivity : LoginActivity(), View.OnClickListener {
     }
 
     private fun validateForm(): Boolean {
-        return if (!TextUtils.isEmpty(mEmailTxt.text)
-                && !TextUtils.isEmpty(mPasswordTxt.text)
-                && !TextUtils.isEmpty(mConfirmPasswordTxt.text)) {
+        return if (!Utils.isNullOrWhiteSpace(mEmailTxt.text.toString())
+                && !Utils.isNullOrWhiteSpace(mPasswordTxt.text.toString())
+                && !Utils.isNullOrWhiteSpace(mConfirmPasswordTxt.text.toString())) {
             if (mPasswordTxt.text.toString() == mConfirmPasswordTxt.text.toString()) {
                 true
             } else {

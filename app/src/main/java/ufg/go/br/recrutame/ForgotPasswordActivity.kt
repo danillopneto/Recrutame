@@ -12,6 +12,7 @@ import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
+import ufg.go.br.recrutame.Util.Utils
 
 class ForgotPasswordActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var mAuth: FirebaseAuth
@@ -67,7 +68,7 @@ class ForgotPasswordActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun validateForm(email: String): Boolean {
-        if (TextUtils.isEmpty(email)) {
+        if (Utils.isNullOrWhiteSpace(email)) {
             Toast.makeText(applicationContext, getString(R.string.type_email_address), Toast.LENGTH_SHORT).show()
             return false
         }

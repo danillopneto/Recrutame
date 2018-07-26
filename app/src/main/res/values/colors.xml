@@ -13,4 +13,5 @@
     <color name="red">#ff0000</color>
     <color name="startBlue">#3a7bd5</color>
     <color name="endBlue">#3a6073</color>
+    <color name="primaryColor">@color/purple_900</color>
 </resources>

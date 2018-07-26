@@ -87,7 +87,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
                     android:text="description"
-                    android:textColor="@color/startBlue"
+                    android:textColor="@color/primaryColor"
                     android:textSize="14sp"
                     android:textStyle="normal" />
             </LinearLayout>
@@ -146,7 +146,7 @@
                         android:gravity="left|center_vertical"
                         android:paddingLeft="2dp"
                         android:text="CLT"
-                        android:textColor="@color/startBlue"
+                        android:textColor="@color/primaryColor"
                         android:textStyle="normal" />
                 </LinearLayout>
 
@@ -175,7 +175,7 @@
                         android:gravity="left|center_vertical"
                         android:paddingLeft="2dp"
                         android:text="Goiânia"
-                        android:textColor="@color/startBlue"
+                        android:textColor="@color/primaryColor"
                         android:textStyle="normal" />
                 </LinearLayout>
 
@@ -202,7 +202,7 @@
                         android:gravity="left|center_vertical"
                         android:paddingLeft="2dp"
                         android:text="R$ 1.000,00"
-                        android:textColor="@color/startBlue"
+                        android:textColor="@color/primaryColor"
                         android:textStyle="normal" />
                 </LinearLayout>
             </LinearLayout>

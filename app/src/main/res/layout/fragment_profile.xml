@@ -44,7 +44,7 @@
             app:met_floatingLabel="highlight"
             app:met_maxCharacters="80"
             app:met_singleLineEllipsis="true"
-            app:met_underlineColor="@color/startBlue"
+            app:met_underlineColor="@color/primaryColor"
             app:met_helperText="Ex: João da Silva Sauro"
             app:met_baseColor="@color/cardview_shadow_end_color"
             app:met_primaryColor="@color/endBlue"

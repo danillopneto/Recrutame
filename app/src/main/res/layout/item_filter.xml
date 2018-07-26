@@ -8,7 +8,7 @@
             android:id="@+id/filterItemTxt"
             android:layout_weight="0.8"
             android:layout_height="30dp"
-            android:textColor="@color/startBlue"
+            android:textColor="@color/primaryColor"
             android:textSize="11sp"
             android:layout_width="wrap_content"
             android:layout_marginStart="10dp"
@@ -21,6 +21,6 @@
             android:layout_height="24dp"
             android:background="@drawable/ic_delete"
             android:layout_marginLeft="10dp"
-            android:backgroundTint="@color/startBlue"
+            android:backgroundTint="@color/primaryColor"
             android:layout_gravity="center_vertical"/>
 </LinearLayout>

@@ -31,5 +31,9 @@ class Utils {
             }
 
         }
+
+        fun isNullOrWhiteSpace(value: String) : Boolean {
+            return value == null || value.isEmpty() || value.trim().isEmpty()
+        }
     }
 }

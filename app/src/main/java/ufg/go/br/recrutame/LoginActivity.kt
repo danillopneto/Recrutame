@@ -17,6 +17,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.UserProfileChangeRequest
 import net.orange_box.storebox.StoreBox
+import ufg.go.br.recrutame.Util.Utils
 import ufg.go.br.recrutame.api.model.LIProfileInfo
 import ufg.go.br.recrutame.model.MyPreferences
 
@@ -44,7 +45,7 @@ abstract class LoginActivity : AppCompatActivity() {
         getMyPreferences().setIsNewUser(isNewUser)
         getMyPreferences().setIsLIUser(isLIUser)
         hideKeyboard()
-        if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)) {
+        if (!Utils.isNullOrWhiteSpace(email) && !Utils.isNullOrWhiteSpace(password)) {
             showLoading()
             mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this) { task ->
                 hideLoading()

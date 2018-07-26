@@ -20,7 +20,8 @@
             android:padding="10dp"
             android:layout_width="match_parent"
             android:layout_height="140dp"
-            android:background="@color/white">
+            android:elevation="4dp"
+            android:background="@drawable/background_login">
             <TextView
                 android:id="@+id/maximumDistanceLabel"
                 android:layout_width="wrap_content"
@@ -46,7 +47,7 @@
                 android:layout_below="@+id/maximumDistanceLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:bar_color="@color/startBlue"
+                app:bar_color="@color/primaryColor"
                 app:size="small" />
 
         </RelativeLayout>
@@ -57,7 +58,8 @@
             android:padding="10dp"
             android:layout_marginTop="20dp"
             android:orientation="vertical"
-            android:background="@color/white">
+            android:elevation="10dp"
+            android:background="@drawable/background_login">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -75,8 +77,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="@string/new_filter_hint"
-                    android:textColorHint="@color/startBlue"
-                    android:textColor="@color/startBlue"
+                    android:textColorHint="@color/primaryColor"
+                    android:textColor="@color/primaryColor"
                     android:textSize="11sp" />
 
                 <ImageButton
@@ -85,7 +87,7 @@
                     android:layout_height="24dp"
                     android:background="@drawable/ic_add"
                     android:layout_marginLeft="10dp"
-                    android:backgroundTint="@color/startBlue"
+                    android:backgroundTint="@color/primaryColor"
                     android:layout_gravity="center_vertical"/>
             </LinearLayout>
 
@@ -109,7 +111,7 @@
         android:background="@drawable/background_login"
         android:text="@string/logout"
         android:textAllCaps="false"
-        android:textColor="@color/startBlue"
+        android:textColor="@color/primaryColor"
         android:textSize="18sp"
         android:layout_above="@+id/deleteAccountBtn" />
 

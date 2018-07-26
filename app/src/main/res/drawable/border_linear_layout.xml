@@ -5,9 +5,9 @@
            <!-- <solid android:color="#fff"/>  --> <!-- cor do sólido -->
             <solid android:color="#AAA"/>
 
-            <corners android:radius="11dp"/> <!-- valor do arredondamento das bordas -->
+            <corners android:radius="0dp"/> <!-- valor do arredondamento das bordas -->
             <!-- stroke android:color="#eee" -->
-            <stroke android:color="@color/startBlue"  android:width="2dp"/> <!-- cor da borda e tamanho dela -->
+            <stroke android:color="@color/purple_900"  android:width="0dp"/> <!-- cor da borda e tamanho dela -->
             <padding android:bottom="8dp" android:left="8dp" android:right="8dp" android:top="12dp"/>
 
             <solid

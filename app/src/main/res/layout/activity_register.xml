@@ -84,12 +84,12 @@
             android:layout_marginTop="30dp"
             android:background="@drawable/background_login"
             app:spinning_bar_width="4dp"
-            app:spinning_bar_color="@color/startBlue"
+            app:spinning_bar_color="@color/primaryColor"
             app:spinning_bar_padding="6dp"
             android:text="@string/register"
             android:padding="16dp"
             android:textAllCaps="false"
-            android:textColor="@color/startBlue"
+            android:textColor="@color/primaryColor"
             android:textSize="18sp"/>
     </LinearLayout>
 
