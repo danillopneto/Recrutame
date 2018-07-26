@@ -1,9 +1,13 @@
 package ufg.go.br.recrutame.fragment
 
+import android.annotation.TargetApi
+import android.app.DatePickerDialog
 import android.arch.persistence.room.Room
 import android.content.Context
 import android.content.SharedPreferences
+import android.os.Build
 import android.os.Bundle
+import android.support.annotation.RequiresApi
 import android.support.design.widget.Snackbar
 import android.support.v4.content.ContextCompat
 import android.util.Log
@@ -24,6 +28,7 @@ import ufg.go.br.recrutame.R
 import ufg.go.br.recrutame.Util.Mask
 import ufg.go.br.recrutame.dao.AppDb
 import ufg.go.br.recrutame.dao.UserDao
+import java.util.*
 
 
 private lateinit var userDao: UserDao
@@ -116,6 +121,7 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
             val nivel_idioma = view.findViewById<MaterialSpinner>(R.id.Nivel_Idioma)
             val sexo = view.findViewById<MaterialSpinner>(R.id.Sexo)
 
+            dateNascimento(view)
 
             var users = userDao.getUserEmail(user.email!!)
 
@@ -154,11 +160,11 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
     }
 
 
-
+/*
     fun getSharedPreferences(): SharedPreferences {
         return this.getActivity()!!.getSharedPreferences(BuildConfig.APPLICATION_ID, Context.MODE_PRIVATE)
     }
-
+*/
     fun showSnackFeedback(message : String, isValid : Boolean){
         val snackbar : Snackbar = Snackbar.make(getActivity()!!.findViewById(android.R.id.content), message, Snackbar.LENGTH_SHORT)
         var v : View = snackbar.view
@@ -189,6 +195,21 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
         spinner.setOnItemSelectedListener { view , position , id , item -> Snackbar.make(view , "Selecionado " + item , Snackbar.LENGTH_LONG).show() }
     }
 
+    private fun dateNascimento(view: View){
+
+        val c = Calendar.getInstance()
+        val year = c.get(Calendar.YEAR)
+        val month = c.get(Calendar.MONTH)
+        val day = c.get(Calendar.DAY_OF_MONTH)
+        val nascimento = view.findViewById<EditText>(R.id.DataNascimento)
+
+        nascimento.setOnClickListener{
+            val dpd = DatePickerDialog(context, DatePickerDialog.OnDateSetListener{view, mYear, mMonth, mDay ->
+            nascimento.setText(""+mDay+""+mMonth+""+mYear)
+            },year, month, day )
+            dpd.show()
+        }
+    }
 
 
     override fun onClick(v: View?) {
@@ -333,15 +354,12 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
                 userDao.update(user = user)
             }
 
-
-
             Toast.makeText( context , ""+user.toString(), Toast.LENGTH_LONG).show()
             Log.d("Inserirdo", user.toString());
 
         }catch (e: Exception){
             Toast.makeText(context, ""+e.message, Toast.LENGTH_LONG).show()
             Log.d("Erro ao buscar", e.toString());
-
         }
 
 
