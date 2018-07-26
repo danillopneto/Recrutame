@@ -66,5 +66,80 @@ class Mask{
 
             return textWatcher
         }
+
+        fun date(mask: String , et: EditText): TextWatcher {
+            return object : TextWatcher {
+                internal var isUpdating: Boolean = false
+                internal var oldTxt = ""
+                override fun onTextChanged(
+                        s: CharSequence , start: Int , before: Int , count: Int) {
+                    val str = Mask.unmask(s.toString())
+                    var maskCurrent = ""
+                    if (isUpdating) {
+                        oldTxt = str
+                        isUpdating = false
+                        return
+                    }
+                    var i = 0
+                    for (m in mask.toCharArray()) {
+                        if (m != '#' && str.length > oldTxt.length) {
+                            maskCurrent += m
+                            continue
+                        }
+                        try {
+                            maskCurrent += str[i]
+                        } catch (e: Exception) {
+                            break
+                        }
+
+                        i++
+                    }
+                    isUpdating = true
+                    et.setText(maskCurrent)
+                    et.setSelection(maskCurrent.length)
+                }
+
+                override fun beforeTextChanged(
+                        s: CharSequence , start: Int , count: Int , after: Int) {
+                }
+
+                override fun afterTextChanged(s: Editable) {}
+            }
+        }
+
+        private fun unmask(s: String): String {
+            return s.replace("[.]".toRegex() , "").replace("[-]".toRegex() , "")
+                    .replace("[/]".toRegex() , "").replace("[(]".toRegex() , "")
+                    .replace("[)]".toRegex() , "")
+        }
+
+
+        fun textMask(textoAFormatar: String , mask: String): String {
+            var formatado = ""
+            var i = 0
+            // vamos iterar a mascara, para descobrir quais caracteres vamos adicionar e quando...
+            for (m in mask.toCharArray()) {
+                if (m != '#') { // se não for um #, vamos colocar o caracter informado na máscara
+                    formatado += m
+                    continue
+                }
+                // Senão colocamos o valor que será formatado
+                try {
+                    formatado += textoAFormatar[i]
+                } catch (e: Exception) {
+                    break
+                }
+
+                i++
+            }
+            return formatado
+        }
+
+
+
     }
+
+
+
+
 }

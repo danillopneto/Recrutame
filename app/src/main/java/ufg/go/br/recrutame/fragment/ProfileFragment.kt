@@ -28,6 +28,7 @@ import ufg.go.br.recrutame.R
 import ufg.go.br.recrutame.Util.Mask
 import ufg.go.br.recrutame.dao.AppDb
 import ufg.go.br.recrutame.dao.UserDao
+import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -121,12 +122,17 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
             val nivel_idioma = view.findViewById<MaterialSpinner>(R.id.Nivel_Idioma)
             val sexo = view.findViewById<MaterialSpinner>(R.id.Sexo)
 
-            dateNascimento(view)
+            try {
+                dateNascimento(view)
+            }catch (e: Exception){
+                showSnackFeedback("Erro dateNascimento", false)
+            }
+
 
             var users = userDao.getUserEmail(user.email!!)
 
             nome.setText(users.nome)
-            dataNascimento.setText(users.dataNascimento.toString())
+            dataNascimento.setText( Mask.textMask(users.dataNascimento.toString(), "##/##/####"))
             nacionalidade.setText(users.nacionalidade)
             cpf.setText(users.cpf)
             sexo.setText(users.sexo)
@@ -142,7 +148,6 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
             atividades_Desenvolvidas.setText(users.atividadesdesenvolvidas)
             idioma.setText(users.idioma)
             nivel_idioma.setText(users.nivel_idioma)
-
         }
 
         val cpf = view.findViewById<EditText>(R.id.Cpf)
@@ -202,10 +207,15 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
         val month = c.get(Calendar.MONTH)
         val day = c.get(Calendar.DAY_OF_MONTH)
         val nascimento = view.findViewById<EditText>(R.id.DataNascimento)
-
         nascimento.setOnClickListener{
             val dpd = DatePickerDialog(context, DatePickerDialog.OnDateSetListener{view, mYear, mMonth, mDay ->
-            nascimento.setText(""+mDay+""+mMonth+""+mYear)
+
+            //    val fmt = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+             //   fmt.timeZone = TimeZone.getTimeZone("UTC")
+             //   val result = fmt.parse(""+mDay+""+mMonth+""+mYear)
+
+            nascimento.setText(""+mDay+"/0"+mMonth+"/"+mYear)
+            nascimento.addTextChangedListener(Mask.date("##/##/####", nascimento))
             },year, month, day )
             dpd.show()
         }
@@ -273,7 +283,6 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
 
         }
 
-
         try {
             Nome.setText(userDao.getUserEmail(email)?.nome.toString())
             DataNascimento.setText(userDao.getUserEmail(email)?.dataNascimento.toString())
@@ -294,7 +303,7 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
             Idioma.setText(userDao.getUserEmail(email)?.idioma.toString())
 
         }catch (e: Exception){
-            showSnackFeedback("Não existe cadastro",false)
+           // showSnackFeedback("Não existe cadastro",false)
         }
     }
 
@@ -331,7 +340,7 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
     private fun handleSave() {
         try {
             val user = User(1,Nome.text.toString(),
-                    DataNascimento.text.toString().toInt(),
+                    DataNascimento.text.toString().replace("/", "").toInt(),
                     Cpf.text.toString(),
                     Sexo.text.toString(),
                     Nacionalidade.text.toString(),
