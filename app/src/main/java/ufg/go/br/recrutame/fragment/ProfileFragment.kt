@@ -91,8 +91,10 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
         mProfileImage = view.findViewById(R.id.mProfileImage)
 
         val user = mAuth.currentUser!!
-        if (user.photoUrl != null) {
-            Picasso.get().load(user.photoUrl).into(mProfileImage)
+        mStorageRef.child(getUserPhotoUrl()).downloadUrl.addOnSuccessListener { task ->
+            Picasso.get().load(task).into(mProfileImage)
+        }.addOnFailureListener{
+            Picasso.get().load(R.drawable.user_logo).into(mProfileImage)
         }
 
         if (user.displayName != null) {
@@ -130,6 +132,9 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
 
 
             var users = userDao.getUserEmail(user.email!!)
+            if (users == null) {
+                users = User()
+            }
 
             nome.setText(users.nome)
             dataNascimento.setText( Mask.textMask(users.dataNascimento.toString(), "##/##/####"))

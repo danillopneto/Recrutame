@@ -40,6 +40,7 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
             R.id.addFilterBtn -> handleAddFilter()
             R.id.deleteAccountBtn -> handleDeleteAccount()
             R.id.logoutBtn -> handleLogout()
+            R.id.changePhotoBtn -> chooseImage()
         }
     }
 
@@ -153,6 +154,7 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
         view.findViewById<ImageButton>(R.id.addFilterBtn).setOnClickListener(this)
         view.findViewById<Button>(R.id.deleteAccountBtn).setOnClickListener(this)
         view.findViewById<Button>(R.id.logoutBtn).setOnClickListener(this)
+        view.findViewById<Button>(R.id.changePhotoBtn).setOnClickListener(this)
     }
 
     private fun logout() {
