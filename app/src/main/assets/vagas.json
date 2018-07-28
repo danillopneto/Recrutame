@@ -1,0 +1,180 @@
+{
+  "vagas":{
+    "1": {
+      "title": "Desenvolvedor de software C#",
+      "image": "http://cache.johnchow.com/wp-content/uploads/2016/06/13350258_10157094827670571_330990761978567897_o.jpg",
+      "city": "São Paulo",
+      "state": "SP",  
+      "country": "Brasil",
+      "type": "CLT",
+      "salary": 3000.0,
+      "description": "Desenvolver sistemas web com ASP.NET Core.",
+      "company": "Google" 
+      },
+    "2": {
+      "title": "Desenvolvedor de software Java",
+      "image": "https://icdn2.digitaltrends.com/image/facebook_sign_feat-1500x844.jpg?ver=1",
+      "city": "São Francisco",
+      "state": "CA",  
+      "country": "Estados Unidos",
+      "type": "CLT",
+      "salary": 3000.0,
+      "description": "Desenvolver sistemas web com tecnologia Java.",
+      "company": "Facebook" 
+      },
+    "3": {
+      "title": "Analista de requisitos",
+      "image": "https://www.iag.biz/wp-content/uploads/2016/06/350-Requirements-Management-Services.jpg",
+      "city": "Goiânia",
+      "state": "GO",  
+      "country": "Brasil",
+      "type": "CLT",
+      "salary": 8000.0,
+      "description": "Especificar e definir os requisitos do sistema.",
+      "company": "DataRey" 
+      },
+    "4": {
+      "title": "Analista de sistemas",
+      "image": "https://jobdescriptionshub.com/wp-content/uploads/2017/02/system-analyst.jpg",
+      "city": "Goiânia",
+      "state": "GO",  
+      "country": "Brasil",
+      "type": "CLT",
+      "salary": 5490,
+      "description": "Projetar e desenvolver sistemas para Linux.",
+      "company": "PC Sistemas" 
+      },
+    "5": {
+      "title": "Gerente de loja",
+      "image": "http://2.bp.blogspot.com/-FJWd0my3kvY/Ueflw9aFA3I/AAAAAAAAAJ0/QmxWlxeIRpk/s1600/041209_011.jpg",
+      "city": "Goiânia",
+      "state": "GO",  
+      "country": "Brasil",
+      "type": "CLT",
+      "salary": 6000.0,
+      "description": "Gerenciar a maior loja de produtos naturais de Goi�nia.",
+      "company": "Mundo Verde" 
+      },
+    "6": {
+      "title": "Motorista",
+      "image": "https://thumbs.dreamstime.com/b/professional-driver-putting-her-driving-gloves-woman-chauffeur-uniform-black-leather-59946931.jpg",
+      "city": "Goiânia",
+      "state": "GO",  
+      "country": "Brasil",
+      "type": "PJ",
+      "salary": 4000.0,
+      "description": "Atuar como motorista particular 12h por dia.",
+      "company": "99 POP" 
+      },
+    "7": {
+      "title": "CEO",
+      "image": "https://thumbs.dreamstime.com/b/ceo-looking-city-planning-rear-view-company-large-buildings-his-office-window-d-rendering-mock-up-toned-82642174.jpg",
+      "city": "Goiânia",
+      "state": "GO",  
+      "country": "Brasil",
+      "type": "CLT",
+      "salary": 12600,
+      "description": "Presidir e administrar a empresa",
+      "company": "MVR" 
+      },
+    "8": {
+      "title": "Engenheiro civil",
+      "image": "http://memi.lk/wp-content/uploads/2017/02/eng.jpg",
+      "city": "Goiânia",
+      "state": "GO",  
+      "country": "Brasil",
+      "type": "CLT",
+      "salary": 8000.0,
+      "description": "Projetar prédios",
+      "company": "MVR" 
+      },
+    "9": {
+      "title": "Confeiteiro",
+      "image": "https://www.baressp.com.br/bares/fotos2/benjamin_2-min_051020171658.jpg",
+      "city": "Goiãnia",
+      "state": "GO",  
+      "country": "Brasil",
+      "type": "CLT",
+      "salary": 3000.0,
+      "description": "Produzir pães, roscas, bolos, salgados e doces em geral",
+      "company": "Panificadora Pão de mel" 
+      },
+    "10": {
+      "title": "Desenvolvedor de software C#",
+      "image": "http://cache.johnchow.com/wp-content/uploads/2016/06/13350258_10157094827670571_330990761978567897_o.jpg",
+      "city": "Goiânia",
+      "state": "GO",  
+      "country": "Brasil",
+      "type": "CLT",
+      "salary": 3000.0,
+      "description": "Desenvolver sistemas web com ASP.NET Core.",
+      "company": "Google" 
+      },
+    "11": {
+      "title": "Secretaria executiva",
+      "image": "https://i.pinimg.com/originals/59/c4/f1/59c4f1e30cdfad450217e1e18fb71f5e.jpg",
+      "city": "Goiânia",
+      "state": "GO",  
+      "country": "Brasil",
+      "type": "CLT",
+      "salary": 9000.0,
+      "description": "Assessorar o presidente da empresa, realizar agendamentos dos compromissos e atender investidores internacionais",
+      "company": "BioTech" 
+      },
+    "12": {
+      "title": "Diretor de produção",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/9/90/Trem_da_Vale_com_min%C3%A9rio_de_ferro_na_EFVM_e_BR-381_em_Tim%C3%B3teo_MG.JPG",
+      "city": "Goiânia",
+      "state": "GO",  
+      "country": "Brasil",
+      "type": "CLT",
+      "salary": 12000.0,
+      "description": "Organizar a produção de minério de ferro.",
+      "company": "Vale S/A" 
+      },
+    "13": {
+      "title": "Piloto de avião",
+      "image": "http://www.intercultural.com.br/wp-content/uploads/2017/03/aviao.png",
+      "city": "Goiânia",
+      "state": "GO",  
+      "country": "Brasil",
+      "type": "CLT",
+      "salary": 9000.0,
+      "description": "Pilotar avião",
+      "company": "Latam" 
+      },
+    "14": {
+      "title": "Instrutor",
+      "image": "https://cdn.mobilesyrup.com/wp-content/uploads/2017/11/microsoft-ns-6.jpg",
+      "city": "Goiânia",
+      "state": "GO",  
+      "country": "Brasil",
+      "type": "CLT",
+      "salary": 5200.0,
+      "description": "Instruir os profissionais de TI sobre o uso do Azure.",
+      "company": "Microsoft" 
+      },
+    "15": {
+      "title": "Gerente de conteudo",
+      "image": "https://falauniversidades.com.br/wp-content/uploads/2018/03/fala-universidades-netflix-3.jpg",
+      "city": "Goiânia",
+      "state": "GO",  
+      "country": "Brasil",
+      "type": "CLT",
+      "salary": 7200.0,
+      "description": "Classificar, organizar e monitorar os filmes e séries da Netflix bem como avaliar sua relevância por região.",
+      "company": "NETFLIX" 
+      },
+    "16": {
+      "title": "Gerente de Loja online",
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTZTOqEvEWUz9iHxATscz3UlOvaKQOH8GZkgLNhDvKG2ssDf7vR",
+      "city": "Goiânia",
+      "state": "GO",  
+      "country": "Brasil",
+      "type": "CLT",
+      "salary": 8000.0,
+      "description": "Gerenciar a loja.",
+      "company": "Amazon" 
+      }
+  }
+}

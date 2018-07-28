@@ -1,12 +1,14 @@
 package ufg.go.br.recrutame.model
 
-class JobModel(
-        public var title:String,
-        public var image: String,
-        public var location: String,
-        public var type: String,
-        public var salary: Double,
-        public var description: String,
-        public var company:String) {
-
+class JobModel() {
+    lateinit var key: String
+    lateinit var title:String
+    lateinit var image: String
+    lateinit var city: String
+    lateinit var state: String
+    lateinit var country: String
+    lateinit var type: String
+    var salary: Double = 0.0
+    lateinit var description: String
+    lateinit var company:String
 }

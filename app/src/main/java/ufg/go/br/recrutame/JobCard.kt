@@ -20,7 +20,7 @@ import android.content.Intent
 
 
 @Layout(R.layout.card_view_job)
-class JobCard(private val mContext: Context, private val mJob: JobModel, private val mSwipeView: SwipePlaceHolderView) {
+class JobCard(private val mContext: Context, private val mJob: JobModel?, private val mSwipeView: SwipePlaceHolderView) {
 
     @View(R.id.jobImg)
     private val jobImg: ImageView? = null
@@ -37,14 +37,12 @@ class JobCard(private val mContext: Context, private val mJob: JobModel, private
     @Resolve
     private fun onResolved() {
 
-        Picasso.get().load(mJob.image).into(jobImg);
-        jobTitleTxt!!.setText(mJob.title)
-        jobCompanyTxt!!.setText(mJob.company)
+        Picasso.get().load(mJob?.image).into(jobImg);
+        jobTitleTxt!!.setText(mJob?.title)
+        jobCompanyTxt!!.setText(mJob?.company)
         jobInfoBtn!!.setOnClickListener({
             val intent = Intent(mContext, JobDetailActivity::class.java)
-            intent.putExtra("title", mJob.title)
-            intent.putExtra("company",mJob.company)
-            intent.putExtra("image", mJob.image)
+            intent.putExtra("key", mJob?.key)
             mContext.startActivity(intent)
         })
     }
