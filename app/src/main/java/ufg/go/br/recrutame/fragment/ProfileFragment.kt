@@ -5,9 +5,11 @@ import android.app.DatePickerDialog
 import android.arch.persistence.room.Room
 import android.content.Context
 import android.content.SharedPreferences
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.support.annotation.RequiresApi
+import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.Snackbar
 import android.support.v4.content.ContextCompat
 import android.util.Log
@@ -37,13 +39,15 @@ private lateinit var userDao: UserDao
 class ProfileFragment : BaseFragment(), View.OnClickListener  {
     private lateinit var mProfileImage: CircleImageView
 
-
+    override fun uploadImage(filePath: Uri?, destinationPath: String) {
+        super.uploadImage(filePath, destinationPath)
+        Picasso.get().load(filePath).into(mProfileImage)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         inicializeApis()
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
-
-
+        view.findViewById<FloatingActionButton>(R.id.mChangePictureBtn).setOnClickListener(this)
 
         //  userDb = AppDb.getInstance(this)
 
@@ -233,7 +237,7 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
             R.id.btnSave  -> handleSave()
             R.id.btnUpdate -> handleUpdate()
             R.id.btnRead -> handleResult()
-
+            R.id.mChangePictureBtn -> chooseImage()
         }
     }
 

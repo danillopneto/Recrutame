@@ -15,12 +15,24 @@ import android.content.Intent
 import android.net.Uri
 import android.widget.Toast
 import android.app.ProgressDialog
+import com.myhexaville.smartimagepicker.ImagePicker
 
 abstract class BaseFragment : Fragment() {
     lateinit var mAuth: FirebaseAuth
 
+    private var imagePicker: ImagePicker? = null
+
     lateinit var mStorageRef: StorageReference
-    private val PICK_IMAGE_REQUEST = 71
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        imagePicker?.handleActivityResult(resultCode, requestCode, data)
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        imagePicker?.handlePermission(requestCode, grantResults)
+    }
 
     fun getMyPreferences(): MyPreferences {
         return StoreBox.create(context, MyPreferences::class.java)
@@ -51,13 +63,14 @@ abstract class BaseFragment : Fragment() {
     }
 
     fun chooseImage() {
-        val intent = Intent()
-        intent.type = "image/*"
-        intent.action = Intent.ACTION_GET_CONTENT
-        startActivityForResult(Intent.createChooser(intent, getString(R.string.select_picture)), PICK_IMAGE_REQUEST)
+        imagePicker = ImagePicker(activity,
+                this
+        ) { imageUri -> uploadImage(imageUri, getUserPhotoUrl()) }
+        imagePicker?.setWithImageCrop(1, 1)
+        imagePicker?.choosePicture(true)
     }
 
-    private fun uploadImage(filePath: Uri?, destinationPath: String) {
+    open fun uploadImage(filePath: Uri?, destinationPath: String) {
         if (filePath != null) {
             val progressDialog = ProgressDialog(context)
             progressDialog.setTitle(getString(R.string.Uploading))
@@ -78,14 +91,6 @@ abstract class BaseFragment : Fragment() {
                                 .totalByteCount
                         progressDialog.setMessage("${progress.toInt()}%")
                     }
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
-                && data != null && data.data != null) {
-            uploadImage(data.data, getUserPhotoUrl())
         }
     }
 

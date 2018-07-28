@@ -40,6 +40,18 @@ class TabActivity : AppCompatActivity() {
         loadFragment(R.id.action_work)
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        val fragments = supportFragmentManager.fragments
+        if (fragments != null) {
+            for (f in fragments!!) {
+                if (f is ProfileFragment) {
+                    f.onActivityResult(requestCode, resultCode, data)
+                }
+            }
+        }
+    }
+
     private fun loadFragment(id: Int){
         var selectedFragment: Fragment? = null
 
