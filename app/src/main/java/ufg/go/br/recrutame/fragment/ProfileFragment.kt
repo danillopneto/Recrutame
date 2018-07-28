@@ -24,6 +24,9 @@ import com.jaredrummler.materialspinner.MaterialSpinner
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.fragment_profile.*
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import rec.protelas.User
 import ufg.go.br.recrutame.BuildConfig
 import ufg.go.br.recrutame.R
@@ -39,9 +42,19 @@ private lateinit var userDao: UserDao
 class ProfileFragment : BaseFragment(), View.OnClickListener  {
     private lateinit var mProfileImage: CircleImageView
 
-    override fun uploadImage(filePath: Uri?, destinationPath: String) {
-        super.uploadImage(filePath, destinationPath)
-        Picasso.get().load(filePath).into(mProfileImage)
+    override fun onStart() {
+        super.onStart()
+        EventBus.getDefault().register(this)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        EventBus.getDefault().unregister(this)
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onImageEvent(image: Uri?) {
+        Picasso.get().load(image).into(mProfileImage)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -96,9 +109,9 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
 
         val user = mAuth.currentUser!!
         mStorageRef.child(getUserPhotoUrl()).downloadUrl.addOnSuccessListener { task ->
-            Picasso.get().load(task).into(mProfileImage)
+            EventBus.getDefault().post(task)
         }.addOnFailureListener{
-            Picasso.get().load(R.drawable.user_logo).into(mProfileImage)
+            EventBus.getDefault().post(R.drawable.user_logo)
         }
 
         if (user.displayName != null) {

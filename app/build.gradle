@@ -31,6 +31,7 @@ allprojects {
     repositories {
         maven { url "https://jitpack.io" }
         maven { url "https://maven.google.com" }
+        mavenCentral()
     }
 }
 
@@ -70,4 +71,5 @@ dependencies {
 
     implementation 'com.sackcentury:shinebutton:0.2.0'
     implementation 'com.myhexaville:smart-image-picker:1.0.4'
+    implementation 'org.greenrobot:eventbus:3.1.1'
 }

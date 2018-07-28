@@ -16,6 +16,9 @@ import android.net.Uri
 import android.widget.Toast
 import android.app.ProgressDialog
 import com.myhexaville.smartimagepicker.ImagePicker
+import org.greenrobot.eventbus.EventBus
+
+
 
 abstract class BaseFragment : Fragment() {
     lateinit var mAuth: FirebaseAuth
@@ -70,7 +73,7 @@ abstract class BaseFragment : Fragment() {
         imagePicker?.choosePicture(true)
     }
 
-    open fun uploadImage(filePath: Uri?, destinationPath: String) {
+    fun uploadImage(filePath: Uri?, destinationPath: String) {
         if (filePath != null) {
             val progressDialog = ProgressDialog(context)
             progressDialog.setTitle(getString(R.string.Uploading))
@@ -79,6 +82,7 @@ abstract class BaseFragment : Fragment() {
             val ref = mStorageRef.child(destinationPath)
             ref.putFile(filePath!!)
                     .addOnSuccessListener {
+                        EventBus.getDefault().post(filePath)
                         progressDialog.dismiss()
                         Toast.makeText(context, getString(R.string.uploaded), Toast.LENGTH_SHORT).show()
                     }
