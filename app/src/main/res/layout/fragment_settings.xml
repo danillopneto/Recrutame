@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:cardUseCompatPadding="true"
-            app:cardElevation="4dp" >
+            app:cardElevation="1dp" >
 
             <LinearLayout
                 android:id="@+id/containerDistance"
@@ -77,7 +77,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:cardUseCompatPadding="true"
-            app:cardElevation="4dp" >
+            app:cardElevation="1dp" >
             <LinearLayout
                 android:id="@+id/containerFilters"
                 android:layout_width="match_parent"
