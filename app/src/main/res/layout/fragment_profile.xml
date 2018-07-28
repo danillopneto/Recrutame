@@ -31,7 +31,8 @@
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/mChangePictureBtn"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="42dp"
+        android:scaleType="center"
         android:clickable="true"
         android:focusable="true"
         android:elevation="4dp"
@@ -40,6 +41,7 @@
         android:src="@drawable/ic_camera"
         android:tint="@color/primaryColor"
         android:backgroundTint="@color/white"
+        android:padding="0dp"
         app:borderWidth="0dp"
         android:layout_marginRight="-40dp" />
 
