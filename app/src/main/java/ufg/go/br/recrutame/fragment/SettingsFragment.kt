@@ -3,7 +3,6 @@ package ufg.go.br.recrutame.fragment
 import android.app.AlertDialog
 import android.os.Bundle
 import android.content.Intent
-import android.database.DataSetObserver
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -16,7 +15,6 @@ import com.google.firebase.auth.EmailAuthProvider
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
-import android.text.TextUtils
 import android.widget.*
 import ufg.go.br.recrutame.Util.Utils
 import ufg.go.br.recrutame.adapter.ItemFilterAdapter
