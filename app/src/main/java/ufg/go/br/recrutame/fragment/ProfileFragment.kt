@@ -149,9 +149,6 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
         val btnSave = view.findViewById<TextView>(R.id.btnSave)
         btnSave.setOnClickListener(this)
 
-        val btnRead = view.findViewById<TextView>(R.id.btnRead)
-        btnRead.setOnClickListener(this)
-
         val btnDeleta = view.findViewById<TextView>(R.id.btnDeleta)
         btnDeleta.setOnClickListener(this)
 
