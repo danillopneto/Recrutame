@@ -9,11 +9,15 @@ import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.Snackbar
 import android.support.v4.content.ContextCompat
+import android.support.v7.widget.DividerItemDecoration
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import com.jaredrummler.materialspinner.MaterialSpinner
@@ -26,12 +30,17 @@ import org.greenrobot.eventbus.ThreadMode
 import rec.protelas.User
 import ufg.go.br.recrutame.R
 import ufg.go.br.recrutame.Util.Mask
+import ufg.go.br.recrutame.Util.Utils
+import ufg.go.br.recrutame.adapter.ItemProfileAdapter
 import ufg.go.br.recrutame.dao.AppDb
 import ufg.go.br.recrutame.dao.UserDao
 import java.util.*
 
 
 private lateinit var userDao: UserDao
+private lateinit var mRecyclerView: RecyclerView
+private lateinit var mAdapter: ItemProfileAdapter
+private lateinit var newAtividadesTxt: TextView
 
 class ProfileFragment : BaseFragment(), View.OnClickListener  {
     private lateinit var mProfileImage: CircleImageView
@@ -75,6 +84,9 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
 
     private fun inicializeControls(view: View) {
         mProfileImage = view.findViewById(R.id.mProfileImage)
+        newAtividadesTxt = view.findViewById(R.id.Atividades_Desenvolvidas)
+
+        setupRecycler(view)
 
         val user = mAuth.currentUser!!
         mStorageRef.child(getUserPhotoUrl()).downloadUrl.addOnSuccessListener { task ->
@@ -146,11 +158,9 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
         val cpf = view.findViewById<EditText>(R.id.Cpf)
         cpf.addTextChangedListener(Mask.mask("###.###.###-##", cpf))
 
-        val btnSave = view.findViewById<TextView>(R.id.btnSave)
-        btnSave.setOnClickListener(this)
-
-        val btnDeleta = view.findViewById<TextView>(R.id.btnDeleta)
-        btnDeleta.setOnClickListener(this)
+        view.findViewById<TextView>(R.id.btnSave).setOnClickListener(this)
+        view.findViewById<TextView>(R.id.btnDeleta).setOnClickListener(this)
+        view.findViewById<ImageButton>(R.id.btnAddAtividade).setOnClickListener(this)
 
     }
 
@@ -208,11 +218,46 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
 
     override fun onClick(v: View?) {
         when (v?.id) {
+            R.id.btnAddAtividade -> handleAddAtividades()
             R.id.btnDeleta -> handleDelete()
             R.id.btnSave  -> handleSave()
             R.id.mChangePictureBtn -> chooseImage()
         }
     }
+
+    private fun handleAddAtividades(){
+        if (Utils.isNullOrWhiteSpace(Atividades_Desenvolvidas.text.toString())) {
+            Toast.makeText(context, getString(R.string.insert_filter_term), Toast.LENGTH_SHORT).show()
+        } else {
+            mAdapter.updateList(Atividades_Desenvolvidas.text.toString().trim())
+            Atividades_Desenvolvidas.setText("")
+        }
+    }
+
+    private fun setupRecycler(view: View) {
+        mRecyclerView = view.findViewById(R.id.recyclerAtividadesItems)
+
+        val layoutManager = LinearLayoutManager(context)
+        mRecyclerView.layoutManager = layoutManager
+
+        val list: MutableList<String> = mutableListOf()
+        val currentFilters = getMyPreferences().getFilters()
+        if (currentFilters != null && currentFilters.isNotEmpty()) {
+            list.addAll(currentFilters)
+        }
+
+        mAdapter = ItemProfileAdapter(list)
+        mRecyclerView.adapter = mAdapter
+        mAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+            override fun onChanged() {
+                getMyPreferences().setFilters(mAdapter.getItens())
+            }
+        })
+
+        mRecyclerView.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+    }
+
+
 
     private fun handleDelete(){
         userDao.delete()
