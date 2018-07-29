@@ -6,8 +6,6 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-feature android:name="android.hardware.camera" />
-    <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <application
         android:allowBackup="true"
@@ -28,6 +26,7 @@
         <activity android:name=".RegisterActivity" android:theme="@style/LoginAppTheme" />
         <activity android:name=".ForgotPasswordActivity" android:theme="@style/LoginAppTheme" />
         <activity android:name=".JobDetailActivity" android:theme="@style/InsideAppTheme" />
+        <activity android:name=".IntroActivity" android:theme="@style/InsideAppTheme" />
     </application>
 
 </manifest>

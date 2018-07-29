@@ -8,10 +8,12 @@ import android.support.v4.app.Fragment
 import android.view.MenuItem
 import com.google.firebase.auth.FirebaseAuth
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx
+import net.orange_box.storebox.StoreBox
 import ufg.go.br.recrutame.fragment.ChatFragment
 import ufg.go.br.recrutame.fragment.SettingsFragment
 import ufg.go.br.recrutame.fragment.JobFragment
 import ufg.go.br.recrutame.fragment.ProfileFragment
+import ufg.go.br.recrutame.model.MyPreferences
 
 class TabActivity : AppCompatActivity() {
 
@@ -20,6 +22,12 @@ class TabActivity : AppCompatActivity() {
         if (FirebaseAuth.getInstance().currentUser == null) {
             startActivity(Intent(this, MainActivity :: class.java))
             return
+        } else {
+            val preferences = StoreBox.create(applicationContext, MyPreferences::class.java)
+            if (preferences.getIsNewUser()) {
+                startActivity(Intent(this, IntroActivity :: class.java))
+                return
+            }
         }
 
         setContentView(R.layout.activity_tab)

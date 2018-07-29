@@ -32,10 +32,10 @@ interface MyPreferences {
     fun setMaximumDistance(distance: String)
 
     @KeyByString("key_is_new_user")
-    fun getIsNewUser()
+    fun getIsNewUser() : Boolean
 
     @KeyByString("key_is_new_user")
-    fun setIsNewUser(value: Boolean): Boolean
+    fun setIsNewUser(value: Boolean)
 
     @KeyByString("key_filters")
     @TypeAdapter(FiltersTypeAdapter:: class)
