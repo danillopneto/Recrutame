@@ -31,20 +31,22 @@ import rec.protelas.User
 import ufg.go.br.recrutame.R
 import ufg.go.br.recrutame.Util.Mask
 import ufg.go.br.recrutame.Util.Utils
+import ufg.go.br.recrutame.adapter.ItemIdiomaAdapter
 import ufg.go.br.recrutame.adapter.ItemProfileAdapter
 import ufg.go.br.recrutame.dao.AppDb
 import ufg.go.br.recrutame.dao.AppDbSkill
 import ufg.go.br.recrutame.dao.SkillDao
 import ufg.go.br.recrutame.dao.UserDao
-import ufg.go.br.recrutame.model.Skill
 import java.util.*
 
 
 private lateinit var userDao: UserDao
 private lateinit var skillDao: SkillDao
 private lateinit var mRecyclerView: RecyclerView
-private lateinit var mAdapter: ItemProfileAdapter
+private lateinit var mAdapterAtividade: ItemProfileAdapter
 private lateinit var newAtividadesTxt: TextView
+private lateinit var mAdapterIdioma: ItemIdiomaAdapter
+private lateinit var newIdiomaTxt: TextView
 
 class ProfileFragment : BaseFragment(), View.OnClickListener  {
     private lateinit var mProfileImage: CircleImageView
@@ -98,8 +100,10 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
     private fun inicializeControls(view: View) {
         mProfileImage = view.findViewById(R.id.mProfileImage)
         newAtividadesTxt = view.findViewById(R.id.Atividades_Desenvolvidas)
+        newIdiomaTxt = view.findViewById(R.id.Idioma)
 
-        setupRecycler(view)
+        atividadesRecycler(view)
+        idiomaRecycler(view)
 
         val user = mAuth.currentUser!!
         mStorageRef.child(getUserPhotoUrl()).downloadUrl.addOnSuccessListener { task ->
@@ -174,6 +178,7 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
         view.findViewById<TextView>(R.id.btnSave).setOnClickListener(this)
         view.findViewById<TextView>(R.id.btnDeleta).setOnClickListener(this)
         view.findViewById<ImageButton>(R.id.btnAddAtividade).setOnClickListener(this)
+        view.findViewById<ImageButton>(R.id.btnAddIdioma).setOnClickListener(this)
 
     }
 
@@ -232,6 +237,7 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.btnAddAtividade -> handleAddAtividades()
+            R.id.btnAddIdioma -> handleAddIdioma()
             R.id.btnDeleta -> handleDelete()
             R.id.btnSave  -> handleSave()
             R.id.mChangePictureBtn -> chooseImage()
@@ -242,12 +248,13 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
         if (Utils.isNullOrWhiteSpace(Atividades_Desenvolvidas.text.toString())) {
             Toast.makeText(context, getString(R.string.insert_filter_term), Toast.LENGTH_SHORT).show()
         } else {
-            mAdapter.updateList(Atividades_Desenvolvidas.text.toString().trim())
+            mAdapterAtividade.updateList(Atividades_Desenvolvidas.text.toString().trim())
             Atividades_Desenvolvidas.setText("")
         }
     }
 
-    private fun setupRecycler(view: View) {
+
+    private fun atividadesRecycler(view: View) {
         mRecyclerView = view.findViewById(R.id.recyclerAtividadesItems)
 
         val layoutManager = LinearLayoutManager(context)
@@ -255,8 +262,10 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
 
         val list: MutableList<String> = mutableListOf()
         // a lista de habilidades vem daqui
-        val currentFilters = getMyPreferences().getFilters()
+       // val currentFilters = getMyPreferences().getFilters()
 
+        val numbers: MutableList<String> = mutableListOf("Desevolvedor", "Projetista", "Desing")
+        val currentFilters: List<String> = numbers
        // val user = mAuth.currentUser!!
 
         /*var skillss = skillDao.getSkillEmail(user.email!!)
@@ -271,18 +280,69 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
             list.addAll(currentFilters)
         }
 
-        mAdapter = ItemProfileAdapter(list)
-        mRecyclerView.adapter = mAdapter
-        mAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+        mAdapterAtividade = ItemProfileAdapter(list)
+        mRecyclerView.adapter = mAdapterAtividade
+        mAdapterAtividade.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
             override fun onChanged() {
                 //getMyPreferences().setFilters(mAdapter.getItens())
                 //aqui grava no banco as habilidades
-                Log.d("Log do getItens", ""+mAdapter.getItens())
+                Log.d("Log do getItens", ""+mAdapterAtividade.getItens())
             }
         })
 
         mRecyclerView.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
     }
+
+
+    private fun handleAddIdioma(){
+        if (Utils.isNullOrWhiteSpace(newIdiomaTxt.text.toString())) {
+            Toast.makeText(context, getString(R.string.insert_filter_term), Toast.LENGTH_SHORT).show()
+        } else {
+            mAdapterIdioma.updateList(newIdiomaTxt.text.toString().trim())
+            newIdiomaTxt.setText("")
+        }
+    }
+
+    private fun idiomaRecycler(view: View) {
+        mRecyclerView = view.findViewById(R.id.recyclerIdiomaItems)
+
+        val layoutManager = LinearLayoutManager(context)
+        mRecyclerView.layoutManager = layoutManager
+
+        val list: MutableList<String> = mutableListOf()
+        // a lista de habilidades vem daqui
+        // val currentFilters = getMyPreferences().getFilters()
+
+        val numbers: MutableList<String> = mutableListOf("Ingles", "Espanhol", "Italiano")
+        val currentFilters: List<String> = numbers
+        // val user = mAuth.currentUser!!
+
+        /*var skillss = skillDao.getSkillEmail(user.email!!)
+        if (skillss == null) {
+            skillss = Skill()
+        }
+        */
+        Log.d("Log do Habilidades", ""+currentFilters)
+
+
+        if (currentFilters != null && currentFilters.isNotEmpty()) {
+            list.addAll(currentFilters)
+        }
+
+        mAdapterIdioma = ItemIdiomaAdapter(list)
+        mRecyclerView.adapter = mAdapterIdioma
+        mAdapterIdioma.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+            override fun onChanged() {
+                //getMyPreferences().setFilters(mAdapter.getItens())
+                //aqui grava no banco as habilidades
+                Log.d("Log do getItens", ""+mAdapterIdioma.getItens())
+            }
+        })
+
+        mRecyclerView.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+    }
+
+
 
 
 

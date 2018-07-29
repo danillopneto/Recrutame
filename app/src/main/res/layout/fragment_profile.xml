@@ -450,34 +450,72 @@
 
             </android.support.v7.widget.RecyclerView>
         </LinearLayout>
+
     </LinearLayout>
-
-
 
 
 
     <LinearLayout
         android:id="@+id/linear_Idioma"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/border_linear_layout"
+        android:layout_height="220dp"
+        android:translationZ="@dimen/bottom_ellipsis_height"
         android:orientation="vertical"
-        android:layout_marginTop="8dp"
-        android:layout_below="@+id/linear_nome"
-        >
+        android:showDividers="middle"
+        android:background="@color/white"
+        android:layout_marginTop="8dp">
 
-        <com.rengwuxian.materialedittext.MaterialEditText
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:met_floatingLabel="highlight"
-            app:met_maxCharacters="14"
-            app:met_singleLineEllipsis="true"
-            app:met_helperText="Ex: Construção Cicíl"
-            android:id="@+id/Idioma"
-            android:hint="Idioma"
-            />
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="8dp">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_weight="0.8"
+                    app:met_floatingLabel="highlight"
+                    app:met_maxCharacters="50"
+                    app:met_singleLineEllipsis="true"
+                    app:met_helperText="Ex: Inglês, Espanhou"
+                    android:id="@+id/Idioma"
+                    android:hint="Idioma"
+                    />
+
+                <ImageButton
+                    android:id="@+id/btnAddIdioma"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:background="@drawable/ic_add"
+                    android:layout_marginStart="10dp"
+                    android:backgroundTint="@color/primaryColor"
+                    android:layout_gravity="center_vertical"/>
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerIdiomaItems"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="5dp"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                tools:listitem="@layout/item_idioma" >
+
+            </android.support.v7.widget.RecyclerView>
+        </LinearLayout>
     </LinearLayout>
+
+
+
+
+
+
 
     <LinearLayout
         android:id="@+id/linear_Nivel_Idioma"

@@ -5,23 +5,22 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import ufg.go.br.recrutame.R
 
-class ItemProfileAdapter(atividades: MutableList<String>) : RecyclerView.Adapter<ViewHolder>() {
+class ItemProfileAdapter(atividades: MutableList<String>) : RecyclerView.Adapter<SkillHolder>() {
 
     private val mAtividades: MutableList<String> = atividades
 
-    override fun onCreateViewHolder(parent: ViewGroup , viewType: Int): ViewHolder {
-        return ViewHolder(LayoutInflater.from(parent.context)
+    override fun onCreateViewHolder(parent: ViewGroup , viewType: Int): SkillHolder {
+        return SkillHolder(LayoutInflater.from(parent.context)
                 .inflate(R.layout.item_atividades , parent , false))
     }
 
 
-    override fun onBindViewHolder(holder: ViewHolder , position: Int) {
+    override fun onBindViewHolder(holder: SkillHolder , position: Int) {
         holder.addItem.text = mAtividades[position]
         holder.delete.setOnClickListener { view ->
             removeItem(position)
         }
     }
-
 
         override fun getItemCount(): Int {
             return mAtividades.size
