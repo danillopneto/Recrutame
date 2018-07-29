@@ -1,5 +1,6 @@
 package ufg.go.br.recrutame
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -44,27 +45,35 @@ class ForgotPasswordActivity : AppCompatActivity(), View.OnClickListener {
         }
 
         mResetPasswordButton.startAnimation()
-        mAuth.sendPasswordResetEmail(email)
-            .addOnCompleteListener { task ->
+        mAuth.signInWithEmailAndPassword(email, LINKEDIN_PASSWORD).addOnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                mAuth.sendPasswordResetEmail(email)
+                        .addOnCompleteListener { task ->
+                            mResetPasswordButton.revertAnimation()
+                            if (!task.isSuccessful) {
+                                try {
+                                    throw task.exception!!
+                                } catch (e: FirebaseAuthInvalidCredentialsException) {
+                                    Toast.makeText(this, getString(R.string.error_invalid_email), Toast.LENGTH_LONG).show()
+                                } catch (e: FirebaseNetworkException) {
+                                    Toast.makeText(this, getString(R.string.no_connection), Toast.LENGTH_LONG).show()
+                                } catch (e: FirebaseAuthInvalidUserException) {
+                                    Toast.makeText(this, getString(R.string.no_user_found), Toast.LENGTH_LONG).show()
+                                } catch (e: Exception) {
+                                    Toast.makeText(this, getString(R.string.reset_password_failed), Toast.LENGTH_LONG).show()
+                                    Log.e(TAG, e.message)
+                                }
+                            } else {
+                                Toast.makeText(applicationContext, getString(R.string.email_reset_password), Toast.LENGTH_LONG).show()
+                                finish()
+                            }
+                        }
+            } else {
+                Toast.makeText(this, getString(R.string.user_created_with_linkedin), Toast.LENGTH_LONG).show()
+                mAuth.signOut()
                 mResetPasswordButton.revertAnimation()
-                if (!task.isSuccessful) {
-                    try {
-                        throw task.exception!!
-                    } catch (e: FirebaseAuthInvalidCredentialsException) {
-                        Toast.makeText(this, getString(R.string.error_invalid_email), Toast.LENGTH_LONG).show()
-                    } catch (e: FirebaseNetworkException) {
-                        Toast.makeText(this, getString(R.string.no_connection), Toast.LENGTH_LONG).show()
-                    } catch (e: FirebaseAuthInvalidUserException) {
-                        Toast.makeText(this, getString(R.string.no_user_found), Toast.LENGTH_LONG).show()
-                    } catch (e: Exception) {
-                        Toast.makeText(this, getString(R.string.reset_password_failed), Toast.LENGTH_LONG).show()
-                        Log.e(TAG, e.message)
-                    }
-                } else {
-                    Toast.makeText(applicationContext, getString(R.string.email_reset_password), Toast.LENGTH_LONG).show()
-                    finish()
-                }
             }
+        }
     }
 
     private fun validateForm(email: String): Boolean {
