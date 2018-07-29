@@ -26,7 +26,8 @@
         android:layout_marginBottom="10dp"
         android:layout_gravity="center_vertical|center_horizontal"
         app:civ_border_width="2dp"
-        app:civ_border_color="@color/primaryColor"/>
+        app:civ_border_color="@color/primaryColor"
+        />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/mChangePictureBtn"
@@ -383,41 +384,77 @@
         >
 
         <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/Periodocargo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:met_floatingLabel="highlight"
-            app:met_maxCharacters="14"
-            app:met_singleLineEllipsis="true"
-            app:met_helperText="Ex: 20 anos"
-            android:id="@+id/Periodocargo"
             android:hint="Período"
             android:inputType="textMultiLine"
-            />
+            app:met_floatingLabel="highlight"
+            app:met_helperText="Ex: 20 anos"
+            app:met_maxCharacters="14"
+            app:met_singleLineEllipsis="true" />
 
     </LinearLayout>
+
 
     <LinearLayout
         android:id="@+id/linear_Atividades_Desenvolvidas"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/border_linear_layout"
+        android:layout_height="220dp"
+        android:translationZ="@dimen/bottom_ellipsis_height"
         android:orientation="vertical"
-        android:layout_marginTop="8dp"
-        android:layout_below="@+id/linear_nome"
-        >
+        android:showDividers="middle"
+        android:background="@color/white"
+        android:layout_marginTop="8dp">
 
-        <com.rengwuxian.materialedittext.MaterialEditText
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:met_floatingLabel="highlight"
-            app:met_maxCharacters="14"
-            app:met_singleLineEllipsis="true"
-            app:met_helperText="Ex: Construção Cicíl"
-            android:id="@+id/Atividades_Desenvolvidas"
-            android:hint="Atividades desenvolvidas"
-            />
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="8dp">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_weight="0.8"
+                    app:met_floatingLabel="highlight"
+                    app:met_maxCharacters="50"
+                    app:met_singleLineEllipsis="true"
+                    app:met_helperText="Ex: Pintar, Dançar"
+                    android:id="@+id/Atividades_Desenvolvidas"
+                    android:hint="Habilidades"
+                    />
+
+                <ImageButton
+                    android:id="@+id/btnAddAtividade"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:background="@drawable/ic_add"
+                    android:layout_marginStart="10dp"
+                    android:backgroundTint="@color/primaryColor"
+                    android:layout_gravity="center_vertical"/>
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerAtividadesItems"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="5dp"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                tools:listitem="@layout/item_atividades" >
+
+            </android.support.v7.widget.RecyclerView>
+        </LinearLayout>
     </LinearLayout>
+
+
+
+
 
     <LinearLayout
         android:id="@+id/linear_Idioma"
@@ -463,113 +500,37 @@
     </LinearLayout>
 
 
-    <Button
-        android:id="@+id/btnDeleta"
-        android:layout_height="wrap_content"
-        android:text="Apagar"
-        android:layout_width="match_parent"
-        android:layout_weight="1">
-    </Button>
-
 
     <LinearLayout
-        android:id="@+id/linear_botoes"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="3"
+        android:layout_height="match_parent"
         android:layout_marginTop="8dp"
-        android:layout_below="@+id/linear_Nivel_Idioma"
-        >
+        android:orientation="vertical">
 
-        <android.support.v7.widget.CardView
-            android:layout_width="100dp"
-            android:layout_height="40dp"
-            app:cardCornerRadius="20dp"
-            android:elevation="20dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            app:cardBackgroundColor="@android:color/holo_blue_dark" >
+        <Button
+            android:id="@+id/btnSave"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/background_login"
+            android:text="Salvar"
+            android:textAllCaps="false"
+            android:textColor="@color/primaryColor"
+            android:textSize="18sp" />
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:id="@+id/btnSave"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:textColor="@color/white"
-                    android:text="Salvar" />
-
-            </RelativeLayout>
-
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:layout_width="100dp"
-            android:layout_height="40dp"
-            app:cardCornerRadius="20dp"
-            android:elevation="20dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            app:cardBackgroundColor="@android:color/holo_blue_dark" >
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:id="@+id/btnRead"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:textColor="@color/white"
-                    android:text="Leitura" />
-
-
-
-            </RelativeLayout>
-
-
-        </android.support.v7.widget.CardView>
-
-
-        <android.support.v7.widget.CardView
-            android:layout_width="100dp"
-            android:layout_height="40dp"
-            app:cardCornerRadius="20dp"
-            android:elevation="20dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            app:cardBackgroundColor="@android:color/holo_blue_dark" >
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:id="@+id/btnUpdate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:textColor="@color/white"
-                    android:text="Atualizar" />
-
-
-
-            </RelativeLayout>
-
-
-        </android.support.v7.widget.CardView>
-
-
-
-
-
+        <Button
+            android:id="@+id/btnDeleta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/background_login"
+            android:text="Limpar"
+            android:textAllCaps="false"
+            android:textColor="@color/primaryColor"
+            android:textSize="18sp"/>
     </LinearLayout>
-
 
 </LinearLayout>
 
