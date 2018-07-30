@@ -33,15 +33,14 @@ import ufg.go.br.recrutame.Util.Mask
 import ufg.go.br.recrutame.Util.Utils
 import ufg.go.br.recrutame.adapter.ItemIdiomaAdapter
 import ufg.go.br.recrutame.adapter.ItemProfileAdapter
-import ufg.go.br.recrutame.dao.AppDb
-import ufg.go.br.recrutame.dao.AppDbSkill
-import ufg.go.br.recrutame.dao.SkillDao
-import ufg.go.br.recrutame.dao.UserDao
+import ufg.go.br.recrutame.dao.*
+import ufg.go.br.recrutame.model.Skill
 import java.util.*
 
 
 private lateinit var userDao: UserDao
 private lateinit var skillDao: SkillDao
+private lateinit var idiomDao: IdiomDao
 private lateinit var mRecyclerView: RecyclerView
 private lateinit var mAdapterAtividade: ItemProfileAdapter
 private lateinit var newAtividadesTxt: TextView
@@ -88,9 +87,17 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
                 .allowMainThreadQueries()
                 .fallbackToDestructiveMigration()
                 .build()
+
         skillDao = databaseSkill.skillDao()
 
 
+
+        val databaseIdiom =  Room.databaseBuilder(this.getActivity()!!, AppDbIdiom::class.java, "idiomDb")
+                .allowMainThreadQueries()
+                .fallbackToDestructiveMigration()
+                .build()
+
+        idiomDao = databaseIdiom.idiomDao()
 
         inicializeControls(view)
 
@@ -260,24 +267,49 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
         val layoutManager = LinearLayoutManager(context)
         mRecyclerView.layoutManager = layoutManager
 
+
+        val user = mAuth.currentUser!!
+        mStorageRef.child(getUserPhotoUrl()).downloadUrl.addOnSuccessListener { task ->
+            EventBus.getDefault().post(task)
+        }.addOnFailureListener{
+            EventBus.getDefault().post(R.drawable.user_logo)
+        }
+
+        var users = userDao.getUserEmail(user.email!!)
+        if (users == null) {
+            users = User()
+        }
+
         val list: MutableList<String> = mutableListOf()
         // a lista de habilidades vem daqui
        // val currentFilters = getMyPreferences().getFilters()
 
-        val numbers: MutableList<String> = mutableListOf("Desevolvedor", "Projetista", "Desing")
-        val currentFilters: List<String> = numbers
-       // val user = mAuth.currentUser!!
+        val listskill: MutableList<String> = mutableListOf()
 
-        /*var skillss = skillDao.getSkillEmail(user.email!!)
-        if (skillss == null) {
-            skillss = Skill()
-        }
-        */
-        Log.d("Log do Habilidades", ""+currentFilters)
+        skillDao.all(users.email!!).forEach{ skill -> Log.i("Habilidades em banco: ", ""+listskill.add(""+skill.skill ) ) }
+
+        val currentFilters: List<String> = listskill
 
 
         if (currentFilters != null && currentFilters.isNotEmpty()) {
-            list.addAll(currentFilters)
+
+            var cont = currentFilters.size
+
+            currentFilters.forEach { skill ->
+                cont++
+
+                try {
+                    val sl = Skill(cont.toLong(), users.email, skill.toString())
+                    skillDao.add(sl)
+                    Log.i("Habilidades em banco: ", ""+sl.skill )
+
+                }catch (e: Exception){
+                    val sl = Skill(cont.toLong(), users.email, skill.toString())
+                    skillDao.update(sl)
+                    Log.i("Habilidades em banco: ", ""+sl.skill )
+                }
+               // list.add(skill)
+            }
         }
 
         mAdapterAtividade = ItemProfileAdapter(list)
@@ -286,6 +318,7 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
             override fun onChanged() {
                 //getMyPreferences().setFilters(mAdapter.getItens())
                 //aqui grava no banco as habilidades
+                getMyPreferences().setFilters(mAdapterAtividade.getItens())
                 Log.d("Log do getItens", ""+mAdapterAtividade.getItens())
             }
         })

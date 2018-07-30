@@ -16,7 +16,7 @@ interface IdiomDao {
     @Query("SELECT * FROM Idiom")
     fun loadAllUsers(): Array<Skill>
 
-    @Query("SELECT skills FROM Idiom WHERE Idiom.email LIKE :email")
+    @Query("SELECT * FROM Idiom WHERE Idiom.email LIKE :email")
     fun getIdiomEmail(email: String): Skill
 
 
