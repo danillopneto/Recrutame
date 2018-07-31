@@ -22,8 +22,6 @@ class TabActivity : AppCompatActivity() {
         if (FirebaseAuth.getInstance().currentUser == null) {
             startActivity(Intent(this, MainActivity :: class.java))
             return
-        } else {
-
         }
 
         setContentView(R.layout.activity_tab)
@@ -33,20 +31,12 @@ class TabActivity : AppCompatActivity() {
         bottonNavigationView.setTextVisibility(false)
         bottonNavigationView.enableItemShiftingMode(false)
         bottonNavigationView.enableShiftingMode(false)
-        val preferences = StoreBox.create(applicationContext, MyPreferences::class.java)
-        if (preferences.getIsNewUser()) {
-            bottonNavigationView.currentItem = 3
-        } else {
-            bottonNavigationView.currentItem = 0
+        bottonNavigationView.onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+            loadFragment(item.itemId)
+            true
         }
 
-        bottonNavigationView.setOnNavigationItemSelectedListener(object: BottomNavigationView.OnNavigationItemSelectedListener{
-            override fun onNavigationItemSelected(item: MenuItem): Boolean {
-                loadFragment(item.itemId)
-                return true
-            }
-        } )
-
+        bottonNavigationView.currentItem = 0
         loadFragment(R.id.action_work)
     }
 

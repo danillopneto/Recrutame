@@ -151,16 +151,23 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
         maximumDistanceSlider = view.findViewById(R.id.maximumDistanceSlider)
         val distance = getMyPreferences().getMaximumDistance().toFloat()
         maximumDistanceSlider.position = distance
-        maximumDistanceSlider.positionListener = { p -> getMyPreferences().setMaximumDistance(p.toString()) }
+        maximumDistanceSlider.endTrackingListener = { handleDistanceUpdated(view) }
 
         view.findViewById<ImageButton>(R.id.addFilterBtn).setOnClickListener(this)
         view.findViewById<Button>(R.id.deleteAccountBtn).setOnClickListener(this)
         view.findViewById<Button>(R.id.logoutBtn).setOnClickListener(this)
 
-        val preferences = StoreBox.create(context, MyPreferences::class.java)
-        //if (preferences.getIsNewUser()) {
-            startShowCase(view)
+        //if (getMyPreferences().getIsNewUser()) {
+        showCaseDistance(view)
         //}
+    }
+
+    private fun handleDistanceUpdated(view: View) {
+        getMyPreferences().setMaximumDistance(maximumDistanceSlider.position.toString())
+        //if (getMyPreferences().getIsNewUser()) {
+        showCaseFilters(view)
+        //}
+
     }
 
     private fun logout() {
@@ -179,7 +186,7 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
 
         val list: MutableList<String> = mutableListOf()
         val currentFilters = getMyPreferences().getFilters()
-        if (currentFilters.isNotEmpty()) {
+        if (currentFilters != null && currentFilters.isNotEmpty()) {
             list.addAll(currentFilters)
         }
 
@@ -194,30 +201,21 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
         mRecyclerView.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
     }
 
-    private fun startShowCase(view: View) {
-        val config = ShowcaseConfig()
-        config.delay = 500
+    private fun showCaseDistance(view: View) {
+        MaterialShowcaseView.Builder(activity!!)
+                .setTarget(view.findViewById(R.id.maximumDistanceSlider))
+                .setContentText(R.string.instructions_distance)
+                .withRectangleShape()
+                .setTargetTouchable(true)
+                .show()
+    }
 
-        val sequence = MaterialShowcaseSequence(activity!!)
-
-        sequence.setConfig(config)
-
-        sequence.addSequenceItem(
-                MaterialShowcaseView.Builder(activity!!)
-                        .setTarget(view.findViewById(R.id.maximumDistanceSlider))
-                        .setDismissText(R.string.got_it)
-                        .setContentText(R.string.instructions_distance)
-                        .withRectangleShape()
-                        .build())
-
-        sequence.addSequenceItem(
-                MaterialShowcaseView.Builder(activity!!)
-                                .setTarget(view.findViewById(R.id.newFilterContainer))
-                                .setDismissText(R.string.got_it)
-                                .setContentText(R.string.instructions_filter)
-                                .withRectangleShape()
-                                .build())
-
-        sequence.start()
+    private fun showCaseFilters(view: View) {
+        MaterialShowcaseView.Builder(activity!!)
+                .setTarget(view.findViewById(R.id.newFilterContainer))
+                .setContentText(R.string.instructions_filter)
+                .withRectangleShape()
+                .setTargetTouchable(true)
+                .show()
     }
 }
