@@ -2,6 +2,10 @@ package ufg.go.br.recrutame.dao
 
 import android.arch.persistence.room.*
 import ufg.go.br.recrutame.model.Skill
+import rec.protelas.User
+import android.arch.persistence.room.Delete
+
+
 
 
 
@@ -36,5 +40,14 @@ interface SkillDao {
     @Update
     fun update(vararg skill: Skill)
 
+
+    @Delete
+    fun deleteUsers(vararg skills: Skill)
+
+    @Delete
+    fun deleteAll(skill1: Skill , skill2: Skill)
+
+    @Delete
+    fun deleteWithFriends(skill: Skill , friends: List<Skill>)
 
 }

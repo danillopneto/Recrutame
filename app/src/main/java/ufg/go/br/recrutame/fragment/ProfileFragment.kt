@@ -286,17 +286,9 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
         // a lista de habilidades vem daqui
         val currentFilters = getMyPreferences().getSkills()
 
-     //  val listskill: MutableList<String> = mutableListOf()
-
-
-
         skillDao.all(users.email!!).forEach{ skills ->  Log.i("String de skilldao: ", ""+list.add(""+skills.skill))  }
 
-        Log.i("String de skilldao: ", ""+skillDao.all(users.email!!) )
-
-
-        //val currentFilters: List<String> = list
-
+        skillDao.deleteWithFriends(Skill(), skillDao.all(users.email!!))
 
         mAdapterAtividade = ItemProfileAdapter(list)
         mRecyclerView.adapter = mAdapterAtividade
@@ -437,8 +429,6 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
             }else{
                 userDao.getReturnID(Email.text.toString())
             }
-
-
 
             val user = User(cont as Long?,
                     Nome.text.toString(),
