@@ -16,8 +16,13 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.widget.*
+import net.orange_box.storebox.StoreBox
 import ufg.go.br.recrutame.Util.Utils
 import ufg.go.br.recrutame.adapter.ItemFilterAdapter
+import ufg.go.br.recrutame.model.MyPreferences
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView
+import uk.co.deanwild.materialshowcaseview.ShowcaseConfig
 
 class SettingsFragment : BaseFragment(), View.OnClickListener {
     private lateinit var maximumDistanceSlider: FluidSlider
@@ -151,6 +156,11 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
         view.findViewById<ImageButton>(R.id.addFilterBtn).setOnClickListener(this)
         view.findViewById<Button>(R.id.deleteAccountBtn).setOnClickListener(this)
         view.findViewById<Button>(R.id.logoutBtn).setOnClickListener(this)
+
+        val preferences = StoreBox.create(context, MyPreferences::class.java)
+        //if (preferences.getIsNewUser()) {
+            startShowCase(view)
+        //}
     }
 
     private fun logout() {
@@ -169,7 +179,7 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
 
         val list: MutableList<String> = mutableListOf()
         val currentFilters = getMyPreferences().getFilters()
-        if (currentFilters != null && currentFilters.isNotEmpty()) {
+        if (currentFilters.isNotEmpty()) {
             list.addAll(currentFilters)
         }
 
@@ -182,5 +192,32 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
         })
 
         mRecyclerView.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+    }
+
+    private fun startShowCase(view: View) {
+        val config = ShowcaseConfig()
+        config.delay = 500
+
+        val sequence = MaterialShowcaseSequence(activity!!)
+
+        sequence.setConfig(config)
+
+        sequence.addSequenceItem(
+                MaterialShowcaseView.Builder(activity!!)
+                        .setTarget(view.findViewById(R.id.maximumDistanceSlider))
+                        .setDismissText(R.string.got_it)
+                        .setContentText(R.string.instructions_distance)
+                        .withRectangleShape()
+                        .build())
+
+        sequence.addSequenceItem(
+                MaterialShowcaseView.Builder(activity!!)
+                                .setTarget(view.findViewById(R.id.newFilterContainer))
+                                .setDismissText(R.string.got_it)
+                                .setContentText(R.string.instructions_filter)
+                                .withRectangleShape()
+                                .build())
+
+        sequence.start()
     }
 }

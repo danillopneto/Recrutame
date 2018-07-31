@@ -56,6 +56,9 @@
     <string name="user_created_with_linkedin">O usuário foi criado com uma conta do LinkedIn, portanto não é possível alterar a senha.</string>
     <string name="welcome_to_app">Bem-vindo ao</string>
     <string name="everything_set">Tudo pronto. Aproveite o Recruta.me.</string>
+    <string name="got_it">ENTENDI</string>
+    <string name="instructions_filter">Depois, insira os termos de seu interesse para refinarmos as vagas</string>
+    <string name="instructions_distance">Defina a distância máxima para encontrar o que deseja</string>
     <string-array name="nivel">
         <item>Profissional</item>
         <item>Superior</item>

@@ -23,11 +23,7 @@ class TabActivity : AppCompatActivity() {
             startActivity(Intent(this, MainActivity :: class.java))
             return
         } else {
-            val preferences = StoreBox.create(applicationContext, MyPreferences::class.java)
-            if (preferences.getIsNewUser()) {
-                startActivity(Intent(this, IntroActivity :: class.java))
-                return
-            }
+
         }
 
         setContentView(R.layout.activity_tab)
@@ -37,7 +33,13 @@ class TabActivity : AppCompatActivity() {
         bottonNavigationView.setTextVisibility(false)
         bottonNavigationView.enableItemShiftingMode(false)
         bottonNavigationView.enableShiftingMode(false)
-        bottonNavigationView.currentItem = 0
+        val preferences = StoreBox.create(applicationContext, MyPreferences::class.java)
+        if (preferences.getIsNewUser()) {
+            bottonNavigationView.currentItem = 3
+        } else {
+            bottonNavigationView.currentItem = 0
+        }
+
         bottonNavigationView.setOnNavigationItemSelectedListener(object: BottomNavigationView.OnNavigationItemSelectedListener{
             override fun onNavigationItemSelected(item: MenuItem): Boolean {
                 loadFragment(item.itemId)

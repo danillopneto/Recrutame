@@ -26,7 +26,6 @@
         <activity android:name=".RegisterActivity" android:theme="@style/LoginAppTheme" />
         <activity android:name=".ForgotPasswordActivity" android:theme="@style/LoginAppTheme" />
         <activity android:name=".JobDetailActivity" android:theme="@style/InsideAppTheme" />
-        <activity android:name=".IntroActivity" android:theme="@style/InsideAppTheme" />
     </application>
 
 </manifest>
