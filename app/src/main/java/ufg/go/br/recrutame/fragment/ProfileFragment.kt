@@ -280,50 +280,60 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
             users = User()
         }
 
+        Log.i("Email Do usuario logado: ", ""+users.email )
+
         val list: MutableList<String> = mutableListOf()
         // a lista de habilidades vem daqui
-       // val currentFilters = getMyPreferences().getFilters()
+        val currentFilters = getMyPreferences().getSkills()
 
-        val listskill: MutableList<String> = mutableListOf()
-
-        skillDao.all(users.email!!).forEach{ skill -> Log.i("Habilidades em banco: ", ""+listskill.add(""+skill.skill ) ) }
-
-        val currentFilters: List<String> = listskill
+     //  val listskill: MutableList<String> = mutableListOf()
 
 
-        if (currentFilters != null && currentFilters.isNotEmpty()) {
 
-            var cont = currentFilters.size
+        skillDao.all(users.email!!).forEach{ skills ->  Log.i("String de skilldao: ", ""+list.add(""+skills.skill))  }
 
-            currentFilters.forEach { skill ->
-                cont++
+        Log.i("String de skilldao: ", ""+skillDao.all(users.email!!) )
 
-                try {
-                    val sl = Skill(cont.toLong(), users.email, skill.toString())
-                    skillDao.add(sl)
-                    Log.i("Habilidades em banco: ", ""+sl.skill )
 
-                }catch (e: Exception){
-                    val sl = Skill(cont.toLong(), users.email, skill.toString())
-                    skillDao.update(sl)
-                    Log.i("Habilidades em banco: ", ""+sl.skill )
-                }
-               // list.add(skill)
-            }
-        }
+        //val currentFilters: List<String> = list
+
 
         mAdapterAtividade = ItemProfileAdapter(list)
         mRecyclerView.adapter = mAdapterAtividade
         mAdapterAtividade.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
             override fun onChanged() {
-                //getMyPreferences().setFilters(mAdapter.getItens())
+                getMyPreferences().setSkills(mAdapterAtividade.getItens())
                 //aqui grava no banco as habilidades
-                getMyPreferences().setFilters(mAdapterAtividade.getItens())
+               // getMyPreferences().setFilters(mAdapterAtividade.getItens())
                 Log.d("Log do getItens", ""+mAdapterAtividade.getItens())
             }
         })
 
         mRecyclerView.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+
+
+        if (currentFilters != null && currentFilters.isNotEmpty()) {
+
+            currentFilters.forEach { skill ->
+
+                try {
+                    if(skillDao.getSkillReplace(""+users.email, skill.toString())==null) {
+                        val sl = Skill((skillDao.getNumberOfRows().toLong() + 1) , users.email , skill.toString())
+                        skillDao.add(sl)
+                        Log.i("Habilidades em banco: " , "" + sl.skill)
+                    }
+                }catch (e: Exception){
+                    if(skillDao.getSkillReplace(""+users.email, skill.toString())==null) {
+                        val sl = Skill((skillDao.getNumberOfRows().toLong() + 1) , users.email , skill.toString())
+                        skillDao.update(sl)
+                        Log.i("Habilidades em banco: " , "" + sl.skill)
+                    }
+                }
+                //  list.add(skill)
+            }
+        }
+
+
     }
 
 
@@ -375,14 +385,9 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
         mRecyclerView.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
     }
 
-
-
-
-
     private fun handleDelete(){
         userDao.delete()
     }
-
 
     private fun handlePerfil(email: String) {
 
@@ -424,8 +429,19 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
 
 
     private fun handleSave() {
+
         try {
-            val user = User(1,Nome.text.toString(),
+
+            val cont = if (userDao.getReturnID(Email.text.toString()).equals("")) {
+                userDao.getNumberOfRows()+1
+            }else{
+                userDao.getReturnID(Email.text.toString())
+            }
+
+
+
+            val user = User(cont as Long?,
+                    Nome.text.toString(),
                     DataNascimento.text.toString().replace("/", "").toInt(),
                     Cpf.text.toString(),
                     Sexo.text.toString(),

@@ -33,6 +33,12 @@ interface UserDao {
     @Query("SELECT * FROM User WHERE id = :id")
     fun getById(id: Int): User
 
+    @Query("SELECT id FROM User WHERE user.email LIKE :email")
+    fun getReturnID(email: String): User
+
+    @Query("SELECT count(*) FROM User")
+    fun getNumberOfRows(): Int
+
     @Update
     fun update(vararg user: User)
 

@@ -6,6 +6,7 @@ import net.orange_box.storebox.annotations.method.KeyByString
 import net.orange_box.storebox.annotations.method.TypeAdapter
 import ufg.go.br.recrutame.R
 import ufg.go.br.recrutame.adapter.FiltersTypeAdapter
+import ufg.go.br.recrutame.adapter.SkillTypeAdapter
 
 interface MyPreferences {
     @ClearMethod
@@ -44,4 +45,13 @@ interface MyPreferences {
     @KeyByString("key_filters")
     @TypeAdapter(FiltersTypeAdapter:: class)
     fun setFilters(filters: List<String>)
+
+    @KeyByString("key_skills")
+    @TypeAdapter(SkillTypeAdapter:: class)
+    fun getSkills(): List<String>
+
+    @KeyByString("key_skills")
+    @TypeAdapter(SkillTypeAdapter:: class)
+    fun setSkills(skills: List<String>)
+
 }
