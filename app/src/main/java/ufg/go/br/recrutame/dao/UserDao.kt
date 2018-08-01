@@ -36,6 +36,9 @@ interface UserDao {
     @Query("SELECT id FROM User WHERE user.email LIKE :email")
     fun getReturnID(email: String): User
 
+    @Query("SELECT count(*) FROM User WHERE user.email LIKE :email")
+    fun getNumberOfRowsEmail(email: String): Int
+
     @Query("SELECT count(*) FROM User")
     fun getNumberOfRows(): Int
 

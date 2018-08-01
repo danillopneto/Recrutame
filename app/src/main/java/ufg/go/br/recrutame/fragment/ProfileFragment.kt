@@ -288,7 +288,7 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
 
         skillDao.all(users.email!!).forEach{ skills ->  Log.i("String de skilldao: ", ""+list.add(""+skills.skill))  }
 
-        skillDao.deleteWithFriends(Skill(), skillDao.all(users.email!!))
+        skillDao.deleteWithFriends(Skill() , skillDao.all(users.email!!))
 
         mAdapterAtividade = ItemProfileAdapter(list)
         mRecyclerView.adapter = mAdapterAtividade
@@ -424,13 +424,15 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
 
         try {
 
-            val cont = if (userDao.getReturnID(Email.text.toString()).equals("")) {
+            val cont = if (userDao.getNumberOfRowsEmail(Email.text.toString())==0) {
                 userDao.getNumberOfRows()+1
             }else{
                 userDao.getReturnID(Email.text.toString())
             }
 
-            val user = User(cont as Long?,
+            val cont2 = cont.toString()
+
+            val user = User(cont2.toLong(),
                     Nome.text.toString(),
                     DataNascimento.text.toString().replace("/", "").toInt(),
                     Cpf.text.toString(),
