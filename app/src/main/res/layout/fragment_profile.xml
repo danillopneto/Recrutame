@@ -17,7 +17,8 @@
     android:orientation="vertical"
     android:padding="16dp"
     android:background="@color/grey_200">
-
+    <View android:layout_width="match_parent"
+        android:layout_height="match_parent" android:id="@+id/hidden_view" android:visibility="gone" />
     <de.hdodenhof.circleimageview.CircleImageView
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/mProfileImage"

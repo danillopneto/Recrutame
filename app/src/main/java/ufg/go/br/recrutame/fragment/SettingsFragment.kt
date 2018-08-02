@@ -16,10 +16,10 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.widget.*
-import net.orange_box.storebox.StoreBox
+import org.greenrobot.eventbus.EventBus
 import ufg.go.br.recrutame.Util.Utils
 import ufg.go.br.recrutame.adapter.ItemFilterAdapter
-import ufg.go.br.recrutame.model.MyPreferences
+import ufg.go.br.recrutame.enum.EnumShowCase
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView
 import uk.co.deanwild.materialshowcaseview.ShowcaseConfig
@@ -151,23 +151,19 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
         maximumDistanceSlider = view.findViewById(R.id.maximumDistanceSlider)
         val distance = getMyPreferences().getMaximumDistance().toFloat()
         maximumDistanceSlider.position = distance
-        maximumDistanceSlider.endTrackingListener = { handleDistanceUpdated(view) }
+        maximumDistanceSlider.endTrackingListener = { handleDistanceUpdated() }
 
         view.findViewById<ImageButton>(R.id.addFilterBtn).setOnClickListener(this)
         view.findViewById<Button>(R.id.deleteAccountBtn).setOnClickListener(this)
         view.findViewById<Button>(R.id.logoutBtn).setOnClickListener(this)
 
-        //if (getMyPreferences().getIsNewUser()) {
-        showCaseDistance(view)
-        //}
+        if (getMyPreferences().getIsNewUser()) {
+            startShowCase(view)
+        }
     }
 
-    private fun handleDistanceUpdated(view: View) {
+    private fun handleDistanceUpdated() {
         getMyPreferences().setMaximumDistance(maximumDistanceSlider.position.toString())
-        //if (getMyPreferences().getIsNewUser()) {
-        showCaseFilters(view)
-        //}
-
     }
 
     private fun logout() {
@@ -201,21 +197,33 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
         mRecyclerView.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
     }
 
-    private fun showCaseDistance(view: View) {
-        MaterialShowcaseView.Builder(activity!!)
+    private fun startShowCase(view: View) {
+        MaterialShowcaseView.resetSingleUse(activity!!, CLIENT_ID)
+        val config = ShowcaseConfig()
+        config.delay = 500
+
+        val sequence = MaterialShowcaseSequence(activity!!, CLIENT_ID)
+        sequence.setConfig(config)
+
+        sequence.addSequenceItem(MaterialShowcaseView.Builder(activity!!)
                 .setTarget(view.findViewById(R.id.maximumDistanceSlider))
                 .setContentText(R.string.instructions_distance)
+                .setDismissText(R.string.got_it)
                 .withRectangleShape()
-                .setTargetTouchable(true)
-                .show()
-    }
+                .build())
 
-    private fun showCaseFilters(view: View) {
-        MaterialShowcaseView.Builder(activity!!)
+        sequence.addSequenceItem(MaterialShowcaseView.Builder(activity!!)
                 .setTarget(view.findViewById(R.id.newFilterContainer))
                 .setContentText(R.string.instructions_filter)
+                .setDismissText(R.string.got_it)
                 .withRectangleShape()
-                .setTargetTouchable(true)
-                .show()
+                .build())
+
+        sequence.start()
+        sequence.setOnItemDismissedListener { materialShowcaseView, i ->
+            if (i == 1) {
+                EventBus.getDefault().post(EnumShowCase.SETTINGS)
+            }
+        }
     }
 }
