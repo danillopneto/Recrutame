@@ -71,10 +71,10 @@
         <item>Sem escolaridade</item>
     </string-array>
     <string-array name="nivel_idioma">
-        <item>básico</item>
-        <item>intermediário</item>
-        <item>avançado</item>
-        <item>fluente</item>
+        <item>Básico</item>
+        <item>Intermediário</item>
+        <item>Avançado</item>
+        <item>Fluente</item>
     </string-array>
 
     <string-array name="sexo">

@@ -485,7 +485,7 @@
                     app:met_floatingLabel="highlight"
                     app:met_maxCharacters="50"
                     app:met_singleLineEllipsis="true"
-                    app:met_helperText="Ex: Inglês, Espanhou"
+                    app:met_helperText="Ex: Inglês, Espanhol"
                     android:id="@+id/Idioma"
                     android:hint="Idioma"
                     />

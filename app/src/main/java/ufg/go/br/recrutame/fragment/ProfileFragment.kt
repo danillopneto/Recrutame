@@ -1,5 +1,6 @@
 package ufg.go.br.recrutame.fragment
 
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.arch.persistence.room.Room
 import android.graphics.Color
@@ -16,10 +17,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.ImageButton
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import com.jaredrummler.materialspinner.MaterialSpinner
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
@@ -28,19 +26,14 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import rec.protelas.User
-import ufg.go.br.recrutame.CLIENT_ID
 import ufg.go.br.recrutame.R
 import ufg.go.br.recrutame.Util.Mask
 import ufg.go.br.recrutame.Util.Utils
 import ufg.go.br.recrutame.adapter.ItemIdiomaAdapter
 import ufg.go.br.recrutame.adapter.ItemProfileAdapter
 import ufg.go.br.recrutame.dao.*
-import ufg.go.br.recrutame.enum.EnumShowCase
 import ufg.go.br.recrutame.model.Idiom
 import ufg.go.br.recrutame.model.Skill
-import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence
-import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView
-import uk.co.deanwild.materialshowcaseview.ShowcaseConfig
 import java.util.*
 
 
@@ -192,6 +185,7 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
         view.findViewById<TextView>(R.id.btnDeleta).setOnClickListener(this)
         view.findViewById<ImageButton>(R.id.btnAddAtividade).setOnClickListener(this)
         view.findViewById<ImageButton>(R.id.btnAddIdioma).setOnClickListener(this)
+
     }
 
     fun showSnackFeedback(message : String, isValid : Boolean){
@@ -233,7 +227,7 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
         val nascimento = view.findViewById<EditText>(R.id.DataNascimento)
 
         nascimento.setOnClickListener{
-             nascimento.setInputType(0);
+            nascimento.setInputType(0);
             val dpd = DatePickerDialog(context, android.R.style.Theme_Holo_Light_Dialog_MinWidth , DatePickerDialog.OnDateSetListener{view, mYear, mMonth, mDay ->
                 nascimento.setText(""+mDay+"/0"+mMonth+"/"+mYear)
                 nascimento.setInputType(0);
@@ -301,7 +295,7 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
             override fun onChanged() {
                 getMyPreferences().setSkills(mAdapterAtividade.getItens())
                 //aqui grava no banco as habilidades
-               // getMyPreferences().setFilters(mAdapterAtividade.getItens())
+                // getMyPreferences().setFilters(mAdapterAtividade.getItens())
                 Log.d("Log do getItens", ""+mAdapterAtividade.getItens())
             }
         })
@@ -329,17 +323,83 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
                 //  list.add(skill)
             }
         }
-
-
     }
 
 
     private fun handleAddIdioma(){
+
+        var idiomaSelect = ""
+        val user = mAuth.currentUser!!
+
+        var users = userDao.getUserEmail(user.email!!)
+        if (users == null) {
+            users = User()
+        }
+
+        val currentFilters = getMyPreferences().getIdioms()
+
+        val list: MutableList<String> = mutableListOf()
+
+        idiomDao.all(users.email!!).forEach{ idioms ->  Log.i("String de skilldao: ", ""+list.add(""+idioms.idioms))  }
+
+        idiomDao.deleteWithFriends(Idiom() , idiomDao.all(users.email!!))
+
+        if (currentFilters != null && currentFilters.isNotEmpty()) {
+
+            currentFilters.forEach { idiom ->
+
+                try {
+                    if(idiomDao.getIdiomReplace(""+users.email, idiom.toString())==null) {
+                        val sl = Idiom((idiomDao.getNumberOfRows().toLong() + 1) , users.email , idiom.toString())
+                        idiomDao.add(sl)
+                        Log.i("Habilidades em banco: " , "" + sl.idioms)
+                    }
+                }catch (e: Exception){
+                    if(idiomDao.getIdiomReplace(""+users.email, idiom.toString())==null) {
+                        val sl = Idiom((idiomDao.getNumberOfRows().toLong() + 1) , users.email , idiom.toString())
+                        idiomDao.update(sl)
+                        Log.i("Habilidades em banco: " , "" + sl.idioms)
+                    }
+                }
+            }
+        }
+
         if (Utils.isNullOrWhiteSpace(newIdiomaTxt.text.toString())) {
             Toast.makeText(context, getString(R.string.insert_filter_term), Toast.LENGTH_SHORT).show()
         } else {
-            mAdapterIdioma.updateList(newIdiomaTxt.text.toString().trim())
-            newIdiomaTxt.setText("")
+
+            val builder =  AlertDialog.Builder(getActivity()!!)
+            val view = LayoutInflater.from(getActivity()!!).inflate(R.layout.dialog_idiom, null)
+            val spinner = view.findViewById<View>(R.id.Nivel_Idioma) as MaterialSpinner
+
+            spinner.setOnItemSelectedListener { view , position , id , item ->
+                idiomaSelect = ""+item }
+
+            val adapter = ArrayAdapter.createFromResource(getActivity()!!, R.array.nivel_idioma,
+                    android.R.layout.simple_spinner_dropdown_item);
+
+            spinner.setAdapter(adapter);
+
+
+
+            builder.setView(view);
+
+            builder.setTitle("Nível")
+            builder.setMessage("Qual a fluência no idioma: ")
+            builder.setPositiveButton("Salvar", { dialog, whichButton ->
+
+                spinner.setInputType(0);
+                val sl = Idiom((idiomDao.getNumberOfRows().toLong() + 1) , users.email , newIdiomaTxt.text.toString().trim()+" - "+idiomaSelect )
+                idiomDao.add(sl)
+                mAdapterIdioma.updateList(newIdiomaTxt.text.toString().trim()+" - "+idiomaSelect)
+                newIdiomaTxt.setText("")
+            })
+            builder.setNegativeButton("Cancelar", { dialog, whichButton ->
+                //pass
+            })
+            val b = builder.create()
+            b.show()
+
         }
     }
 
@@ -404,6 +464,8 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
                 }
             }
         }
+
+
     }
 
     private fun handleDelete(){
@@ -443,10 +505,15 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
             Idioma.setText(userDao.getUserEmail(email)?.idioma.toString())
 
         }catch (e: Exception){
-           showSnackFeedback("Não existe cadastro",false)
+            showSnackFeedback("Não existe cadastro",false)
         }
     }
 
+
+
+    private fun chamarDialog() {
+
+    }
 
 
     private fun handleSave() {
