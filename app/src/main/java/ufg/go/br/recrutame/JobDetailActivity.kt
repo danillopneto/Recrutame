@@ -10,8 +10,10 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.ValueEventListener
 import ufg.go.br.recrutame.model.JobModel
+import java.text.NumberFormat
+import java.util.*
 
-class JobDetailActivity : AppCompatActivity(){
+class JobDetailActivity : BaseActivity(){
     private lateinit var database: FirebaseDatabase
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,13 +33,17 @@ class JobDetailActivity : AppCompatActivity(){
                 var jobSalaryTxt: TextView = findViewById(R.id.jobSalaryTxt)
 
                 var jobModel: JobModel? = dataSnapshot.getValue(JobModel::class.java)
-                jobTitleTxt.setText(jobModel?.title)
-                jobCompanyTxt.setText(jobModel?.company)
-                jobDescriptionTxt.setText(jobModel?.description)
-                jobLocationTxt.setText(jobModel?.city + ", " + jobModel?.state + " - " + jobModel?.country)
-                jobTypeTxt.setText(jobModel?.type)
-                jobSalaryTxt.setText(jobModel?.salary.toString())
-                Picasso.get().load(jobModel?.image).into(jobImageView);
+                jobTitleTxt.text = jobModel?.title
+                jobCompanyTxt.text = jobModel?.company
+                jobDescriptionTxt.text = jobModel?.description
+                jobLocationTxt.text = jobModel?.city + ", " + jobModel?.state + " - " + jobModel?.country
+                jobTypeTxt.text = jobModel?.type
+
+                val preferences = getMyPreferences()
+                val format = NumberFormat.getCurrencyInstance(Locale(preferences.getLanguage(), preferences.getCountry()))
+
+                jobSalaryTxt.text = format.format(jobModel?.salary)
+                Picasso.get().load(jobModel?.image).into(jobImageView)
             }
 
             override fun onCancelled(databaseError: DatabaseError) {

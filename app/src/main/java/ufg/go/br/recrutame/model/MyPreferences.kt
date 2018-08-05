@@ -62,4 +62,12 @@ interface MyPreferences {
     @KeyByString("key_idioms")
     @TypeAdapter(IdiomTypeAdapter:: class)
     fun setIdioms(skills: List<String>)
+
+    @KeyByString("key_user_country")
+    @DefaultValue(R.string.default_country)
+    fun getCountry(): String
+
+    @KeyByString("key_user_language")
+    @DefaultValue(R.string.default_language)
+    fun getLanguage(): String
 }

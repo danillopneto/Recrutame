@@ -21,7 +21,7 @@ import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView
 import uk.co.deanwild.materialshowcaseview.ShowcaseConfig
 
-class TabActivity : AppCompatActivity() {
+class TabActivity : BaseActivity() {
     private lateinit var bottonNavigationView: BottomNavigationViewEx
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,10 +42,7 @@ class TabActivity : AppCompatActivity() {
             loadFragment(item.itemId)
             true
         }
-    }
 
-    override fun onResume() {
-        super.onResume()
         if (getMyPreferences().getIsNewUser()) {
             startShowCase()
         } else {
@@ -57,7 +54,7 @@ class TabActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         val fragments = supportFragmentManager.fragments
         if (fragments != null) {
-            for (f in fragments!!) {
+            for (f in fragments) {
                 if (f is ProfileFragment) {
                     f.onActivityResult(requestCode, resultCode, data)
                 }
@@ -78,10 +75,6 @@ class TabActivity : AppCompatActivity() {
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onShowCaseDone(tab: EnumShowCase) {
         bottonNavigationView.currentItem = tab.value
-    }
-
-    fun getMyPreferences(): MyPreferences {
-        return StoreBox.create(this, MyPreferences::class.java)
     }
 
     private fun loadFragment(id: Int){

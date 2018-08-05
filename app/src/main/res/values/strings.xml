@@ -62,6 +62,8 @@
     <string name="instruction_profile">Preencha seus dados para que as empresas conheçam seu perfil</string>
     <string name="instructions_search">Encontre aqui as vagas desejadas</string>
     <string name="instructions_chat">Converse com as empresas que gostaram do seu perfil</string>
+    <string name="default_country">BR</string>
+    <string name="default_language">pt</string>
     <string-array name="nivel">
         <item>Profissional</item>
         <item>Superior</item>

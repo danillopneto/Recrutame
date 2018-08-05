@@ -1,6 +1,5 @@
 package ufg.go.br.recrutame.fragment
 
-import android.app.Activity.RESULT_OK
 import android.app.AlertDialog
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -17,8 +16,6 @@ import android.widget.Toast
 import android.app.ProgressDialog
 import com.myhexaville.smartimagepicker.ImagePicker
 import org.greenrobot.eventbus.EventBus
-
-
 
 abstract class BaseFragment : Fragment() {
     lateinit var mAuth: FirebaseAuth
