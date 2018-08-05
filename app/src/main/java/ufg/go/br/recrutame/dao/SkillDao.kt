@@ -6,10 +6,6 @@ import rec.protelas.User
 import android.arch.persistence.room.Delete
 
 
-
-
-
-
 /**
  * Created by Vinicius on 28/07/2018.
  */
@@ -34,12 +30,8 @@ interface SkillDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun add(vararg skill: Skill)
 
-   // @Insert
-  //  fun add(vararg skill: Skill)
-
     @Update
     fun update(vararg skill: Skill)
-
 
     @Delete
     fun deleteUsers(vararg skills: Skill)

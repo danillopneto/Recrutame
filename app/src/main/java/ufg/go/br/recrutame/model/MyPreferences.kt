@@ -6,6 +6,7 @@ import net.orange_box.storebox.annotations.method.KeyByString
 import net.orange_box.storebox.annotations.method.TypeAdapter
 import ufg.go.br.recrutame.R
 import ufg.go.br.recrutame.adapter.FiltersTypeAdapter
+import ufg.go.br.recrutame.adapter.IdiomTypeAdapter
 import ufg.go.br.recrutame.adapter.SkillTypeAdapter
 
 interface MyPreferences {
@@ -54,4 +55,11 @@ interface MyPreferences {
     @TypeAdapter(SkillTypeAdapter:: class)
     fun setSkills(skills: List<String>)
 
+    @KeyByString("key_idioms")
+    @TypeAdapter(IdiomTypeAdapter:: class)
+    fun getIdioms(): List<String>
+
+    @KeyByString("key_idioms")
+    @TypeAdapter(IdiomTypeAdapter:: class)
+    fun setIdioms(skills: List<String>)
 }

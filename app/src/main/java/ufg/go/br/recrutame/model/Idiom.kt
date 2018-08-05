@@ -14,5 +14,7 @@ data class Idiom(
         @ColumnInfo(name = "email")
         var email: String? = "",
         @ColumnInfo(name = "idioms")
-        var idioms: String? = ""
+        var idioms: String? = ""/*,
+        @ColumnInfo(name = "nivel")
+        var nivel: String? = ""*/
 )

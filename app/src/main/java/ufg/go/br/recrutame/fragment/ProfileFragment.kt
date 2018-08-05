@@ -36,6 +36,7 @@ import ufg.go.br.recrutame.adapter.ItemIdiomaAdapter
 import ufg.go.br.recrutame.adapter.ItemProfileAdapter
 import ufg.go.br.recrutame.dao.*
 import ufg.go.br.recrutame.enum.EnumShowCase
+import ufg.go.br.recrutame.model.Idiom
 import ufg.go.br.recrutame.model.Skill
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView
@@ -351,37 +352,61 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
         val layoutManager = LinearLayoutManager(context)
         mRecyclerView.layoutManager = layoutManager
 
+        val user = mAuth.currentUser!!
+        mStorageRef.child(getUserPhotoUrl()).downloadUrl.addOnSuccessListener { task ->
+            EventBus.getDefault().post(task)
+        }.addOnFailureListener{
+            EventBus.getDefault().post(R.drawable.user_logo)
+        }
+
+        var users = userDao.getUserEmail(user.email!!)
+        if (users == null) {
+            users = User()
+        }
+
+        Log.i("Email Do usuario logado: ", ""+users.email )
+
         val list: MutableList<String> = mutableListOf()
         // a lista de habilidades vem daqui
-        // val currentFilters = getMyPreferences().getFilters()
+        val currentFilters = getMyPreferences().getIdioms()
 
-        val numbers: MutableList<String> = mutableListOf("Ingles", "Espanhol", "Italiano")
-        val currentFilters: List<String> = numbers
-        // val user = mAuth.currentUser!!
+        idiomDao.all(users.email!!).forEach{ idioms ->  Log.i("String de skilldao: ", ""+list.add(""+idioms.idioms))  }
 
-        /*var skillss = skillDao.getSkillEmail(user.email!!)
-        if (skillss == null) {
-            skillss = Skill()
-        }
-        */
-        Log.d("Log do Habilidades", ""+currentFilters)
-
-
-        if (currentFilters != null && currentFilters.isNotEmpty()) {
-            list.addAll(currentFilters)
-        }
+        idiomDao.deleteWithFriends(Idiom() , idiomDao.all(users.email!!))
 
         mAdapterIdioma = ItemIdiomaAdapter(list)
         mRecyclerView.adapter = mAdapterIdioma
         mAdapterIdioma.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
             override fun onChanged() {
-                //getMyPreferences().setFilters(mAdapter.getItens())
+                getMyPreferences().setIdioms(mAdapterIdioma.getItens())
                 //aqui grava no banco as habilidades
+                // getMyPreferences().setFilters(mAdapterAtividade.getItens())
                 Log.d("Log do getItens", ""+mAdapterIdioma.getItens())
             }
         })
 
         mRecyclerView.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+
+
+        if (currentFilters != null && currentFilters.isNotEmpty()) {
+
+            currentFilters.forEach { idiom ->
+
+                try {
+                    if(idiomDao.getIdiomReplace(""+users.email, idiom.toString())==null) {
+                        val sl = Idiom((idiomDao.getNumberOfRows().toLong() + 1) , users.email , idiom.toString())
+                        idiomDao.add(sl)
+                        Log.i("Habilidades em banco: " , "" + sl.idioms)
+                    }
+                }catch (e: Exception){
+                    if(idiomDao.getIdiomReplace(""+users.email, idiom.toString())==null) {
+                        val sl = Idiom((idiomDao.getNumberOfRows().toLong() + 1) , users.email , idiom.toString())
+                        idiomDao.update(sl)
+                        Log.i("Habilidades em banco: " , "" + sl.idioms)
+                    }
+                }
+            }
+        }
     }
 
     private fun handleDelete(){
