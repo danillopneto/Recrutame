@@ -7,18 +7,20 @@ import ufg.go.br.recrutame.JobCard
 import ufg.go.br.recrutame.R
 import com.mindorks.placeholderview.SwipeDecor
 import com.mindorks.placeholderview.SwipeViewBuilder
-import ufg.go.br.recrutame.Util.JobUtils
 import android.view.*
 import com.google.firebase.database.*
 import ufg.go.br.recrutame.Util.Utils
 import com.sackcentury.shinebuttonlib.ShineButton
-import net.orange_box.storebox.StoreBox
 import ufg.go.br.recrutame.TAG
 import ufg.go.br.recrutame.model.JobModel
-import ufg.go.br.recrutame.model.MyPreferences
+import com.github.florent37.tutoshowcase.TutoShowcase
+import org.greenrobot.eventbus.EventBus
+import ufg.go.br.recrutame.CLIENT_ID
+import ufg.go.br.recrutame.enum.EnumShowCase
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView
 import uk.co.deanwild.materialshowcaseview.ShowcaseConfig
+
 
 class JobFragment : BaseFragment(){
     private lateinit var database:FirebaseDatabase
@@ -76,14 +78,6 @@ class JobFragment : BaseFragment(){
             acceptBtn.isChecked = false
         }
 
-        if (getMyPreferences().getIsNewUser()) {
-            startShowCase(rootView)
-        }
-
         return rootView
-    }
-
-    private fun startShowCase(view: View) {
-
     }
 }

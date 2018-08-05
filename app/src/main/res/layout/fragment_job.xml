@@ -38,7 +38,7 @@
                 android:elevation="4dp"
                 android:src="@android:color/darker_gray"
                 app:allow_random_color="false"
-                app:btn_color="@android:color/darker_gray"
+                app:btn_color="@color/red"
                 app:btn_fill_color="@android:color/holo_red_dark"
                 app:siShape="@drawable/ic_ignore_2" />
 
@@ -75,7 +75,7 @@
                 android:elevation="4dp"
                 android:src="@android:color/darker_gray"
                 app:allow_random_color="false"
-                app:btn_color="@color/primaryColor"
+                app:btn_color="@color/green"
                 app:btn_fill_color="@android:color/holo_green_dark"
                 app:siShape="@drawable/ic_apply_1" />
 

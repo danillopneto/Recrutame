@@ -156,10 +156,6 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
         view.findViewById<ImageButton>(R.id.addFilterBtn).setOnClickListener(this)
         view.findViewById<Button>(R.id.deleteAccountBtn).setOnClickListener(this)
         view.findViewById<Button>(R.id.logoutBtn).setOnClickListener(this)
-
-        if (getMyPreferences().getIsNewUser()) {
-            startShowCase(view)
-        }
     }
 
     private fun handleDistanceUpdated() {
@@ -195,35 +191,5 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
         })
 
         mRecyclerView.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
-    }
-
-    private fun startShowCase(view: View) {
-        MaterialShowcaseView.resetSingleUse(activity!!, CLIENT_ID)
-        val config = ShowcaseConfig()
-        config.delay = 500
-
-        val sequence = MaterialShowcaseSequence(activity!!, CLIENT_ID)
-        sequence.setConfig(config)
-
-        sequence.addSequenceItem(MaterialShowcaseView.Builder(activity!!)
-                .setTarget(view.findViewById(R.id.maximumDistanceSlider))
-                .setContentText(R.string.instructions_distance)
-                .setDismissText(R.string.got_it)
-                .withRectangleShape()
-                .build())
-
-        sequence.addSequenceItem(MaterialShowcaseView.Builder(activity!!)
-                .setTarget(view.findViewById(R.id.newFilterContainer))
-                .setContentText(R.string.instructions_filter)
-                .setDismissText(R.string.got_it)
-                .withRectangleShape()
-                .build())
-
-        sequence.start()
-        sequence.setOnItemDismissedListener { materialShowcaseView, i ->
-            if (i == 1) {
-                EventBus.getDefault().post(EnumShowCase.SETTINGS)
-            }
-        }
     }
 }

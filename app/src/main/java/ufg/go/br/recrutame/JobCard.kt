@@ -18,7 +18,6 @@ import ufg.go.br.recrutame.model.JobModel
 import android.content.Context
 import android.content.Intent
 
-
 @Layout(R.layout.card_view_job)
 class JobCard(private val mContext: Context, private val mJob: JobModel?, private val mSwipeView: SwipePlaceHolderView) {
 

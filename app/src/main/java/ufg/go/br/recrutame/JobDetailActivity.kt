@@ -2,17 +2,14 @@ package ufg.go.br.recrutame
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
-import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.squareup.picasso.Picasso
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.ValueEventListener
 import ufg.go.br.recrutame.model.JobModel
-
 
 class JobDetailActivity : AppCompatActivity(){
     private lateinit var database: FirebaseDatabase

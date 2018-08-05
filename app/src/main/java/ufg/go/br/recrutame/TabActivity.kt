@@ -1,18 +1,12 @@
 package ufg.go.br.recrutame
 
-import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
-import android.util.AttributeSet
-import android.view.MenuItem
-import android.view.View
 import com.google.firebase.auth.FirebaseAuth
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx
-import com.squareup.picasso.Picasso
 import net.orange_box.storebox.StoreBox
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -26,8 +20,6 @@ import ufg.go.br.recrutame.model.MyPreferences
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView
 import uk.co.deanwild.materialshowcaseview.ShowcaseConfig
-
-
 
 class TabActivity : AppCompatActivity() {
     private lateinit var bottonNavigationView: BottomNavigationViewEx
@@ -50,8 +42,15 @@ class TabActivity : AppCompatActivity() {
             loadFragment(item.itemId)
             true
         }
+    }
 
-        bottonNavigationView.currentItem = 0
+    override fun onResume() {
+        super.onResume()
+        if (getMyPreferences().getIsNewUser()) {
+            startShowCase()
+        } else {
+            bottonNavigationView.currentItem = 0
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -78,10 +77,11 @@ class TabActivity : AppCompatActivity() {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onShowCaseDone(tab: EnumShowCase) {
-        when (tab) {
-            EnumShowCase.PROFILE -> { bottonNavigationView.currentItem = EnumShowCase.SETTINGS.value }
-            EnumShowCase.SETTINGS -> { bottonNavigationView.currentItem = EnumShowCase.JOB.value }
-        }
+        bottonNavigationView.currentItem = tab.value
+    }
+
+    fun getMyPreferences(): MyPreferences {
+        return StoreBox.create(this, MyPreferences::class.java)
     }
 
     private fun loadFragment(id: Int){
@@ -97,5 +97,65 @@ class TabActivity : AppCompatActivity() {
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.frame_layout, selectedFragment)
         transaction.commit()
+    }
+
+    private fun startShowCase() {
+        MaterialShowcaseView.resetSingleUse(this, CLIENT_ID)
+        val config = ShowcaseConfig()
+        config.delay = 500
+
+        val sequence = MaterialShowcaseSequence(this, CLIENT_ID)
+        sequence.setConfig(config)
+
+        sequence.addSequenceItem(MaterialShowcaseView.Builder(this)
+                .setTarget(findViewById(R.id.activity_tab))
+                .withoutShape()
+                .setContentText(getString(R.string.welcome_app))
+                .setDismissText(R.string.lets_go)
+                .setDelay(1000)
+                .build())
+
+        sequence.addSequenceItem(MaterialShowcaseView.Builder(this)
+                .setTarget(findViewById(R.id.action_profile))
+                .setContentText(getString(R.string.instruction_profile))
+                .setDismissText(R.string.got_it)
+                .build())
+
+        sequence.addSequenceItem(MaterialShowcaseView.Builder(this)
+                .setTarget(findViewById(R.id.action_settings))
+                .setContentText(R.string.instructions_settings)
+                .setDismissText(R.string.got_it)
+                .withRectangleShape()
+                .build())
+
+        sequence.addSequenceItem(MaterialShowcaseView.Builder(this)
+                .setTarget(findViewById(R.id.action_work))
+                .setContentText(R.string.instructions_search)
+                .setDismissText(R.string.got_it)
+                .withRectangleShape()
+                .build())
+
+        sequence.addSequenceItem(MaterialShowcaseView.Builder(this)
+                .setTarget(findViewById(R.id.action_chat))
+                .setContentText(R.string.instructions_chat)
+                .setDismissText(R.string.got_it)
+                .withRectangleShape()
+                .build())
+
+        sequence.start()
+        sequence.setOnItemDismissedListener { materialShowcaseView, i ->
+            when (i){
+                0 -> EventBus.getDefault().post(EnumShowCase.PROFILE)
+                1 -> EventBus.getDefault().post(EnumShowCase.SETTINGS)
+                2 -> EventBus.getDefault().post(EnumShowCase.JOB)
+                3 -> EventBus.getDefault().post(EnumShowCase.CHAT)
+                4 -> finishShowCase()
+            }
+        }
+    }
+
+    private fun finishShowCase() {
+        EventBus.getDefault().post(EnumShowCase.PROFILE)
+        getMyPreferences().setIsNewUser(false)
     }
 }

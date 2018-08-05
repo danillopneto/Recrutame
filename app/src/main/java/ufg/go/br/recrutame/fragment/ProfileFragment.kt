@@ -192,9 +192,6 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
         view.findViewById<TextView>(R.id.btnDeleta).setOnClickListener(this)
         view.findViewById<ImageButton>(R.id.btnAddAtividade).setOnClickListener(this)
         view.findViewById<ImageButton>(R.id.btnAddIdioma).setOnClickListener(this)
-        if (getMyPreferences().getIsNewUser()) {
-            startShowCase(view)
-        }
     }
 
     fun showSnackFeedback(message : String, isValid : Boolean){
@@ -497,25 +494,5 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
             Log.d("Erro ao buscar", e.toString());
         }
 
-    }
-
-    private fun startShowCase(view: View) {
-        MaterialShowcaseView.resetSingleUse(activity!!, CLIENT_ID)
-        val config = ShowcaseConfig()
-        config.delay = 500
-
-        val sequence = MaterialShowcaseSequence(activity!!, CLIENT_ID)
-        sequence.setConfig(config)
-
-        sequence.addSequenceItem(MaterialShowcaseView.Builder(activity!!)
-                .setTarget(view.findViewById(R.id.hidden_view))
-                .setContentText(getString(R.string.instruction_profile))
-                .setDismissText(R.string.got_it)
-                .build())
-
-        sequence.start()
-        sequence.setOnItemDismissedListener { materialShowcaseView, i ->
-            EventBus.getDefault().post(EnumShowCase.PROFILE)
-        }
     }
 }

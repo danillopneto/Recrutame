@@ -1,10 +1,10 @@
 package ufg.go.br.recrutame
 
 import android.os.Bundle
-import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_register.*
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
@@ -41,10 +41,12 @@ class RegisterActivity : LoginActivity(), View.OnClickListener {
     private fun registerUser(email: String, password: String) {
         mActionButton?.startAnimation()
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this) { task ->
-            mActionButton?.revertAnimation()
             if (!task.isSuccessful) {
+                mActionButton?.revertAnimation()
                 try {
-                    throw task.exception!!
+                    throw task.exception!!}
+                catch (e: FirebaseNetworkException) {
+                    Toast.makeText(this, getString(R.string.no_connection), Toast.LENGTH_LONG).show()
                 } catch (e: FirebaseAuthWeakPasswordException) {
                     Toast.makeText(this, getString(R.string.error_weak_password), Toast.LENGTH_LONG).show()
                 } catch (e: FirebaseAuthInvalidCredentialsException) {
