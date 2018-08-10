@@ -69,10 +69,8 @@ dependencies {
     implementation 'net.orange-box.storebox:storebox-lib:1.4.0'
     implementation 'br.com.simplepass:loading-button-android:1.14.0'
 
-    implementation 'com.sackcentury:shinebutton:0.2.0'
     implementation 'com.myhexaville:smart-image-picker:1.0.4'
     implementation 'org.greenrobot:eventbus:3.1.1'
 
-    implementation 'com.github.florent37:tutoshowcase:1.0.1'
     implementation 'com.github.deano2390:MaterialShowcaseView:1.2.0'
 }

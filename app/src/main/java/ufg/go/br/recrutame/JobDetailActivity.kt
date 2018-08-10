@@ -1,7 +1,11 @@
 package ufg.go.br.recrutame
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.FloatingActionButton
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.google.firebase.database.FirebaseDatabase
@@ -9,15 +13,18 @@ import com.squareup.picasso.Picasso
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.ValueEventListener
+import org.greenrobot.eventbus.EventBus
+import ufg.go.br.recrutame.enum.EnumUserIteraction
 import ufg.go.br.recrutame.model.JobModel
 import java.text.NumberFormat
 import java.util.*
 
-class JobDetailActivity : BaseActivity(){
+class JobDetailActivity : BaseActivity(), View.OnClickListener {
     private lateinit var database: FirebaseDatabase
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.card_detail_job)
+        inicializeControls()
 
         val codigoVaga = intent.getStringExtra("key")
 
@@ -62,5 +69,27 @@ class JobDetailActivity : BaseActivity(){
         jobTitleTxt.setText(jobTitle)
         jobCompanyTxt.setText(jobCompany)
         Picasso.get().load(jobImage).into(jobImageView);*/
+    }
+
+    override fun onClick(v: View?) {
+        when (v?.id) {
+            R.id.rejectBtn -> rejectJob()
+            R.id.acceptBtn -> acceptJob()
+        }
+    }
+
+    private fun inicializeControls() {
+        findViewById<FloatingActionButton>(R.id.rejectBtn).setOnClickListener(this)
+        findViewById<FloatingActionButton>(R.id.acceptBtn).setOnClickListener(this)
+    }
+
+    private fun acceptJob() {
+        EventBus.getDefault().postSticky(EnumUserIteraction.ACCEPT_JOB)
+        finish()
+    }
+
+    private fun rejectJob() {
+        EventBus.getDefault().postSticky(EnumUserIteraction.REJECT_JOB)
+        finish()
     }
 }
