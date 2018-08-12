@@ -20,8 +20,6 @@ import org.greenrobot.eventbus.ThreadMode
 import ufg.go.br.recrutame.enum.EnumUserIteraction
 import android.view.animation.AnimationUtils
 
-
-
 class JobFragment : BaseFragment(){
     private lateinit var database:FirebaseDatabase
     private lateinit var mSwipeView: SwipePlaceHolderView
@@ -50,7 +48,8 @@ class JobFragment : BaseFragment(){
                         .setMarginTop(0)
                         .setRelativeScale(0.01f)
                         .setSwipeInMsgLayoutId(R.layout.card_swipe_in)
-                        .setSwipeOutMsgLayoutId(R.layout.card_swipe_out))
+                        .setSwipeOutMsgLayoutId(R.layout.card_swipe_out)
+                        .setSwipeAnimTime(250))
 
         database.getReference("vagas").addValueEventListener( object: ValueEventListener{
             override fun onDataChange(dataSnapshot: DataSnapshot?) {

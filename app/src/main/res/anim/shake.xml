@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<translate xmlns:android="http://schemas.android.com/apk/res/android"
-    android:fromXDelta="0"
-    android:toXDelta="2"
-    android:fromYDelta="0"
-    android:toYDelta="2"
-    android:duration="1000"
-    android:interpolator="@anim/cycle" />
+<rotate
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:duration="150"
+    android:fromDegrees="-7"
+    android:toDegrees="7"
+    android:pivotX="50%"
+    android:pivotY="50%"
+    android:repeatCount="2"
+    android:repeatMode="reverse"
+    />
