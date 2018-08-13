@@ -24,3 +24,5 @@ const val OAUTH_LOGGEDIN = "oauth.loggedin"
 const val OAUTH_ACCESSTOKEN = "oauth.accesstoken"
 
 const val USER_EMAIL = "user.email"
+
+const val LOCATION_PERMISSION = 123

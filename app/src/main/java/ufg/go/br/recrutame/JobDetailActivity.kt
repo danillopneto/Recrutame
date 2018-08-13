@@ -1,12 +1,15 @@
 package ufg.go.br.recrutame
 
-import android.app.Activity
-import android.content.Intent
+import android.Manifest
+import android.content.pm.PackageManager
+import android.location.Location
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
-import android.support.v7.app.AppCompatActivity
+import android.support.v4.app.ActivityCompat
+import android.support.v4.content.ContextCompat
 import android.view.View
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import com.google.firebase.database.FirebaseDatabase
 import com.squareup.picasso.Picasso
@@ -18,9 +21,16 @@ import ufg.go.br.recrutame.enum.EnumUserIteraction
 import ufg.go.br.recrutame.model.JobModel
 import java.text.NumberFormat
 import java.util.*
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 
 class JobDetailActivity : BaseActivity(), View.OnClickListener {
     private lateinit var database: FirebaseDatabase
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var jobDistanceContainer: LinearLayout
+    private lateinit var jobDistanceTxt: TextView
+    private val jobLocation: Location = Location("jobLocation")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.card_detail_job)
@@ -31,20 +41,26 @@ class JobDetailActivity : BaseActivity(), View.OnClickListener {
         database = FirebaseDatabase.getInstance()
         database.getReference("vagas").child(codigoVaga).addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                var jobTitleTxt: TextView = findViewById(R.id.jobTitleTxt)
-                var jobCompanyTxt: TextView = findViewById(R.id.jobCompanyTxt)
-                var jobImageView: ImageView = findViewById(R.id.jobImg)
-                var jobDescriptionTxt: TextView = findViewById(R.id.jobDescriptionTxt)
-                var jobTypeTxt: TextView = findViewById(R.id.jobTypeTxt)
-                var jobLocationTxt: TextView = findViewById(R.id.jobLocationTxt)
-                var jobSalaryTxt: TextView = findViewById(R.id.jobSalaryTxt)
+                val jobTitleTxt: TextView = findViewById(R.id.jobTitleTxt)
+                val jobCompanyTxt: TextView = findViewById(R.id.jobCompanyTxt)
+                val jobImageView: ImageView = findViewById(R.id.jobImg)
+                val jobDescriptionTxt: TextView = findViewById(R.id.jobDescriptionTxt)
+                val jobTypeTxt: TextView = findViewById(R.id.jobTypeTxt)
+                val jobLocationTxt: TextView = findViewById(R.id.jobLocationTxt)
+                jobDistanceContainer = findViewById(R.id.jobDistanceContainer)
+                jobDistanceTxt = findViewById(R.id.jobDistanceTxt)
+                val jobSalaryTxt: TextView = findViewById(R.id.jobSalaryTxt)
 
-                var jobModel: JobModel? = dataSnapshot.getValue(JobModel::class.java)
+                val jobModel: JobModel? = dataSnapshot.getValue(JobModel::class.java)
                 jobTitleTxt.text = jobModel?.title
                 jobCompanyTxt.text = jobModel?.company
                 jobDescriptionTxt.text = jobModel?.description
-                jobLocationTxt.text = jobModel?.city + ", " + jobModel?.state + " - " + jobModel?.country
+                jobLocationTxt.text = "${jobModel?.city}, ${jobModel?.state} - ${jobModel?.country}"
                 jobTypeTxt.text = jobModel?.type
+
+                jobLocation.latitude = jobModel?.latitude!!
+                jobLocation.longitude = jobModel.longitude!!
+                handleDistance()
 
                 val preferences = getMyPreferences()
                 val format = NumberFormat.getCurrencyInstance(Locale(preferences.getLanguage(), preferences.getCountry()))
@@ -78,7 +94,22 @@ class JobDetailActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
+    override fun onRequestPermissionsResult(requestCode: Int,
+                                            permissions: Array<String>, grantResults: IntArray) {
+        when (requestCode) {
+            LOCATION_PERMISSION -> {
+                // If request is cancelled, the result arrays are empty.
+                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                    handleDistance()
+                }
+
+                return
+            }
+        }
+    }
+
     private fun inicializeControls() {
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         findViewById<FloatingActionButton>(R.id.rejectBtn).setOnClickListener(this)
         findViewById<FloatingActionButton>(R.id.acceptBtn).setOnClickListener(this)
     }
@@ -91,5 +122,33 @@ class JobDetailActivity : BaseActivity(), View.OnClickListener {
     private fun rejectJob() {
         EventBus.getDefault().postSticky(EnumUserIteraction.REJECT_JOB)
         finish()
+    }
+
+    private fun handleDistance() {
+        if (jobLocation.latitude == 0.0
+                && jobLocation.longitude == 0.0) {
+            return
+        }
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            fusedLocationClient.lastLocation
+                    .addOnSuccessListener { location : Location? ->
+                        if (location != null) {
+                            val distance = location.distanceTo(jobLocation)
+                            val kilometers = (distance/1000).toInt()
+                            if (kilometers < 1) {
+                                jobDistanceTxt.text = getString(R.string.less_than_one_km)
+                            } else {
+                                jobDistanceTxt.text = "${kilometers}Km"
+                            }
+
+                            jobDistanceContainer.visibility = View.VISIBLE
+                        }
+                    }
+        } else {
+            ActivityCompat.requestPermissions(this,
+                    arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION), LOCATION_PERMISSION)
+        }
     }
 }

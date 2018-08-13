@@ -36,7 +36,7 @@ class JobCard(private val mContext: Context, private val mJob: JobModel?, privat
     @Resolve
     private fun onResolved() {
 
-        Picasso.get().load(mJob?.image).into(jobImg);
+        Picasso.get().load(mJob?.image).into(jobImg)
         jobTitleTxt!!.setText(mJob?.title)
         jobCompanyTxt!!.setText(mJob?.company)
         jobInfoBtn!!.setOnClickListener({

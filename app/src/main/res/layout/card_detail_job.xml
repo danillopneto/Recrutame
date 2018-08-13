@@ -180,7 +180,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginRight="5dp"
-                                    android:background="@drawable/ic_place_2"
+                                    android:background="@drawable/ic_map"
                                     android:tint="@color/colorAccent" />
 
                                 <TextView
@@ -190,6 +190,33 @@
                                     android:gravity="left|center_vertical"
                                     android:paddingLeft="2dp"
                                     android:text="Goiânia"
+                                    android:textColor="@color/primaryColor"
+                                    android:textStyle="normal" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/jobDistanceContainer"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:padding="10dp"
+                                android:visibility="gone"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:id="@+id/jobDistanceImg"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginRight="5dp"
+                                    android:background="@drawable/ic_distance"
+                                    android:tint="@color/colorAccent" />
+
+                                <TextView
+                                    android:id="@+id/jobDistanceTxt"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="left|center_vertical"
+                                    android:paddingLeft="2dp"
+                                    android:text="1Km"
                                     android:textColor="@color/primaryColor"
                                     android:textStyle="normal" />
                             </LinearLayout>
