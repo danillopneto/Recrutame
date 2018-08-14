@@ -121,7 +121,7 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
 
             nome.setText(user.displayName)
             email.setText(user.email)
-            handlePerfil(user.email!!)
+            handlePerfil(user.email.toString(), view)
 
             val dataNascimento = view.findViewById<EditText>(R.id.DataNascimento)
             val nacionalidade = view.findViewById<EditText>(R.id.Nacionalidade)
@@ -144,27 +144,27 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
                 showSnackFeedback("Erro dateNascimento", false)
             }
 
-
+/*
             var users = userDao.getUserEmail(user.email!!)
             if (users == null) {
                 users = User()
             }
 
             nome.setText(users.nome)
+            email.setText(users.email)
             dataNascimento.setText( Mask.textMask(users.dataNascimento.toString(), "##/##/####"))
             nacionalidade.setText(users.nacionalidade)
             cpf.setText(users.cpf)
             sexo.setText(users.sexo)
             telefonefixo.setText(users.telefonefixo.toString())
             telefonecelular.setText(users.telefonecelular.toString())
-            email.setText(users.email)
             area_Atuacao.setText(users.areaatuacao)
             periodo.setText(users.periodoatuacao)
             instituicao.setText(users.instituicao)
             empresas.setText(users.empresa)
             cargo.setText(users.cargo)
             periodocargo.setText(users.periodocargo)
-
+*/
             atividadesRecycler(view)
             idiomaRecycler(view)
         }
@@ -452,37 +452,43 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
         userDao.delete()
     }
 
-    private fun handlePerfil(email: String) {
-
-        //   val cpf = view.findViewById<EditText>(R.id.Cpf)
-
-        //  cpf.addTextChangedListener(Mask.mask("###.###.###-##", cpf))
+    private fun handlePerfil(emails: String, view: View) {
 
         try {
-            Log.d("Log do perfil", ""+userDao.getUserEmail(email));
+            val nome = view.findViewById<EditText>(R.id.Nome)
+            val email = view.findViewById<EditText>(R.id.Email)
+            val dataNascimento = view.findViewById<EditText>(R.id.DataNascimento)
+            val nacionalidade = view.findViewById<EditText>(R.id.Nacionalidade)
+            val cpf = view.findViewById<EditText>(R.id.Cpf)
+            val telefonefixo = view.findViewById<EditText>(R.id.Telefonefixo)
+            val telefonecelular = view.findViewById<EditText>(R.id.Telefonecelular)
+            val area_Atuacao = view.findViewById<EditText>(R.id.Area_Atuacao)
+            val periodo = view.findViewById<EditText>(R.id.Periodo)
+            val instituicao = view.findViewById<EditText>(R.id.Instituicao)
+            val empresas = view.findViewById<EditText>(R.id.Empresas)
+            val cargo = view.findViewById<EditText>(R.id.Cargo)
+            val periodocargo = view.findViewById<EditText>(R.id.Periodocargo)
+            val sexo = view.findViewById<MaterialSpinner>(R.id.Sexo)
 
-        }catch (e: Exception){
+            var users = userDao.getUserEmail(emails)
+            if (users == null) {
+                users = User()
+            }
 
-        }
-
-        try {
-
-
-            Nome.setText(userDao.getUserEmail(email)?.nome.toString())
-            DataNascimento.setText(userDao.getUserEmail(email)?.dataNascimento.toString())
-            Sexo.setText(userDao.getUserEmail(email)?.sexo.toString())
-            Nacionalidade.setText(userDao.getUserEmail(email)?.nacionalidade.toString())
-            Cpf.setText(userDao.getUserEmail(email)?.cpf.toString())
-            Sexo.setText(userDao.getUserEmail(email)?.sexo.toString())
-            Telefonefixo.setText(userDao.getUserEmail(email)?.telefonefixo.toString())
-            Telefonecelular.setText(userDao.getUserEmail(email)?.telefonecelular.toString())
-            Email.setText(userDao.getUserEmail(email)?.email.toString())
-            Area_Atuacao.setText(userDao.getUserEmail(email)?.areaatuacao.toString())
-            Periodo.setText(userDao.getUserEmail(email)?.periodoatuacao.toString())
-            Instituicao.setText(userDao.getUserEmail(email)?.instituicao.toString())
-            Empresas.setText(userDao.getUserEmail(email)?.empresa.toString())
-            Cargo.setText(userDao.getUserEmail(email)?.cargo.toString())
-            Periodocargo.setText(userDao.getUserEmail(email)?.periodocargo.toString())
+            nome.setText(users.nome)
+            email.setText(users.email)
+            dataNascimento.setText( Mask.textMask(users.dataNascimento.toString(), "##/##/####"))
+            nacionalidade.setText(users.nacionalidade)
+            cpf.setText(users.cpf)
+            sexo.setText(users.sexo)
+            telefonefixo.setText(users.telefonefixo.toString())
+            telefonecelular.setText(users.telefonecelular.toString())
+            area_Atuacao.setText(users.areaatuacao)
+            periodo.setText(users.periodoatuacao)
+            instituicao.setText(users.instituicao)
+            empresas.setText(users.empresa)
+            cargo.setText(users.cargo)
+            periodocargo.setText(users.periodocargo)
 
         }catch (e: Exception){
             showSnackFeedback("Não existe cadastro",false)
