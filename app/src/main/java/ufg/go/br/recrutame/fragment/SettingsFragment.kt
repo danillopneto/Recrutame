@@ -150,7 +150,7 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
 
         maximumDistanceSlider = view.findViewById(R.id.maximumDistanceSlider)
         val distance = getMyPreferences().getMaximumDistance().toFloat()
-        maximumDistanceSlider.position = distance
+        maximumDistanceSlider.position = distance / 100
         maximumDistanceSlider.endTrackingListener = { handleDistanceUpdated() }
 
         view.findViewById<ImageButton>(R.id.addFilterBtn).setOnClickListener(this)
@@ -159,7 +159,7 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
     }
 
     private fun handleDistanceUpdated() {
-        getMyPreferences().setMaximumDistance(maximumDistanceSlider.position.toString())
+        getMyPreferences().setMaximumDistance((maximumDistanceSlider.position * 100).toString())
     }
 
     private fun logout() {

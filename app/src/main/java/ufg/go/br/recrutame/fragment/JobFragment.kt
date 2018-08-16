@@ -1,8 +1,13 @@
 package ufg.go.br.recrutame.fragment
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.location.Location
 import android.os.Bundle
 import android.os.Handler
 import android.support.design.widget.FloatingActionButton
+import android.support.v4.app.ActivityCompat
+import android.support.v4.content.ContextCompat
 import android.util.Log
 import com.mindorks.placeholderview.SwipePlaceHolderView
 import ufg.go.br.recrutame.JobCard
@@ -19,16 +24,22 @@ import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import ufg.go.br.recrutame.enum.EnumUserIteraction
 import android.view.animation.AnimationUtils
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import ufg.go.br.recrutame.Util.GeoLocation
 
 class JobFragment : BaseFragment(){
     private lateinit var database:FirebaseDatabase
     private lateinit var mSwipeView: SwipePlaceHolderView
     private lateinit var acceptBtn: FloatingActionButton
     private lateinit var rejectBtn: FloatingActionButton
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var boundingCoordinates: Array<GeoLocation>
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         inicializeApis()
         database = FirebaseDatabase.getInstance()
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity!!)
 
         val rootView = inflater.inflate(R.layout.fragment_job, container, false)
 
@@ -51,21 +62,7 @@ class JobFragment : BaseFragment(){
                         .setSwipeOutMsgLayoutId(R.layout.card_swipe_out)
                         .setSwipeAnimTime(250))
 
-        database.getReference("vagas").addValueEventListener( object: ValueEventListener{
-            override fun onDataChange(dataSnapshot: DataSnapshot?) {
-
-                for (postSnapshot in dataSnapshot!!.children) {
-                    val jobModel:JobModel? = postSnapshot.getValue(JobModel::class.java)
-                    jobModel?.key = postSnapshot.key
-                    mSwipeView.addView(JobCard(context!!, jobModel, mSwipeView))
-                }
-            }
-
-            override fun onCancelled(databaseError: DatabaseError?) {
-                Log.d(TAG, "" + databaseError)
-            }
-
-        })
+        getBoundingCoordinates()
 
         rejectBtn = rootView.findViewById(R.id.rejectBtn)
         rejectBtn.setOnClickListener {
@@ -102,6 +99,46 @@ class JobFragment : BaseFragment(){
             EventBus.getDefault().removeStickyEvent(EventBus.getDefault().getStickyEvent(EnumUserIteraction::class.java!!))
         }, 300)
 
+    }
+
+    private fun getBoundingCoordinates() {
+        if (ContextCompat.checkSelfPermission(activity!!, Manifest.permission.ACCESS_COARSE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            fusedLocationClient.lastLocation
+                    .addOnSuccessListener { location : Location? ->
+                        if (location != null) {
+                            val geoLocation = GeoLocation()
+                            geoLocation.latitudeInRadians = Math.toRadians(location.latitude)
+                            geoLocation.longitudeInRadians = Math.toRadians(location.longitude)
+
+                            boundingCoordinates = geoLocation.boundingCoordinates(getMyPreferences().getMaximumDistance().toDouble(), 6371.01)
+
+                            database.getReference("vagas")
+                                    .orderByChild("latitude")
+                                    .startAt(boundingCoordinates[0].latitudeInDegrees)
+                                    .endAt(boundingCoordinates[1].latitudeInDegrees)
+                                    .addValueEventListener( object: ValueEventListener{
+                                        override fun onDataChange(dataSnapshot: DataSnapshot?) {
+
+                                            for (postSnapshot in dataSnapshot!!.children) {
+                                                val jobModel:JobModel? = postSnapshot.getValue(JobModel::class.java)
+                                                if (boundingCoordinates[1].longitudeInDegrees >= jobModel!!.longitude
+                                                        && boundingCoordinates[0].longitudeInDegrees <= jobModel!!.longitude) {
+                                                    jobModel?.key = postSnapshot.key
+                                                    mSwipeView.addView(JobCard(context!!, jobModel, mSwipeView))
+                                                }
+                                            }
+                                        }
+
+                                        override fun onCancelled(databaseError: DatabaseError?) {
+                                            Log.d(TAG, "" + databaseError)
+                                        }
+
+                                    })
+
+                        }
+                    }
+        }
     }
 
     private fun acceptJob() {
