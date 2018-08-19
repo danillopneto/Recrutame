@@ -13,7 +13,9 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.text.TextUtils
 import android.util.Log
+import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -497,6 +499,66 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
 
     private fun handleSave() {
 
+
+        if (verificaCampovazio(Nome.text.toString())) {
+            Nome.validate("\\d+", "Campo obrigatório*")
+            Nome.requestLayout()
+            showSnackFeedback("Preencha todos os campos obrigatórios", false)
+        } else if (!emailValidar( Email.text.toString())) {
+            Email.validate("\\d+", "Campo obrigatório*")
+            Email.requestLayout()
+            showSnackFeedback("Preencha todos os campos obrigatórios", false)
+        } else if (verificaCampovazio(DataNascimento.text.toString())) {
+            DataNascimento.validate("\\d+", "Campo obrigatório*")
+            DataNascimento.requestLayout()
+            showSnackFeedback("Preencha todos os campos obrigatórios", false)
+        } else if (verificaCampovazio(Nacionalidade.text.toString())) {
+            Nacionalidade.validate("\\d+", "Campo obrigatório*")
+            Nacionalidade.requestLayout()
+            showSnackFeedback("Preencha todos os campos obrigatórios", false)
+        } else if (verificaCampovazio(Cpf.text.toString())) {
+            Cpf.validate("\\d+", "Campo obrigatório*")
+            Cpf.requestLayout()
+            showSnackFeedback("Preencha todos os campos obrigatórios", false)
+        } else if (verificaCampovazio(Telefonefixo.text.toString())) {
+            Telefonefixo.validate("\\d+", "Campo obrigatório*")
+            Telefonefixo.requestLayout()
+            showSnackFeedback("Preencha todos os campos obrigatórios", false)
+        } else if (verificaCampovazio(Telefonecelular.text.toString())) {
+            Telefonecelular.validate("\\d+", "Campo obrigatório*")
+            Telefonecelular.requestLayout()
+            showSnackFeedback("Preencha todos os campos obrigatórios", false)
+        } else if (verificaCampovazio(Area_Atuacao.text.toString())) {
+            Area_Atuacao.validate("\\d+", "Campo obrigatório*")
+            Area_Atuacao.requestLayout()
+            showSnackFeedback("Preencha todos os campos obrigatórios", false)
+        } else if (verificaCampovazio(Periodo.text.toString())) {
+            Periodo.validate("\\d+", "Campo obrigatório*")
+            Periodo.requestLayout()
+            showSnackFeedback("Preencha todos os campos obrigatórios", false)
+        } else if (verificaCampovazio(Instituicao.text.toString())) {
+            Instituicao.validate("\\d+", "Campo obrigatório*")
+            Instituicao.requestLayout()
+            showSnackFeedback("Preencha todos os campos obrigatórios", false)
+        } else if (verificaCampovazio(Empresas.text.toString())) {
+            Empresas.validate("\\d+", "Campo obrigatório*")
+            Empresas.requestLayout()
+            showSnackFeedback("Preencha todos os campos obrigatórios", false)
+        } else if (verificaCampovazio(Cargo.text.toString())) {
+            Cargo.validate("\\d+", "Campo obrigatório*")
+            Cargo.requestLayout()
+            showSnackFeedback("Preencha todos os campos obrigatórios", false)
+        } else if (verificaCampovazio(Periodocargo.text.toString())) {
+            Periodocargo.validate("\\d+", "Campo obrigatório*")
+            Periodocargo.requestLayout()
+            showSnackFeedback("Preencha todos os campos obrigatórios", false)
+        } else if (verificaCampovazio(Sexo.text.toString())) {
+            Sexo.requestLayout()
+            showSnackFeedback("Preencha todos os campos obrigatórios", false)
+        }
+
+
+
         try {
            /* val userz = mAuth.currentUser!!
 
@@ -538,13 +600,96 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
                 userDao.update(user = user)
             }
 
-            Toast.makeText( context , ""+user.toString(), Toast.LENGTH_LONG).show()
-            Log.d("Inserirdo", user.toString());
+       //     Toast.makeText( context , "Erro: "+user.toString(), Toast.LENGTH_LONG).show()
+       //     Log.d("Inserirdo", user.toString());
 
         }catch (e: Exception){
-            Toast.makeText(context, ""+e.message, Toast.LENGTH_LONG).show()
+            Toast.makeText(context, "Erro: "+e.message, Toast.LENGTH_LONG).show()
             Log.d("Erro ao buscar", e.toString());
         }
 
     }
+
+    private fun validationform(view: View){
+
+        try {
+            val nome = view.findViewById<EditText>(R.id.Nome)
+            val email = view.findViewById<EditText>(R.id.Email)
+            val dataNascimento = view.findViewById<EditText>(R.id.DataNascimento)
+            val nacionalidade = view.findViewById<EditText>(R.id.Nacionalidade)
+            val cpf = view.findViewById<EditText>(R.id.Cpf)
+            val telefonefixo = view.findViewById<EditText>(R.id.Telefonefixo)
+            val telefonecelular = view.findViewById<EditText>(R.id.Telefonecelular)
+            val area_Atuacao = view.findViewById<EditText>(R.id.Area_Atuacao)
+            val periodo = view.findViewById<EditText>(R.id.Periodo)
+            val instituicao = view.findViewById<EditText>(R.id.Instituicao)
+            val empresas = view.findViewById<EditText>(R.id.Empresas)
+            val cargo = view.findViewById<EditText>(R.id.Cargo)
+            val periodocargo = view.findViewById<EditText>(R.id.Periodocargo)
+            val sexo = view.findViewById<MaterialSpinner>(R.id.Sexo)
+
+
+               if (verificaCampovazio(nome.toString())) {
+                   nome.requestFocus();
+                   showSnackFeedback("Campo obrigatório", false)
+               } else if (!emailValidar(email.toString())) {
+                   email.requestFocus()
+                   showSnackFeedback("Campo obrigatório", false)
+               } else if (verificaCampovazio(dataNascimento.toString())) {
+                   dataNascimento.requestFocus()
+                   showSnackFeedback("Campo obrigatório", false)
+               } else if (verificaCampovazio(nacionalidade.toString())) {
+                   nacionalidade.requestFocus()
+                   showSnackFeedback("Campo obrigatório", false)
+               } else if (verificaCampovazio(cpf.toString())) {
+                   cpf.requestFocus()
+                   showSnackFeedback("Campo obrigatório" , false)
+               } else if (verificaCampovazio(telefonefixo.toString())) {
+                   telefonefixo.requestFocus()
+                   showSnackFeedback("Campo obrigatório", false)
+               } else if (verificaCampovazio(telefonecelular.toString())) {
+                   telefonecelular.requestFocus()
+                   showSnackFeedback("Campo obrigatório" , false)
+               } else if (verificaCampovazio(area_Atuacao.toString())) {
+                   area_Atuacao.requestFocus()
+                   showSnackFeedback("Campo obrigatório", false)
+               } else if (verificaCampovazio(periodo.toString())) {
+                   periodo.requestFocus()
+                   showSnackFeedback("Campo obrigatório" , false)
+               } else if (verificaCampovazio(instituicao.toString())) {
+                   instituicao.requestFocus()
+                   showSnackFeedback("Campo obrigatório" , false)
+               } else if (verificaCampovazio(empresas.toString())) {
+                   empresas.requestFocus()
+                   showSnackFeedback("Campo obrigatório", false)
+               } else if (verificaCampovazio(cargo.toString())) {
+                   cargo.requestFocus()
+                   showSnackFeedback("Campo obrigatório" , false)
+               } else if (verificaCampovazio(periodocargo.toString())) {
+                   periodocargo.requestFocus()
+                   showSnackFeedback("Campo obrigatório", false)
+               } else if (verificaCampovazio(sexo.toString())) {
+                   sexo.requestFocus()
+                   showSnackFeedback("Campo obrigatório" , false)
+               }
+
+        }catch (e: Exception){
+            showSnackFeedback("Não foi possivel validar os campos "+e.toString() , false)
+        }
+    }
+
+     private fun verificaCampovazio(valor: String): Boolean {
+
+           var resultado = (TextUtils.isEmpty( valor ) || valor.trim().isEmpty())
+
+           return resultado
+     }
+
+     private fun emailValidar(email: String): Boolean {
+
+           var resultado = (!verificaCampovazio(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches())
+
+           return resultado
+     }
+
 }
