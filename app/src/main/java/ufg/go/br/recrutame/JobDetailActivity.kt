@@ -94,20 +94,6 @@ class JobDetailActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int,
-                                            permissions: Array<String>, grantResults: IntArray) {
-        when (requestCode) {
-            LOCATION_PERMISSION -> {
-                // If request is cancelled, the result arrays are empty.
-                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                    handleDistance()
-                }
-
-                return
-            }
-        }
-    }
-
     private fun inicializeControls() {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         findViewById<FloatingActionButton>(R.id.rejectBtn).setOnClickListener(this)
@@ -146,9 +132,6 @@ class JobDetailActivity : BaseActivity(), View.OnClickListener {
                             jobDistanceContainer.visibility = View.VISIBLE
                         }
                     }
-        } else {
-            ActivityCompat.requestPermissions(this,
-                    arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION), LOCATION_PERMISSION)
         }
     }
 }

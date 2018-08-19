@@ -29,11 +29,6 @@ abstract class BaseFragment : Fragment() {
         imagePicker?.handleActivityResult(resultCode, requestCode, data)
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        imagePicker?.handlePermission(requestCode, grantResults)
-    }
-
     fun getMyPreferences(): MyPreferences {
         return StoreBox.create(context, MyPreferences::class.java)
     }
