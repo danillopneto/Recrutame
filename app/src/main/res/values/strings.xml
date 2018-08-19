@@ -67,6 +67,7 @@
     <string name="less_than_one_km">Menos de 1 Km</string>
     <string name="waiting_permissions">Aguardando pelas permissões...</string>
     <string name="permissions_granted">Permissões concedidas...</string>
+    <string name="permissions_needed">Algumas permissões são necessárias para a correta execução do aplicativo. Deseja continuar?</string>
     <string-array name="nivel">
         <item>Profissional</item>
         <item>Superior</item>

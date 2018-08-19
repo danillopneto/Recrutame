@@ -13,10 +13,15 @@ import android.widget.LinearLayout
 import android.widget.LinearLayout.LayoutParams
 import android.widget.TextView
 import java.util.*
+import android.app.AlertDialog
+import android.content.DialogInterface
+import android.net.Uri
+import android.provider.Settings
 
-abstract class SplashPermissionsActivity : Activity() {
+abstract class SplashPermissionsActivity : BaseActivity() {
     private val timeoutMillis = 2000
     private val PERMISSIONS_REQUEST = 1234
+
     private val random = Random()
     private val textViewID = View.generateViewId()
     private var startTimeMillis: Long = 0
@@ -122,7 +127,22 @@ abstract class SplashPermissionsActivity : Activity() {
         if (ungrantedPermissions.isEmpty()) {
             startNextActivity()
         } else {
-            requestPermissions(ungrantedPermissions, PERMISSIONS_REQUEST)
+            val preferences = getMyPreferences()
+            if (!preferences.getPermissionsHasBeenAsked()) {
+                requestPermissions(ungrantedPermissions, PERMISSIONS_REQUEST)
+                preferences.setPermissionsHasBeenAsked(true)
+            } else {
+                if (!shouldShowRequestPermissionRationale(ungrantedPermissions[0])) {
+                    showMessageOKCancel(getString(R.string.permissions_needed),
+                            DialogInterface.OnClickListener { dialog, which ->
+                                startAppSettingsConfigActivity()
+                            }, DialogInterface.OnClickListener { dialog, which ->
+                        finishAffinity()
+                    })
+                } else {
+                    requestPermissions(ungrantedPermissions, PERMISSIONS_REQUEST)
+                }
+            }
         }
     }
 
@@ -150,5 +170,28 @@ abstract class SplashPermissionsActivity : Activity() {
             }
         }
         return permissions.toTypedArray()
+    }
+
+    private fun showMessageOKCancel(message: String, okListener:
+                                    DialogInterface.OnClickListener,
+                                    cancelListener: DialogInterface.OnClickListener) {
+        AlertDialog.Builder(this)
+                .setMessage(message)
+                .setPositiveButton(getString(R.string.yes), okListener)
+                .setNegativeButton(getString(R.string.no), cancelListener)
+                .create()
+                .show()
+    }
+
+    /**
+     * start the App Settings Activity so that the user can change
+     * settings related to the application such as permissions.
+     */
+    private fun startAppSettingsConfigActivity() {
+        val intent = Intent()
+        intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+        val uri = Uri.fromParts("package", packageName, null)
+        intent.data = uri
+        startActivity(intent)
     }
 }

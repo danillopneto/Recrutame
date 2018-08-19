@@ -70,4 +70,10 @@ interface MyPreferences {
     @KeyByString("key_user_language")
     @DefaultValue(R.string.default_language)
     fun getLanguage(): String
+
+    @KeyByString("key_first_time_asking_permission")
+    fun getPermissionsHasBeenAsked(): Boolean
+
+    @KeyByString("key_first_time_asking_permission")
+    fun setPermissionsHasBeenAsked(firstTime: Boolean)
 }
