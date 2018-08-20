@@ -2,15 +2,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/background_gradient"
     android:orientation="vertical"
-    tools:context=".SplaceScreenActivity">
-
+    tools:context=".SplashScreenActivity">
     <ImageView
+        android:id="@+id/mIconSplash"
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:padding="40dp"
         android:src="@drawable/icon"/>
-
 </LinearLayout>

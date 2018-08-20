@@ -17,9 +17,10 @@ import android.app.AlertDialog
 import android.content.DialogInterface
 import android.net.Uri
 import android.provider.Settings
+import android.widget.ImageView
 
 abstract class SplashPermissionsActivity : BaseActivity() {
-    private val timeoutMillis = 2000
+    private val timeoutMillis = 1000
     private val PERMISSIONS_REQUEST = 1234
 
     private val random = Random()
@@ -73,7 +74,10 @@ abstract class SplashPermissionsActivity : BaseActivity() {
          * when the splash screen should timeout.
          */
         startTimeMillis = System.currentTimeMillis()
+    }
 
+    override fun onResume() {
+        super.onResume()
         /**
          * On a post-Android 6.0 devices, check if the required permissions have
          * been granted.
@@ -151,7 +155,7 @@ abstract class SplashPermissionsActivity : BaseActivity() {
      * redundant elements. Then remove already granted permissions, and return
      * an array of ungranted permissions.
      */
-    private fun requiredPermissionsStillNeeded(): Array<String> {
+    fun requiredPermissionsStillNeeded(): Array<String> {
 
         val permissions = HashSet<String>()
         for (permission in getRequiredPermissions()) {

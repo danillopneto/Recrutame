@@ -2,11 +2,11 @@ package ufg.go.br.recrutame
 
 import android.os.Bundle
 
-class SplaceScreenActivity : SplashPermissionsActivity() {
+class SplashScreenActivity : SplashPermissionsActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_splace_screen)
+        setContentView(R.layout.activity_splash_screen)
     }
 
     override fun getNextActivityClass(): Class<*> {

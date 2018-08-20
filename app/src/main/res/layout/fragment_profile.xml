@@ -5,544 +5,461 @@
     android:layout_height="match_parent"
     android:scrollbars="vertical"
     android:id="@+id/profilefragments"
-    tools:context="ufg.go.br.recrutame.fragment.ProfileFragment"
-    >
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="ufg.go.br.recrutame.fragment.ProfileFragment"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:background="@color/grey_200">
-    <View android:layout_width="match_parent"
-        android:layout_height="match_parent" android:id="@+id/hidden_view" android:visibility="gone" />
-    <de.hdodenhof.circleimageview.CircleImageView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/mProfileImage"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_marginBottom="10dp"
-        android:layout_gravity="center_vertical|center_horizontal"
-        app:civ_border_width="2dp"
-        app:civ_border_color="@color/primaryColor"
-        android:src="@drawable/user_logo" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/mChangePictureBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="42dp"
-        android:scaleType="center"
-        android:clickable="true"
-        android:focusable="true"
-        android:elevation="4dp"
-        android:layout_gravity="center_vertical|center_horizontal"
-        android:layout_marginTop="-40dp"
-        android:src="@drawable/ic_camera"
-        android:tint="@color/primaryColor"
-        android:backgroundTint="@color/white"
-        android:padding="0dp"
-        app:borderWidth="0dp"
-        android:layout_marginRight="-40dp" />
-
-    <LinearLayout
-        android:id="@+id/linear_nome"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/border_linear_layout"
-        android:orientation="vertical"
-        android:paddingTop="8dp"
-        android:layout_marginTop="20dp"
-        >
-
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:met_floatingLabel="highlight"
-            app:met_maxCharacters="80"
-            app:met_singleLineEllipsis="true"
-            app:met_underlineColor="@color/primaryColor"
-            app:met_helperText="Ex: João da Silva Sauro"
-            app:met_baseColor="@color/cardview_shadow_end_color"
-            app:met_primaryColor="@color/endBlue"
-            app:met_helperTextColor="@color/grey"
-            android:id="@+id/Nome"
-            android:hint="Nome"
-            android:textColorHint="@color/grey"
-            app:met_clearButton="true"
-            android:singleLine="true"
-            android:layout_below="@+id/Perfil"
-            />
-    </LinearLayout>
-
-
-    <LinearLayout
-    android:id="@+id/linear_datanascimento"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/border_linear_layout"
-    android:orientation="vertical"
-    android:layout_marginTop="8dp"
-    android:layout_below="@+id/linear_nome"
-    >
-
-
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:met_floatingLabel="highlight"
-            app:met_maxCharacters="14"
-            app:met_singleLineEllipsis="true"
-            app:met_helperText="25/07/2018"
-            android:id="@+id/DataNascimento"
-            android:ems="10"
-            android:hint="Data de Nascimento"
-            />
-*/
-
-</LinearLayout>
-
-
-    <LinearLayout
-        android:id="@+id/linear_cpf"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/border_linear_layout"
-        android:orientation="vertical"
-        android:layout_marginTop="8dp"
-        android:layout_below="@+id/linear_nome"
-        >
-
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:met_floatingLabel="highlight"
-            app:met_maxCharacters="14"
-            app:met_singleLineEllipsis="true"
-            app:met_helperText="123.456.789-99"
-            android:id="@+id/Cpf"
-            android:ems="10"
-            android:hint="CPF"
-            android:inputType="number"
-            />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linear_sexo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/border_linear_layout"
-        android:orientation="vertical"
-        android:layout_marginTop="8dp"
-        android:layout_below="@+id/linear_nome"
-        >
-
-        <com.jaredrummler.materialspinner.MaterialSpinner
-            android:id="@+id/Sexo"
-            android:layout_width="match_parent"
-            app:ms_hint="Sexo"
-            app:ms_arrow_tint="@color/background"
-            android:layout_height="wrap_content"
-
-            />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linear_nascionalidade"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/border_linear_layout"
-        android:orientation="vertical"
-        android:layout_marginTop="8dp"
-        android:layout_below="@+id/linear_nome"
-        >
-
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:met_floatingLabel="highlight"
-            app:met_maxCharacters="14"
-            app:met_singleLineEllipsis="true"
-            app:met_helperText="Ex: Brasileiro(a)"
-            android:id="@+id/Nacionalidade"
-            android:hint="Nacionalidade"
-            android:inputType="textPersonName"
-            android:layout_below="@+id/Sexo"
-            />
-
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:id="@+id/linear_Telefonefixo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/border_linear_layout"
-        android:orientation="vertical"
-        android:layout_marginTop="8dp"
-        android:layout_below="@+id/linear_nome"
-        >
-
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:id="@+id/Telefonefixo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:digits="1234567890"
-            android:ems="10"
-            android:hint="Telefone fixo"
-            android:inputType="phone"
-            android:maxLength="12"
-            app:met_floatingLabel="highlight"
-            app:met_helperText="(64) 3999-9999"
-            app:met_maxCharacters="14"
-            app:met_singleLineEllipsis="true" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linear_Telefonecelular"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/border_linear_layout"
-        android:orientation="vertical"
-        android:layout_marginTop="8dp"
-        android:layout_below="@+id/linear_nome"
-        >
-
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:met_floatingLabel="highlight"
-            app:met_maxCharacters="14"
-            app:met_singleLineEllipsis="true"
-            app:met_helperText="(64) 9999-9999"
-            android:id="@+id/Telefonecelular"
-            android:hint="Telefone celular"
-            android:digits="1234567890"
-            android:ems="10"
-            android:inputType="phone"
-            android:maxLength="12"
-            />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linear_Email"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/border_linear_layout"
-        android:orientation="vertical"
-        android:layout_marginTop="8dp"
-        android:layout_below="@+id/linear_nome"
-        >
-
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:met_floatingLabel="highlight"
-            app:met_maxCharacters="80"
-            app:met_singleLineEllipsis="true"
-            app:met_helperText="Ex: Fulano@zika.com.br"
-            android:id="@+id/Email"
-            android:hint="E-mail"
-            android:inputType="textPersonName"
-            />
-
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:id="@+id/linear_Area_Atuacao"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/border_linear_layout"
-        android:orientation="vertical"
-        android:layout_marginTop="8dp"
-        android:layout_below="@+id/linear_nome"
-        >
-
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:met_floatingLabel="highlight"
-            app:met_maxCharacters="14"
-            app:met_singleLineEllipsis="true"
-            app:met_helperText="Ex: Construção Civíl"
-            android:id="@+id/Area_Atuacao"
-            android:hint="Área de atuação"
-            />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linear_Periodo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/border_linear_layout"
-        android:orientation="vertical"
-        android:layout_marginTop="8dp"
-        android:layout_below="@+id/linear_nome"
-        >
-
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:met_floatingLabel="highlight"
-            app:met_maxCharacters="14"
-            app:met_singleLineEllipsis="true"
-            app:met_helperText="Ex: 10 anos"
-            android:id="@+id/Periodo"
-            android:hint="Período"
-            android:inputType="textMultiLine"
-            />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linear_Instituicao"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/border_linear_layout"
-        android:orientation="vertical"
-        android:layout_marginTop="8dp"
-        android:layout_below="@+id/linear_nome"
-        >
-
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:met_floatingLabel="highlight"
-            app:met_maxCharacters="14"
-            app:met_singleLineEllipsis="true"
-            app:met_helperText="Ex: UFZ - Universidade Federal de Zika"
-            android:id="@+id/Instituicao"
-            android:hint="Instituição"
-            android:inputType="text"
-            />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linear_Empresas"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/border_linear_layout"
-        android:orientation="vertical"
-        android:layout_marginTop="8dp"
-        android:layout_below="@+id/linear_nome"
-        >
-
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:met_floatingLabel="highlight"
-            app:met_maxCharacters="14"
-            app:met_singleLineEllipsis="true"
-            app:met_helperText="Ex: Zika LTDA"
-            android:id="@+id/Empresas"
-            android:hint="Empresa"
-            android:inputType="textMultiLine"
-            />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linear_Cargo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/border_linear_layout"
-        android:orientation="vertical"
-        android:layout_marginTop="8dp"
-        android:layout_below="@+id/linear_nome"
-        >
-
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:met_floatingLabel="highlight"
-            app:met_maxCharacters="14"
-            app:met_singleLineEllipsis="true"
-            app:met_helperText="Ex: Eng. Cicíl"
-            android:id="@+id/Cargo"
-            android:hint="Cargo"
-            android:inputType="textMultiLine"
-            />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linear_Periodocargo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/border_linear_layout"
-        android:orientation="vertical"
-        android:layout_marginTop="8dp"
-        android:layout_below="@+id/linear_nome"
-        >
-
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:id="@+id/Periodocargo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Período"
-            android:inputType="textMultiLine"
-            app:met_floatingLabel="highlight"
-            app:met_helperText="Ex: 20 anos"
-            app:met_maxCharacters="14"
-            app:met_singleLineEllipsis="true" />
-
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:id="@+id/linear_Atividades_Desenvolvidas"
-        android:layout_width="match_parent"
-        android:layout_height="220dp"
-        android:translationZ="@dimen/bottom_ellipsis_height"
-        android:orientation="vertical"
-        android:showDividers="middle"
-        android:background="@color/white"
-        android:layout_marginTop="8dp">
-
+    tools:context="ufg.go.br.recrutame.fragment.ProfileFragment">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="8dp">
-
+            android:background="@color/grey_200">
+            <View android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:background="@drawable/background_purple"
+                android:id="@+id/hidden_view"
+                android:elevation="1dp"/>
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/mProfileImage"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_marginTop="-60dp"
+                android:layout_gravity="center_vertical|center_horizontal"
+                app:civ_border_width="4dp"
+                app:civ_border_overlay="true"
+                app:civ_border_color="@color/white"
+                android:foregroundTint="@color/primaryColor"
+                android:src="@drawable/user_logo"
+                android:elevation="4dp" />
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/mChangePictureBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="42dp"
+                android:scaleType="center"
+                android:clickable="true"
+                android:focusable="true"
+                android:elevation="4dp"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:layout_marginTop="-30dp"
+                android:src="@drawable/ic_camera"
+                android:tint="@color/primaryColor"
+                android:backgroundTint="@color/white"
+                android:padding="0dp"
+                app:borderWidth="0dp"
+                android:layout_marginEnd="-40dp" />
             <LinearLayout
+                android:id="@+id/linear_nome"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
+                android:layout_marginTop="-74dp"
+                android:paddingTop="70dp"
+                android:elevation="0dp"
+                android:background="@drawable/border_linear_layout"
+                android:orientation="vertical"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp">
                 <com.rengwuxian.materialedittext.MaterialEditText
-                    android:layout_height="wrap_content"
                     android:layout_width="match_parent"
-                    android:layout_weight="0.8"
+                    android:layout_height="wrap_content"
                     app:met_floatingLabel="highlight"
-                    app:met_maxCharacters="50"
+                    app:met_maxCharacters="80"
                     app:met_singleLineEllipsis="true"
-                    app:met_helperText="Ex: Pintar, Dançar"
-                    android:id="@+id/Atividades_Desenvolvidas"
-                    android:hint="Habilidades"
-                    />
-
-                <ImageButton
-                    android:id="@+id/btnAddAtividade"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:background="@drawable/ic_add"
-                    android:layout_marginStart="10dp"
-                    android:backgroundTint="@color/primaryColor"
-                    android:layout_gravity="center_vertical"/>
+                    app:met_underlineColor="@color/primaryColor"
+                    app:met_helperText="Ex: João da Silva Sauro"
+                    app:met_baseColor="@color/cardview_shadow_end_color"
+                    app:met_primaryColor="@color/endBlue"
+                    app:met_helperTextColor="@color/grey"
+                    android:id="@+id/Nome"
+                    android:hint="Nome"
+                    android:textColorHint="@color/grey"
+                    app:met_clearButton="true"
+                    android:singleLine="true" />
             </LinearLayout>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerAtividadesItems"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="5dp"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                tools:listitem="@layout/item_atividades" >
-
-            </android.support.v7.widget.RecyclerView>
-        </LinearLayout>
-
-    </LinearLayout>
-
-
-
-    <LinearLayout
-        android:id="@+id/linear_Idioma"
-        android:layout_width="match_parent"
-        android:layout_height="220dp"
-        android:translationZ="@dimen/bottom_ellipsis_height"
-        android:orientation="vertical"
-        android:showDividers="middle"
-        android:background="@color/white"
-        android:layout_marginTop="8dp">
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:padding="8dp">
-
             <LinearLayout
+                android:id="@+id/linear_datanascimento"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
+                android:background="@drawable/border_linear_layout"
+                android:orientation="vertical"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp">
                 <com.rengwuxian.materialedittext.MaterialEditText
-                    android:layout_height="wrap_content"
                     android:layout_width="match_parent"
-                    android:layout_weight="0.8"
+                    android:layout_height="wrap_content"
                     app:met_floatingLabel="highlight"
-                    app:met_maxCharacters="50"
+                    app:met_maxCharacters="14"
                     app:met_singleLineEllipsis="true"
-                    app:met_helperText="Ex: Inglês, Espanhol"
-                    android:id="@+id/Idioma"
-                    android:hint="Idioma"
-                    />
-
-                <ImageButton
-                    android:id="@+id/btnAddIdioma"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:background="@drawable/ic_add"
-                    android:layout_marginStart="10dp"
-                    android:backgroundTint="@color/primaryColor"
-                    android:layout_gravity="center_vertical"/>
+                    app:met_helperText="25/07/2018"
+                    android:id="@+id/DataNascimento"
+                    android:ems="10"
+                    android:hint="Data de Nascimento" />
             </LinearLayout>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerIdiomaItems"
+            <LinearLayout
+                android:id="@+id/linear_cpf"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border_linear_layout"
+                android:orientation="vertical"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp">
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:met_floatingLabel="highlight"
+                    app:met_maxCharacters="14"
+                    app:met_singleLineEllipsis="true"
+                    app:met_helperText="123.456.789-99"
+                    android:id="@+id/Cpf"
+                    android:ems="10"
+                    android:hint="CPF"
+                    android:inputType="number" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/linear_sexo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border_linear_layout"
+                android:orientation="vertical"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp">
+                <com.jaredrummler.materialspinner.MaterialSpinner
+                    android:id="@+id/Sexo"
+                    android:layout_width="match_parent"
+                    app:ms_hint="Sexo"
+                    app:ms_arrow_tint="@color/background"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/linear_nascionalidade"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border_linear_layout"
+                android:orientation="vertical"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp">
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:met_floatingLabel="highlight"
+                    app:met_maxCharacters="14"
+                    app:met_singleLineEllipsis="true"
+                    app:met_helperText="Ex: Brasileiro(a)"
+                    android:id="@+id/Nacionalidade"
+                    android:hint="Nacionalidade"
+                    android:inputType="textPersonName" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/linear_Telefonefixo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border_linear_layout"
+                android:orientation="vertical"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp">
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/Telefonefixo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:digits="1234567890"
+                    android:ems="10"
+                    android:hint="Telefone fixo"
+                    android:inputType="phone"
+                    android:maxLength="12"
+                    app:met_floatingLabel="highlight"
+                    app:met_helperText="(64) 3999-9999"
+                    app:met_maxCharacters="14"
+                    app:met_singleLineEllipsis="true" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/linear_Telefonecelular"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border_linear_layout"
+                android:orientation="vertical"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp">
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:met_floatingLabel="highlight"
+                    app:met_maxCharacters="14"
+                    app:met_singleLineEllipsis="true"
+                    app:met_helperText="(64) 9999-9999"
+                    android:id="@+id/Telefonecelular"
+                    android:hint="Telefone celular"
+                    android:digits="1234567890"
+                    android:ems="10"
+                    android:inputType="phone"
+                    android:maxLength="12" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/linear_Email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border_linear_layout"
+                android:orientation="vertical"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp">
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:met_floatingLabel="highlight"
+                    app:met_maxCharacters="80"
+                    app:met_singleLineEllipsis="true"
+                    app:met_helperText="Ex: Fulano@zika.com.br"
+                    android:id="@+id/Email"
+                    android:hint="E-mail"
+                    android:inputType="textPersonName" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/linear_Area_Atuacao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border_linear_layout"
+                android:orientation="vertical"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp">
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:met_floatingLabel="highlight"
+                    app:met_maxCharacters="14"
+                    app:met_singleLineEllipsis="true"
+                    app:met_helperText="Ex: Construção Civíl"
+                    android:id="@+id/Area_Atuacao"
+                    android:hint="Área de atuação" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/linear_Periodo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border_linear_layout"
+                android:orientation="vertical"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp">
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:met_floatingLabel="highlight"
+                    app:met_maxCharacters="14"
+                    app:met_singleLineEllipsis="true"
+                    app:met_helperText="Ex: 10 anos"
+                    android:id="@+id/Periodo"
+                    android:hint="Período"
+                    android:inputType="textMultiLine" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/linear_Instituicao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border_linear_layout"
+                android:orientation="vertical"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp">
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:met_floatingLabel="highlight"
+                    app:met_maxCharacters="14"
+                    app:met_singleLineEllipsis="true"
+                    app:met_helperText="Ex: UFZ - Universidade Federal de Zika"
+                    android:id="@+id/Instituicao"
+                    android:hint="Instituição"
+                    android:inputType="text" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/linear_Empresas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border_linear_layout"
+                android:orientation="vertical"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp">
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:met_floatingLabel="highlight"
+                    app:met_maxCharacters="14"
+                    app:met_singleLineEllipsis="true"
+                    app:met_helperText="Ex: Zika LTDA"
+                    android:id="@+id/Empresas"
+                    android:hint="Empresa"
+                    android:inputType="textMultiLine" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/linear_Cargo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border_linear_layout"
+                android:orientation="vertical"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp">
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:met_floatingLabel="highlight"
+                    app:met_maxCharacters="14"
+                    app:met_singleLineEllipsis="true"
+                    app:met_helperText="Ex: Eng. Cicíl"
+                    android:id="@+id/Cargo"
+                    android:hint="Cargo"
+                    android:inputType="textMultiLine" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/linear_Periodocargo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border_linear_layout"
+                android:orientation="vertical"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp">
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/Periodocargo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Período"
+                    android:inputType="textMultiLine"
+                    app:met_floatingLabel="highlight"
+                    app:met_helperText="Ex: 20 anos"
+                    app:met_maxCharacters="14"
+                    app:met_singleLineEllipsis="true" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/linear_Atividades_Desenvolvidas"
+                android:layout_width="match_parent"
+                android:layout_height="220dp"
+                android:translationZ="@dimen/bottom_ellipsis_height"
+                android:orientation="vertical"
+                android:showDividers="middle"
+                android:background="@color/white"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <com.rengwuxian.materialedittext.MaterialEditText
+                            android:layout_height="wrap_content"
+                            android:layout_width="0dp"
+                            android:layout_weight="0.8"
+                            app:met_floatingLabel="highlight"
+                            app:met_maxCharacters="50"
+                            app:met_singleLineEllipsis="true"
+                            app:met_helperText="Ex: Pintar, Dançar"
+                            android:id="@+id/Atividades_Desenvolvidas"
+                            android:hint="Habilidades" />
+                        <ImageButton
+                            android:id="@+id/btnAddAtividade"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:background="@drawable/ic_add"
+                            android:layout_marginStart="10dp"
+                            android:backgroundTint="@color/primaryColor"
+                            android:layout_gravity="center_vertical"/>
+                    </LinearLayout>
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recyclerAtividadesItems"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="5dp"
+                        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                        tools:listitem="@layout/item_atividades" />
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/linear_Idioma"
+                android:layout_width="match_parent"
+                android:layout_height="220dp"
+                android:translationZ="@dimen/bottom_ellipsis_height"
+                android:orientation="vertical"
+                android:showDividers="middle"
+                android:background="@color/white"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <com.rengwuxian.materialedittext.MaterialEditText
+                            android:layout_height="wrap_content"
+                            android:layout_width="0dp"
+                            android:layout_weight="0.8"
+                            app:met_floatingLabel="highlight"
+                            app:met_maxCharacters="50"
+                            app:met_singleLineEllipsis="true"
+                            app:met_helperText="Ex: Inglês, Espanhol"
+                            android:id="@+id/Idioma"
+                            android:hint="Idioma" />
+                        <ImageButton
+                            android:id="@+id/btnAddIdioma"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:background="@drawable/ic_add"
+                            android:layout_marginStart="10dp"
+                            android:backgroundTint="@color/primaryColor"
+                            android:layout_gravity="center_vertical"/>
+                    </LinearLayout>
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recyclerIdiomaItems"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="5dp"
+                        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                        tools:listitem="@layout/item_idioma" />
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="5dp"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                tools:listitem="@layout/item_idioma" >
-
-            </android.support.v7.widget.RecyclerView>
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp">
+                <Button
+                    android:id="@+id/btnSave"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="@drawable/background_login"
+                    android:text="Salvar"
+                    android:textAllCaps="false"
+                    android:textColor="@color/primaryColor"
+                    android:textSize="18sp" />
+                <Button
+                    android:id="@+id/btnDeleta"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="@drawable/background_login"
+                    android:text="Limpar"
+                    android:textAllCaps="false"
+                    android:textColor="@color/primaryColor"
+                    android:textSize="18sp"/>
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="8dp"
-        android:orientation="vertical">
-
-        <Button
-            android:id="@+id/btnSave"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:background="@drawable/background_login"
-            android:text="Salvar"
-            android:textAllCaps="false"
-            android:textColor="@color/primaryColor"
-            android:textSize="18sp" />
-
-        <Button
-            android:id="@+id/btnDeleta"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:background="@drawable/background_login"
-            android:text="Limpar"
-            android:textAllCaps="false"
-            android:textColor="@color/primaryColor"
-            android:textSize="18sp"/>
-    </LinearLayout>
-
-</LinearLayout>
-
 </ScrollView>
