@@ -20,7 +20,7 @@ import android.provider.Settings
 import android.widget.ImageView
 
 abstract class SplashPermissionsActivity : BaseActivity() {
-    private val timeoutMillis = 1000
+    private val timeoutMillis = 500
     private val PERMISSIONS_REQUEST = 1234
 
     private val random = Random()

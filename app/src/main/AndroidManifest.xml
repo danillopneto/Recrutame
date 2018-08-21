@@ -36,7 +36,8 @@
         <activity
             android:name=".JobDetailActivity"
             android:theme="@style/InsideAppTheme" />
-        <activity android:name=".SplashScreenActivity"
+        <activity
+            android:name=".SplashScreenActivity"
             android:theme="@style/LoginAppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -44,6 +45,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".EditGeneralInfoActivity"></activity>
     </application>
 
 </manifest>

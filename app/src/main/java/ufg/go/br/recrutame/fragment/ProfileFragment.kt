@@ -3,6 +3,7 @@ package ufg.go.br.recrutame.fragment
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.arch.persistence.room.Room
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
@@ -20,7 +21,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.jaredrummler.materialspinner.MaterialSpinner
+import com.rengwuxian.materialedittext.MaterialEditText
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.fragment_profile.*
@@ -28,29 +34,31 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import rec.protelas.User
+import ufg.go.br.recrutame.EditGeneralInfoActivity
+import ufg.go.br.recrutame.JobCard
 import ufg.go.br.recrutame.R
+import ufg.go.br.recrutame.TAG
 import ufg.go.br.recrutame.Util.Mask
 import ufg.go.br.recrutame.Util.Utils
 import ufg.go.br.recrutame.adapter.ItemIdiomaAdapter
 import ufg.go.br.recrutame.adapter.ItemProfileAdapter
 import ufg.go.br.recrutame.dao.*
-import ufg.go.br.recrutame.model.Idiom
-import ufg.go.br.recrutame.model.Skill
+import ufg.go.br.recrutame.model.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-
-private lateinit var userDao: UserDao
-private lateinit var skillDao: SkillDao
-private lateinit var idiomDao: IdiomDao
-private lateinit var mRecyclerView: RecyclerView
-private lateinit var mAdapterAtividade: ItemProfileAdapter
-private lateinit var newAtividadesTxt: TextView
-private lateinit var mAdapterIdioma: ItemIdiomaAdapter
-private lateinit var newIdiomaTxt: TextView
-
 class ProfileFragment : BaseFragment(), View.OnClickListener  {
+    private lateinit var database: FirebaseDatabase
     private lateinit var mProfileImage: CircleImageView
+    private lateinit var userDao: UserDao
+    private lateinit var skillDao: SkillDao
+    private lateinit var idiomDao: IdiomDao
+    private lateinit var mRecyclerView: RecyclerView
+    private lateinit var mAdapterAtividade: ItemProfileAdapter
+    private lateinit var newAtividadesTxt: TextView
+    private lateinit var mAdapterIdioma: ItemIdiomaAdapter
+    private lateinit var newIdiomaTxt: TextView
+    private var userModel: UserProfile? = null
 
     override fun onStart() {
         super.onStart()
@@ -69,13 +77,27 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         inicializeApis()
+        database = FirebaseDatabase.getInstance()
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
-        view.findViewById<FloatingActionButton>(R.id.mChangePictureBtn).setOnClickListener(this)
+
+        database.getReference("users/" + mAuth.currentUser?.uid)
+                .addValueEventListener( object: ValueEventListener {
+                    override fun onDataChange(dataSnapshot: DataSnapshot?) {
+                        userModel = dataSnapshot?.getValue(UserProfile::class.java)
+                        if (userModel != null) {
+                            fillGeneralInfo(view, userModel!!.generalInfo)
+                        }
+                    }
+
+                    override fun onCancelled(databaseError: DatabaseError?) {
+                        Log.d(TAG, "" + databaseError)
+                    }
+                })
 
         spinnerSexo(view)
 
 
-        val database =  Room.databaseBuilder(this.getActivity()!!, AppDb::class.java, "userDb")
+        /*val database =  Room.databaseBuilder(this.getActivity()!!, AppDb::class.java, "userDb")
                 .allowMainThreadQueries()
                 .fallbackToDestructiveMigration()
                 .build()
@@ -98,10 +120,22 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
                 .build()
 
         idiomDao = databaseIdiom.idiomDao()
+        */
 
         inicializeControls(view)
 
         return view
+    }
+
+    private fun fillGeneralInfo(view: View, generalInfo: UserGeneralInfo) {
+        view.findViewById<TextView>(R.id.mUsernameTxt).text = "${generalInfo.name} ${generalInfo.lastName}"
+
+        val generalInfoTxt = view.findViewById<TextView>(R.id.mGeneralInfoTxt)
+        val generalInfoData = StringBuilder()
+        generalInfoData.appendln(generalInfo.getBirthDateFormated())
+        generalInfoData.appendln("${generalInfo.city} - ${generalInfo.state}")
+
+        generalInfoTxt.text = generalInfoData.toString()
     }
 
     private fun inicializeControls(view: View) {
@@ -109,76 +143,14 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
         newAtividadesTxt = view.findViewById(R.id.Atividades_Desenvolvidas)
         newIdiomaTxt = view.findViewById(R.id.Idioma)
 
-        val user = mAuth.currentUser!!
+        view.findViewById<FloatingActionButton>(R.id.mChangePictureBtn).setOnClickListener(this)
+        view.findViewById<ImageButton>(R.id.mEditGeneralInfoBtn).setOnClickListener(this)
+
         mStorageRef.child(getUserPhotoUrl()).downloadUrl.addOnSuccessListener { task ->
             EventBus.getDefault().post(task)
         }.addOnFailureListener{
             EventBus.getDefault().post(R.drawable.user_logo)
         }
-
-        if (user.displayName != null) {
-
-            val nome = view.findViewById<EditText>(R.id.Nome)
-            val email = view.findViewById<EditText>(R.id.Email)
-
-            nome.setText(user.displayName)
-            email.setText(user.email)
-            handlePerfil(user.email.toString(), view)
-
-            val dataNascimento = view.findViewById<EditText>(R.id.DataNascimento)
-            val nacionalidade = view.findViewById<EditText>(R.id.Nacionalidade)
-            val cpf = view.findViewById<EditText>(R.id.Cpf)
-            val telefonefixo = view.findViewById<EditText>(R.id.Telefonefixo)
-            val telefonecelular = view.findViewById<EditText>(R.id.Telefonecelular)
-            val area_Atuacao = view.findViewById<EditText>(R.id.Area_Atuacao)
-            val periodo = view.findViewById<EditText>(R.id.Periodo)
-            val instituicao = view.findViewById<EditText>(R.id.Instituicao)
-            val empresas = view.findViewById<EditText>(R.id.Empresas)
-            val cargo = view.findViewById<EditText>(R.id.Cargo)
-            val periodocargo = view.findViewById<EditText>(R.id.Periodocargo)
-            val sexo = view.findViewById<MaterialSpinner>(R.id.Sexo)
-
-            try {
-                dataNascimento.setInputType(0);
-                dateNascimento(view)
-                dataNascimento.setInputType(0);
-            }catch (e: Exception){
-                showSnackFeedback("Erro dateNascimento", false)
-            }
-
-/*
-            var users = userDao.getUserEmail(user.email!!)
-            if (users == null) {
-                users = User()
-            }
-
-            nome.setText(users.nome)
-            email.setText(users.email)
-            dataNascimento.setText( Mask.textMask(users.dataNascimento.toString(), "##/##/####"))
-            nacionalidade.setText(users.nacionalidade)
-            cpf.setText(users.cpf)
-            sexo.setText(users.sexo)
-            telefonefixo.setText(users.telefonefixo.toString())
-            telefonecelular.setText(users.telefonecelular.toString())
-            area_Atuacao.setText(users.areaatuacao)
-            periodo.setText(users.periodoatuacao)
-            instituicao.setText(users.instituicao)
-            empresas.setText(users.empresa)
-            cargo.setText(users.cargo)
-            periodocargo.setText(users.periodocargo)
-*/
-            atividadesRecycler(view)
-            idiomaRecycler(view)
-        }
-
-        val cpf = view.findViewById<EditText>(R.id.Cpf)
-        cpf.addTextChangedListener(Mask.mask("###.###.###-##", cpf))
-
-        view.findViewById<TextView>(R.id.btnSave).setOnClickListener(this)
-        view.findViewById<TextView>(R.id.btnDeleta).setOnClickListener(this)
-        view.findViewById<ImageButton>(R.id.btnAddAtividade).setOnClickListener(this)
-        view.findViewById<ImageButton>(R.id.btnAddIdioma).setOnClickListener(this)
-
     }
 
     fun showSnackFeedback(message : String, isValid : Boolean){
@@ -230,11 +202,17 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.btnAddAtividade -> handleAddAtividades()
-            R.id.btnAddIdioma -> handleAddIdioma()
-            R.id.btnDeleta -> handleDelete()
-            R.id.btnSave  -> handleSave()
             R.id.mChangePictureBtn -> chooseImage()
+            R.id.mEditGeneralInfoBtn -> editGeneralInfo()
         }
+    }
+
+    private fun editGeneralInfo() {
+        val i = Intent(context, EditGeneralInfoActivity :: class.java)
+        i.putExtra("userId", mAuth.currentUser?.uid)
+        i.putExtra("userName", userModel?.generalInfo?.name)
+        i.putExtra("userLastName", userModel?.generalInfo?.lastName)
+        startActivity(i)
     }
 
     private fun handleAddAtividades(){
@@ -309,375 +287,6 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
         }
     }
 
-
-    private fun handleAddIdioma(){
-
-        var idiomaSelect = ""
-        val user = mAuth.currentUser!!
-
-        var users = userDao.getUserEmail(user.email!!)
-        if (users == null) {
-            users = User()
-        }
-
-        val currentFilters = getMyPreferences().getIdioms()
-
-        val list: MutableList<String> = mutableListOf()
-
-        idiomDao.all(users.email!!).forEach{ idioms ->  Log.i("String de skilldao: ", ""+list.add(""+idioms.idioms))  }
-
-        idiomDao.deleteWithFriends(Idiom() , idiomDao.all(users.email!!))
-
-        if (currentFilters != null && currentFilters.isNotEmpty()) {
-
-            currentFilters.forEach { idiom ->
-
-                try {
-                    if(idiomDao.getIdiomReplace(""+users.email, idiom.toString())==null) {
-                        val sl = Idiom((idiomDao.getNumberOfRows().toLong() + 1) , users.email , idiom.toString())
-                        idiomDao.add(sl)
-                        Log.i("Habilidades em banco: " , "" + sl.idioms)
-                    }
-                }catch (e: Exception){
-                    if(idiomDao.getIdiomReplace(""+users.email, idiom.toString())==null) {
-                        val sl = Idiom((idiomDao.getNumberOfRows().toLong() + 1) , users.email , idiom.toString())
-                        idiomDao.update(sl)
-                        Log.i("Habilidades em banco: " , "" + sl.idioms)
-                    }
-                }
-            }
-        }
-
-        if (Utils.isNullOrWhiteSpace(newIdiomaTxt.text.toString())) {
-            Toast.makeText(context, getString(R.string.insert_filter_term), Toast.LENGTH_SHORT).show()
-        } else {
-
-            val builder =  AlertDialog.Builder(getActivity()!!)
-            val view = LayoutInflater.from(getActivity()!!).inflate(R.layout.dialog_idiom, null)
-            val spinner = view.findViewById<View>(R.id.Nivel_Idioma) as MaterialSpinner
-
-            spinner.setOnItemSelectedListener { view , position , id , item ->
-                idiomaSelect = ""+item }
-
-            val adapter = ArrayAdapter.createFromResource(getActivity()!!, R.array.nivel_idioma,
-                    android.R.layout.simple_spinner_dropdown_item);
-
-            spinner.setAdapter(adapter);
-
-
-
-            builder.setView(view);
-
-            builder.setTitle("Nível")
-            builder.setMessage("Qual a fluência no idioma: ")
-            builder.setPositiveButton("Salvar", { dialog, whichButton ->
-
-                spinner.setInputType(0);
-                val sl = Idiom((idiomDao.getNumberOfRows().toLong() + 1) , users.email , newIdiomaTxt.text.toString().trim()+" - "+idiomaSelect )
-                idiomDao.add(sl)
-                mAdapterIdioma.updateList(newIdiomaTxt.text.toString().trim()+" - "+idiomaSelect)
-                newIdiomaTxt.setText("")
-            })
-            builder.setNegativeButton("Cancelar", { dialog, whichButton ->
-                //pass
-            })
-            val b = builder.create()
-            b.show()
-
-        }
-    }
-
-    private fun idiomaRecycler(view: View) {
-        mRecyclerView = view.findViewById(R.id.recyclerIdiomaItems)
-
-        val layoutManager = LinearLayoutManager(context)
-        mRecyclerView.layoutManager = layoutManager
-
-        val user = mAuth.currentUser!!
-        mStorageRef.child(getUserPhotoUrl()).downloadUrl.addOnSuccessListener { task ->
-            EventBus.getDefault().post(task)
-        }.addOnFailureListener{
-            EventBus.getDefault().post(R.drawable.user_logo)
-        }
-
-        var users = userDao.getUserEmail(user.email!!)
-        if (users == null) {
-            users = User()
-        }
-
-        Log.i("Email Do usuario logado: ", ""+users.email )
-
-        val list: MutableList<String> = mutableListOf()
-        // a lista de habilidades vem daqui
-        val currentFilters = getMyPreferences().getIdioms()
-
-        idiomDao.all(users.email!!).forEach{ idioms ->  Log.i("String de skilldao: ", ""+list.add(""+idioms.idioms))  }
-
-        idiomDao.deleteWithFriends(Idiom() , idiomDao.all(users.email!!))
-
-        mAdapterIdioma = ItemIdiomaAdapter(list)
-        mRecyclerView.adapter = mAdapterIdioma
-        mAdapterIdioma.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
-            override fun onChanged() {
-                getMyPreferences().setIdioms(mAdapterIdioma.getItens())
-                Log.d("Log do getItens", ""+mAdapterIdioma.getItens())
-            }
-        })
-
-        mRecyclerView.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
-
-
-        if (currentFilters != null && currentFilters.isNotEmpty()) {
-
-            currentFilters.forEach { idiom ->
-
-                try {
-                    if(idiomDao.getIdiomReplace(""+users.email, idiom.toString())==null) {
-                        val sl = Idiom((idiomDao.getNumberOfRows().toLong() + 1) , users.email , idiom.toString())
-                        idiomDao.add(sl)
-                        Log.i("Habilidades em banco: " , "" + sl.idioms)
-                    }
-                }catch (e: Exception){
-                    if(idiomDao.getIdiomReplace(""+users.email, idiom.toString())==null) {
-                        val sl = Idiom((idiomDao.getNumberOfRows().toLong() + 1) , users.email , idiom.toString())
-                        idiomDao.update(sl)
-                        Log.i("Habilidades em banco: " , "" + sl.idioms)
-                    }
-                }
-            }
-        }
-
-
-    }
-
-    private fun handleDelete(){
-        userDao.delete()
-    }
-
-    private fun handlePerfil(emails: String, view: View) {
-
-        try {
-            val nome = view.findViewById<EditText>(R.id.Nome)
-            val email = view.findViewById<EditText>(R.id.Email)
-            val dataNascimento = view.findViewById<EditText>(R.id.DataNascimento)
-            val nacionalidade = view.findViewById<EditText>(R.id.Nacionalidade)
-            val cpf = view.findViewById<EditText>(R.id.Cpf)
-            val telefonefixo = view.findViewById<EditText>(R.id.Telefonefixo)
-            val telefonecelular = view.findViewById<EditText>(R.id.Telefonecelular)
-            val area_Atuacao = view.findViewById<EditText>(R.id.Area_Atuacao)
-            val periodo = view.findViewById<EditText>(R.id.Periodo)
-            val instituicao = view.findViewById<EditText>(R.id.Instituicao)
-            val empresas = view.findViewById<EditText>(R.id.Empresas)
-            val cargo = view.findViewById<EditText>(R.id.Cargo)
-            val periodocargo = view.findViewById<EditText>(R.id.Periodocargo)
-            val sexo = view.findViewById<MaterialSpinner>(R.id.Sexo)
-
-            var users = userDao.getUserEmail(emails)
-            if (users == null) {
-                users = User()
-            }
-
-            nome.setText(users.nome)
-            email.setText(users.email)
-            dataNascimento.setText( Mask.textMask(users.dataNascimento.toString(), "##/##/####"))
-            nacionalidade.setText(users.nacionalidade)
-            cpf.setText(users.cpf)
-            sexo.setText(users.sexo)
-            telefonefixo.setText(users.telefonefixo.toString())
-            telefonecelular.setText(users.telefonecelular.toString())
-            area_Atuacao.setText(users.areaatuacao)
-            periodo.setText(users.periodoatuacao)
-            instituicao.setText(users.instituicao)
-            empresas.setText(users.empresa)
-            cargo.setText(users.cargo)
-            periodocargo.setText(users.periodocargo)
-
-        }catch (e: Exception){
-            showSnackFeedback("Não existe cadastro",false)
-        }
-    }
-
-    private fun handleSave() {
-
-
-        if (verificaCampovazio(Nome.text.toString())) {
-            Nome.validate("\\d+", "Campo obrigatório*")
-            Nome.requestLayout()
-            showSnackFeedback("Preencha todos os campos obrigatórios", false)
-        } else if (!emailValidar( Email.text.toString())) {
-            Email.validate("\\d+", "Campo obrigatório*")
-            Email.requestLayout()
-            showSnackFeedback("Preencha todos os campos obrigatórios", false)
-        } else if (verificaCampovazio(DataNascimento.text.toString())) {
-            DataNascimento.validate("\\d+", "Campo obrigatório*")
-            DataNascimento.requestLayout()
-            showSnackFeedback("Preencha todos os campos obrigatórios", false)
-        } else if (verificaCampovazio(Nacionalidade.text.toString())) {
-            Nacionalidade.validate("\\d+", "Campo obrigatório*")
-            Nacionalidade.requestLayout()
-            showSnackFeedback("Preencha todos os campos obrigatórios", false)
-        } else if (verificaCampovazio(Cpf.text.toString())) {
-            Cpf.validate("\\d+", "Campo obrigatório*")
-            Cpf.requestLayout()
-            showSnackFeedback("Preencha todos os campos obrigatórios", false)
-        } else if (verificaCampovazio(Telefonefixo.text.toString())) {
-            Telefonefixo.validate("\\d+", "Campo obrigatório*")
-            Telefonefixo.requestLayout()
-            showSnackFeedback("Preencha todos os campos obrigatórios", false)
-        } else if (verificaCampovazio(Telefonecelular.text.toString())) {
-            Telefonecelular.validate("\\d+", "Campo obrigatório*")
-            Telefonecelular.requestLayout()
-            showSnackFeedback("Preencha todos os campos obrigatórios", false)
-        } else if (verificaCampovazio(Area_Atuacao.text.toString())) {
-            Area_Atuacao.validate("\\d+", "Campo obrigatório*")
-            Area_Atuacao.requestLayout()
-            showSnackFeedback("Preencha todos os campos obrigatórios", false)
-        } else if (verificaCampovazio(Periodo.text.toString())) {
-            Periodo.validate("\\d+", "Campo obrigatório*")
-            Periodo.requestLayout()
-            showSnackFeedback("Preencha todos os campos obrigatórios", false)
-        } else if (verificaCampovazio(Instituicao.text.toString())) {
-            Instituicao.validate("\\d+", "Campo obrigatório*")
-            Instituicao.requestLayout()
-            showSnackFeedback("Preencha todos os campos obrigatórios", false)
-        } else if (verificaCampovazio(Empresas.text.toString())) {
-            Empresas.validate("\\d+", "Campo obrigatório*")
-            Empresas.requestLayout()
-            showSnackFeedback("Preencha todos os campos obrigatórios", false)
-        } else if (verificaCampovazio(Cargo.text.toString())) {
-            Cargo.validate("\\d+", "Campo obrigatório*")
-            Cargo.requestLayout()
-            showSnackFeedback("Preencha todos os campos obrigatórios", false)
-        } else if (verificaCampovazio(Periodocargo.text.toString())) {
-            Periodocargo.validate("\\d+", "Campo obrigatório*")
-            Periodocargo.requestLayout()
-            showSnackFeedback("Preencha todos os campos obrigatórios", false)
-        } else if (verificaCampovazio(Sexo.text.toString())) {
-            Sexo.requestLayout()
-            showSnackFeedback("Preencha todos os campos obrigatórios", false)
-        }
-
-
-
-        try {
-           /* val userz = mAuth.currentUser!!
-
-            var users = userDao.getUserEmail(userz.email!!)
-
-            val cont = if (userDao.getNumberOfRowsEmail(users.email.toString())==0) {
-                userDao.getNumberOfRows()+1
-            }else {
-                userDao.getReturnID(users.email.toString())
-            }
-*/
-           val cont = if (userDao.getNumberOfRowsEmail(Email.text.toString())==0) {
-                userDao.getNumberOfRows()+1
-            }else{
-                userDao.getReturnID(Email.text.toString())
-            }
-
-            val cont2 = cont.toString()
-
-            val user = User(cont2.toLong(),
-                    Nome.text.toString(),
-                    DataNascimento.text.toString().replace("/", "").toInt(),
-                    Cpf.text.toString(),
-                    Sexo.text.toString(),
-                    Nacionalidade.text.toString(),
-                    Integer.parseInt(Telefonefixo.text.toString()),
-                    Telefonecelular.text.toString().toInt(),
-                    Email.text.toString(),
-                    Area_Atuacao.text.toString(),
-                    Periodo.text.toString(),
-                    Instituicao.text.toString(),
-                    Empresas.text.toString(),
-                    Cargo.text.toString(),
-                    Periodocargo.text.toString())
-
-            try {
-                userDao.add(user)
-            }catch (e: Exception){
-                userDao.update(user = user)
-            }
-
-       //     Toast.makeText( context , "Erro: "+user.toString(), Toast.LENGTH_LONG).show()
-       //     Log.d("Inserirdo", user.toString());
-
-        }catch (e: Exception){
-            Toast.makeText(context, "Erro: "+e.message, Toast.LENGTH_LONG).show()
-            Log.d("Erro ao buscar", e.toString());
-        }
-
-    }
-
-    private fun validationform(view: View){
-
-        try {
-            val nome = view.findViewById<EditText>(R.id.Nome)
-            val email = view.findViewById<EditText>(R.id.Email)
-            val dataNascimento = view.findViewById<EditText>(R.id.DataNascimento)
-            val nacionalidade = view.findViewById<EditText>(R.id.Nacionalidade)
-            val cpf = view.findViewById<EditText>(R.id.Cpf)
-            val telefonefixo = view.findViewById<EditText>(R.id.Telefonefixo)
-            val telefonecelular = view.findViewById<EditText>(R.id.Telefonecelular)
-            val area_Atuacao = view.findViewById<EditText>(R.id.Area_Atuacao)
-            val periodo = view.findViewById<EditText>(R.id.Periodo)
-            val instituicao = view.findViewById<EditText>(R.id.Instituicao)
-            val empresas = view.findViewById<EditText>(R.id.Empresas)
-            val cargo = view.findViewById<EditText>(R.id.Cargo)
-            val periodocargo = view.findViewById<EditText>(R.id.Periodocargo)
-            val sexo = view.findViewById<MaterialSpinner>(R.id.Sexo)
-
-
-               if (verificaCampovazio(nome.toString())) {
-                   nome.requestFocus();
-                   showSnackFeedback("Campo obrigatório", false)
-               } else if (!emailValidar(email.toString())) {
-                   email.requestFocus()
-                   showSnackFeedback("Campo obrigatório", false)
-               } else if (verificaCampovazio(dataNascimento.toString())) {
-                   dataNascimento.requestFocus()
-                   showSnackFeedback("Campo obrigatório", false)
-               } else if (verificaCampovazio(nacionalidade.toString())) {
-                   nacionalidade.requestFocus()
-                   showSnackFeedback("Campo obrigatório", false)
-               } else if (verificaCampovazio(cpf.toString())) {
-                   cpf.requestFocus()
-                   showSnackFeedback("Campo obrigatório" , false)
-               } else if (verificaCampovazio(telefonefixo.toString())) {
-                   telefonefixo.requestFocus()
-                   showSnackFeedback("Campo obrigatório", false)
-               } else if (verificaCampovazio(telefonecelular.toString())) {
-                   telefonecelular.requestFocus()
-                   showSnackFeedback("Campo obrigatório" , false)
-               } else if (verificaCampovazio(area_Atuacao.toString())) {
-                   area_Atuacao.requestFocus()
-                   showSnackFeedback("Campo obrigatório", false)
-               } else if (verificaCampovazio(periodo.toString())) {
-                   periodo.requestFocus()
-                   showSnackFeedback("Campo obrigatório" , false)
-               } else if (verificaCampovazio(instituicao.toString())) {
-                   instituicao.requestFocus()
-                   showSnackFeedback("Campo obrigatório" , false)
-               } else if (verificaCampovazio(empresas.toString())) {
-                   empresas.requestFocus()
-                   showSnackFeedback("Campo obrigatório", false)
-               } else if (verificaCampovazio(cargo.toString())) {
-                   cargo.requestFocus()
-                   showSnackFeedback("Campo obrigatório" , false)
-               } else if (verificaCampovazio(periodocargo.toString())) {
-                   periodocargo.requestFocus()
-                   showSnackFeedback("Campo obrigatório", false)
-               } else if (verificaCampovazio(sexo.toString())) {
-                   sexo.requestFocus()
-                   showSnackFeedback("Campo obrigatório" , false)
-               }
-
-        }catch (e: Exception){
-            showSnackFeedback("Não foi possivel validar os campos "+e.toString() , false)
-        }
-    }
-
      private fun verificaCampovazio(valor: String): Boolean {
 
            var resultado = (TextUtils.isEmpty( valor ) || valor.trim().isEmpty())
@@ -691,5 +300,4 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
 
            return resultado
      }
-
 }

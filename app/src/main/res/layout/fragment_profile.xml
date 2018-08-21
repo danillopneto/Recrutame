@@ -15,7 +15,7 @@
                 android:layout_height="100dp"
                 android:background="@drawable/background_purple"
                 android:id="@+id/hidden_view"
-                android:elevation="1dp"/>
+                android:elevation="2dp"/>
             <de.hdodenhof.circleimageview.CircleImageView
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/mProfileImage"
@@ -45,34 +45,53 @@
                 android:padding="0dp"
                 app:borderWidth="0dp"
                 android:layout_marginEnd="-40dp" />
-            <LinearLayout
-                android:id="@+id/linear_nome"
+            <android.support.v7.widget.CardView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="-74dp"
-                android:paddingTop="70dp"
-                android:elevation="0dp"
-                android:background="@drawable/border_linear_layout"
-                android:orientation="vertical"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp">
-                <com.rengwuxian.materialedittext.MaterialEditText
+                android:layout_height="match_parent"
+                app:cardUseCompatPadding="true"
+                app:cardElevation="1dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="-78dp">
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:met_floatingLabel="highlight"
-                    app:met_maxCharacters="80"
-                    app:met_singleLineEllipsis="true"
-                    app:met_underlineColor="@color/primaryColor"
-                    app:met_helperText="Ex: João da Silva Sauro"
-                    app:met_baseColor="@color/cardview_shadow_end_color"
-                    app:met_primaryColor="@color/endBlue"
-                    app:met_helperTextColor="@color/grey"
-                    android:id="@+id/Nome"
-                    android:hint="Nome"
-                    android:textColorHint="@color/grey"
-                    app:met_clearButton="true"
-                    android:singleLine="true" />
-            </LinearLayout>
+                    android:layout_marginTop="80dp">
+                    <ImageButton
+                        android:id="@+id/mEditGeneralInfoBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_edit"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginTop="30dp"
+                        android:tint="@color/primaryColor"
+                        android:elevation="4dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:background="@null"/>
+                    <TextView
+                        android:id="@+id/mUsernameTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20dp"
+                        tools:text="Username"
+                        android:textColor="@color/grey_black_1000"
+                        android:layout_centerHorizontal="true"/>
+                    <TextView
+                        android:layout_below="@+id/mUsernameTxt"
+                        android:id="@+id/mGeneralInfoTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/grey_500"
+                        tools:text="01/01/2018\nGoiânia - Goiás - Brasil"
+                        android:layout_centerHorizontal="true"
+                        android:gravity="center"
+                        android:layout_marginBottom="10dp"
+                        android:inputType="textMultiLine" />
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
             <LinearLayout
                 android:id="@+id/linear_datanascimento"
                 android:layout_width="match_parent"
