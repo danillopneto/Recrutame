@@ -1,8 +1,6 @@
 package ufg.go.br.recrutame.fragment
 
-import android.app.AlertDialog
 import android.app.DatePickerDialog
-import android.arch.persistence.room.Room
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -26,7 +24,6 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.jaredrummler.materialspinner.MaterialSpinner
-import com.rengwuxian.materialedittext.MaterialEditText
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.fragment_profile.*
@@ -35,11 +32,9 @@ import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import rec.protelas.User
 import ufg.go.br.recrutame.EditGeneralInfoActivity
-import ufg.go.br.recrutame.JobCard
 import ufg.go.br.recrutame.R
 import ufg.go.br.recrutame.TAG
-import ufg.go.br.recrutame.Util.Mask
-import ufg.go.br.recrutame.Util.Utils
+import ufg.go.br.recrutame.util.Utils
 import ufg.go.br.recrutame.adapter.ItemIdiomaAdapter
 import ufg.go.br.recrutame.adapter.ItemProfileAdapter
 import ufg.go.br.recrutame.dao.*
@@ -132,7 +127,7 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
 
         val generalInfoTxt = view.findViewById<TextView>(R.id.mGeneralInfoTxt)
         val generalInfoData = StringBuilder()
-        generalInfoData.appendln(generalInfo.getBirthDateFormated())
+        generalInfoData.appendln(Utils.getFormatedDate(generalInfo.birthdate, getString(R.string.format_date)))
         generalInfoData.appendln("${generalInfo.city} - ${generalInfo.state}")
 
         generalInfoTxt.text = generalInfoData.toString()
@@ -170,35 +165,6 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
         spinner.setOnItemSelectedListener { view , position , id , item -> Snackbar.make(view , "Selecionado " + item , Snackbar.LENGTH_LONG).show() }
     }
 
-    private fun dateNascimento(view: View){
-
-        val c = Calendar.getInstance()
-        val year = c.get(Calendar.YEAR)
-        val month = c.get(Calendar.MONTH)
-        val day = c.get(Calendar.DAY_OF_MONTH)
-        val nascimento = view.findViewById<EditText>(R.id.DataNascimento)
-
-        nascimento.setOnClickListener{
-            nascimento.setInputType(0);
-            var cal = Calendar.getInstance()
-            val dpd = DatePickerDialog(context, android.R.style.Theme_Holo_Light_Dialog_MinWidth , DatePickerDialog.OnDateSetListener{view, mYear, mMonth, mDay ->
-                cal.set(Calendar.YEAR, year)
-                cal.set(Calendar.MONTH, mMonth)
-                cal.set(Calendar.DAY_OF_MONTH, mDay)
-                val myFormat = "dd/MM/yyyy"
-                val sdf = SimpleDateFormat(myFormat, Locale.US)
-
-                nascimento.setText(sdf.format(cal.time))
-                nascimento.setInputType(0);
-               // nascimento.addTextChangedListener(Mask.date("##/##/####", nascimento))
-            },year, month, day )
-            dpd.window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            dpd.show()
-            nascimento.setInputType(0);
-        }
-    }
-
-
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.btnAddAtividade -> handleAddAtividades()
@@ -212,6 +178,7 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
         i.putExtra("userId", mAuth.currentUser?.uid)
         i.putExtra("userName", userModel?.generalInfo?.name)
         i.putExtra("userLastName", userModel?.generalInfo?.lastName)
+        i.putExtra("userBirthdate", userModel?.generalInfo?.birthdate)
         startActivity(i)
     }
 

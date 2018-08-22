@@ -1,6 +1,4 @@
-package ufg.go.br.recrutame.Util
-
-import ufg.go.br.recrutame.model.JobModel
+package ufg.go.br.recrutame.util
 
 class JobUtils {
 

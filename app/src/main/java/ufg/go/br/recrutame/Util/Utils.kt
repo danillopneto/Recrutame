@@ -1,4 +1,4 @@
-package ufg.go.br.recrutame.Util
+package ufg.go.br.recrutame.util
 
 import android.content.res.Resources
 import android.graphics.Point
@@ -6,8 +6,9 @@ import android.util.DisplayMetrics
 import android.view.Display
 import android.os.Build
 import android.view.WindowManager
-
-
+import ufg.go.br.recrutame.R
+import java.text.SimpleDateFormat
+import java.util.*
 
 class Utils {
     companion object {
@@ -34,6 +35,60 @@ class Utils {
 
         fun isNullOrWhiteSpace(value: String) : Boolean {
             return value == null || value.isEmpty() || value.trim().isEmpty()
+        }
+
+        fun getDayOfMonth(dateAsString: String): String {
+            if (dateAsString.isEmpty()) {
+                return ""
+            }
+
+            return dateAsString.substring(6, 8)
+        }
+
+        fun getMonth(dateAsString: String): String {
+            if (dateAsString.isEmpty()) {
+                return ""
+            }
+
+            return dateAsString.substring(4, 6)
+        }
+
+        fun getYear(dateAsString: String): String {
+            if (dateAsString.isEmpty()) {
+                return ""
+            }
+
+            return dateAsString.substring(0, 4)
+        }
+
+        fun getFormatedDate(date: Int?, dateFormat: String): String {
+            if (date != null) {
+                val dateAsString = date.toString()
+                val dayOfMonth = Utils.getDayOfMonth(dateAsString)!!
+                val monthOfYear = Utils.getMonth(dateAsString)!!
+                val year = Utils.getYear(dateAsString)!!
+               return getFormatedDate(year.toInt(), monthOfYear.toInt(), dayOfMonth.toInt(), dateFormat)
+            }
+
+            return ""
+        }
+
+        fun getFormatedDate(year: Int, monthOfYear: Int, dayOfMonth: Int, dateFormat: String): String {
+            val calendar = GregorianCalendar(year, monthOfYear - 1, dayOfMonth)
+            val fmt = SimpleDateFormat(dateFormat)
+            fmt.calendar  = calendar
+            return fmt.format(calendar.time)
+        }
+
+        fun getFullDate(dateFormated: String): Int? {
+            if (dateFormated.isEmpty()) {
+                return null
+            }
+
+            val dayOfMonth = dateFormated.substring(0, 2)
+            val month = dateFormated.substring(3, 5)
+            val year = dateFormated.substring(6, 10)
+            return "$year$month$dayOfMonth".toInt()
         }
     }
 }

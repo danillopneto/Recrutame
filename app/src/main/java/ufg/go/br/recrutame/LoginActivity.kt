@@ -16,7 +16,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.UserProfileChangeRequest
 import net.orange_box.storebox.StoreBox
-import ufg.go.br.recrutame.Util.Utils
+import ufg.go.br.recrutame.util.Utils
 import ufg.go.br.recrutame.api.model.LIProfileInfo
 import ufg.go.br.recrutame.model.MyPreferences
 

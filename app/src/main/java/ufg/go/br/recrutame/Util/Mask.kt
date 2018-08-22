@@ -1,4 +1,4 @@
-package ufg.go.br.recrutame.Util
+package ufg.go.br.recrutame.util
 
 import android.text.Editable
 import android.text.TextWatcher

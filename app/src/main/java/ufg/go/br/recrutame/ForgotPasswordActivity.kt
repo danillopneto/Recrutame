@@ -1,19 +1,17 @@
 package ufg.go.br.recrutame
 
-import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_forgot_password.*
-import android.text.TextUtils
 import android.util.Log
 import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
-import ufg.go.br.recrutame.Util.Utils
+import ufg.go.br.recrutame.util.Utils
 
 class ForgotPasswordActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var mAuth: FirebaseAuth

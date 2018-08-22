@@ -28,7 +28,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColorHint="@color/grey"
-        app:hintTextAppearance="@style/TextAppearance.App.ProfileInputLayout">
+        app:hintTextAppearance="@style/TextAppearance.App.ProfileInputLayout"
+        android:paddingBottom="30dp">
         <EditText
             android:id="@+id/mLastNameTxt"
             android:layout_width="match_parent"
@@ -36,6 +37,22 @@
             android:singleLine="true"
             android:hint="@string/lastname"
             android:inputType="textCapWords" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColorHint="@color/grey"
+        app:hintTextAppearance="@style/TextAppearance.App.ProfileInputLayout">
+        <EditText
+            android:id="@+id/mBirthdateTxt"
+            android:clickable="true"
+            android:focusable="false"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:hint="@string/birthdate"
+            android:inputType="date" />
     </android.support.design.widget.TextInputLayout>
 
 </LinearLayout>

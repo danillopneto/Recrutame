@@ -93,26 +93,6 @@
                 </RelativeLayout>
             </android.support.v7.widget.CardView>
             <LinearLayout
-                android:id="@+id/linear_datanascimento"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/border_linear_layout"
-                android:orientation="vertical"
-                android:layout_marginTop="8dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp">
-                <com.rengwuxian.materialedittext.MaterialEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:met_floatingLabel="highlight"
-                    app:met_maxCharacters="14"
-                    app:met_singleLineEllipsis="true"
-                    app:met_helperText="25/07/2018"
-                    android:id="@+id/DataNascimento"
-                    android:ems="10"
-                    android:hint="Data de Nascimento" />
-            </LinearLayout>
-            <LinearLayout
                 android:id="@+id/linear_cpf"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

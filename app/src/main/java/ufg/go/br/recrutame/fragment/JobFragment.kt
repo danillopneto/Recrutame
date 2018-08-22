@@ -6,7 +6,6 @@ import android.location.Location
 import android.os.Bundle
 import android.os.Handler
 import android.support.design.widget.FloatingActionButton
-import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.util.Log
 import com.mindorks.placeholderview.SwipePlaceHolderView
@@ -16,7 +15,7 @@ import com.mindorks.placeholderview.SwipeDecor
 import com.mindorks.placeholderview.SwipeViewBuilder
 import android.view.*
 import com.google.firebase.database.*
-import ufg.go.br.recrutame.Util.Utils
+import ufg.go.br.recrutame.util.Utils
 import ufg.go.br.recrutame.TAG
 import ufg.go.br.recrutame.model.JobModel
 import org.greenrobot.eventbus.EventBus
@@ -26,7 +25,7 @@ import ufg.go.br.recrutame.enum.EnumUserIteraction
 import android.view.animation.AnimationUtils
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import ufg.go.br.recrutame.Util.GeoLocation
+import ufg.go.br.recrutame.util.GeoLocation
 
 class JobFragment : BaseFragment(){
     private lateinit var database:FirebaseDatabase

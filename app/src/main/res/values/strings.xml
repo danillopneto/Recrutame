@@ -72,6 +72,8 @@
     <string name="save">Salvar</string>
     <string name="name">Nome</string>
     <string name="lastname">Sobrenome</string>
+    <string name="birthdate">Data de nascimento</string>
+    <string name="format_date">dd/MM/yyyy</string>
     <string-array name="nivel">
         <item>Profissional</item>
         <item>Superior</item>

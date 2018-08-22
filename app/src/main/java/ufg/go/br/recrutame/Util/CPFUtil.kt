@@ -1,4 +1,4 @@
-package ufg.go.br.recrutame.Util
+package ufg.go.br.recrutame.util
 
 /**
  * Created by Vinicius on 12/07/2018.

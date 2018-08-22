@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.activity_register.*
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
-import ufg.go.br.recrutame.Util.Utils
+import ufg.go.br.recrutame.util.Utils
 
 class RegisterActivity : LoginActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {

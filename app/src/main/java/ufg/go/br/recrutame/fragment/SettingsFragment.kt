@@ -16,13 +16,8 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.widget.*
-import org.greenrobot.eventbus.EventBus
-import ufg.go.br.recrutame.Util.Utils
+import ufg.go.br.recrutame.util.Utils
 import ufg.go.br.recrutame.adapter.ItemFilterAdapter
-import ufg.go.br.recrutame.enum.EnumShowCase
-import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence
-import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView
-import uk.co.deanwild.materialshowcaseview.ShowcaseConfig
 
 class SettingsFragment : BaseFragment(), View.OnClickListener {
     private lateinit var maximumDistanceSlider: FluidSlider
