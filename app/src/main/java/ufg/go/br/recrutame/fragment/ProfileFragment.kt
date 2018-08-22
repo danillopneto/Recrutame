@@ -1,14 +1,9 @@
 package ufg.go.br.recrutame.fragment
 
-import android.app.DatePickerDialog
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
-import android.support.design.widget.Snackbar
-import android.support.v4.content.ContextCompat
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -23,7 +18,6 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.jaredrummler.materialspinner.MaterialSpinner
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.fragment_profile.*
@@ -39,8 +33,6 @@ import ufg.go.br.recrutame.adapter.ItemIdiomaAdapter
 import ufg.go.br.recrutame.adapter.ItemProfileAdapter
 import ufg.go.br.recrutame.dao.*
 import ufg.go.br.recrutame.model.*
-import java.text.SimpleDateFormat
-import java.util.*
 
 class ProfileFragment : BaseFragment(), View.OnClickListener  {
     private lateinit var database: FirebaseDatabase
@@ -89,9 +81,6 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
                     }
                 })
 
-        spinnerSexo(view)
-
-
         /*val database =  Room.databaseBuilder(this.getActivity()!!, AppDb::class.java, "userDb")
                 .allowMainThreadQueries()
                 .fallbackToDestructiveMigration()
@@ -127,6 +116,10 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
 
         val generalInfoTxt = view.findViewById<TextView>(R.id.mGeneralInfoTxt)
         val generalInfoData = StringBuilder()
+        if (!generalInfo.gender.isEmpty()) {
+            generalInfoData.appendln(generalInfo.gender)
+        }
+
         generalInfoData.appendln(Utils.getFormatedDate(generalInfo.birthdate, getString(R.string.format_date)))
         generalInfoData.appendln("${generalInfo.city} - ${generalInfo.state}")
 
@@ -148,23 +141,6 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
         }
     }
 
-    fun showSnackFeedback(message : String, isValid : Boolean){
-        val snackbar : Snackbar = Snackbar.make(getActivity()!!.findViewById(android.R.id.content), message, Snackbar.LENGTH_SHORT)
-        var v : View = snackbar.view
-        if (isValid)
-            v.setBackgroundColor(ContextCompat.getColor(this!!.context!! , android.R.color.holo_green_dark))
-        else
-            v.setBackgroundColor(ContextCompat.getColor(this!!.context!!, android.R.color.holo_red_dark))
-
-        snackbar.show()
-    }
-
-    private fun spinnerSexo(view: View){
-        val spinner = view.findViewById<View>(R.id.Sexo) as MaterialSpinner
-        spinner.setItems("Masculino" , "Feminino")
-        spinner.setOnItemSelectedListener { view , position , id , item -> Snackbar.make(view , "Selecionado " + item , Snackbar.LENGTH_LONG).show() }
-    }
-
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.btnAddAtividade -> handleAddAtividades()
@@ -179,6 +155,7 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
         i.putExtra("userName", userModel?.generalInfo?.name)
         i.putExtra("userLastName", userModel?.generalInfo?.lastName)
         i.putExtra("userBirthdate", userModel?.generalInfo?.birthdate)
+        i.putExtra("userGender", userModel?.generalInfo?.gender)
         i.putExtra("userState", userModel?.generalInfo?.state)
         i.putExtra("userCity", userModel?.generalInfo?.city)
         startActivity(i)

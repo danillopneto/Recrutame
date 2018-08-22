@@ -64,7 +64,6 @@ dependencies {
     kapt 'android.arch.persistence.room:compiler:' + rootProject.archRoomVersion
 
     implementation 'com.rengwuxian.materialedittext:library:2.1.4'
-    implementation 'com.jaredrummler:material-spinner:1.2.5'
     implementation 'com.ramotion.fluidslider:fluid-slider:0.3.0'
     implementation 'net.orange-box.storebox:storebox-lib:1.4.0'
     implementation 'br.com.simplepass:loading-button-android:1.14.0'

@@ -16,7 +16,9 @@ import ufg.go.br.recrutame.util.Utils
 import java.util.*
 import android.support.design.widget.Snackbar
 import android.support.v4.content.ContextCompat
+import android.support.v7.widget.AppCompatSpinner
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 
 class EditGeneralInfoActivity : AppCompatActivity(), View.OnClickListener, DatePickerDialog.OnDateSetListener {
     private lateinit var userId: String
@@ -25,6 +27,7 @@ class EditGeneralInfoActivity : AppCompatActivity(), View.OnClickListener, DateP
     private lateinit var mNameTxt: EditText
     private lateinit var mLastNameTxt: EditText
     private lateinit var mBirthdateTxt: EditText
+    private lateinit var mGenderSpinner: AppCompatSpinner
     private lateinit var mStateTxt: EditText
     private lateinit var mCityTxt: EditText
 
@@ -101,6 +104,17 @@ class EditGeneralInfoActivity : AppCompatActivity(), View.OnClickListener, DateP
             mBirthdateTxt.setText(Utils.getFormatedDate(birthDate, getString(R.string.format_date)))
         }
 
+        val gender = intent.getStringExtra("userGender")
+        mGenderSpinner = findViewById(R.id.mGenderSpinner)
+        val genders = resources.getStringArray(R.array.genders)
+        val adapter = ArrayAdapter<String>(this, R.layout.custom_simple_spinner_item, genders)
+        mGenderSpinner.adapter = adapter
+        mGenderSpinner.background = ContextCompat.getDrawable(this, R.drawable.abc_edit_text_material)
+        if (!gender.isEmpty()) {
+            val position = adapter.getPosition(gender)
+            mGenderSpinner.setSelection(position)
+        }
+
         val state = intent.getStringExtra("userState")
         mStateTxt = findViewById(R.id.mStateTxt)
         mStateTxt.setText(state)
@@ -123,6 +137,7 @@ class EditGeneralInfoActivity : AppCompatActivity(), View.OnClickListener, DateP
                                           mNameTxt.text.toString(),
                                           mLastNameTxt.text.toString(),
                                           Utils.getFullDate(mBirthdateTxt.text.toString()),
+                                          mGenderSpinner.selectedItem.toString(),
                                           mStateTxt.text.toString(),
                                           mCityTxt.text.toString())
         generalInfoReference.setValue(generalInfo).addOnCompleteListener {
