@@ -11,8 +11,12 @@ import com.google.firebase.database.DatabaseReference
 import com.tsongkha.spinnerdatepicker.DatePicker
 import com.tsongkha.spinnerdatepicker.DatePickerDialog
 import com.tsongkha.spinnerdatepicker.SpinnerDatePickerDialogBuilder
+import ufg.go.br.recrutame.model.UserGeneralInfo
 import ufg.go.br.recrutame.util.Utils
 import java.util.*
+import android.support.design.widget.Snackbar
+import android.support.v4.content.ContextCompat
+import android.view.ViewGroup
 
 class EditGeneralInfoActivity : AppCompatActivity(), View.OnClickListener, DatePickerDialog.OnDateSetListener {
     private lateinit var userId: String
@@ -21,6 +25,8 @@ class EditGeneralInfoActivity : AppCompatActivity(), View.OnClickListener, DateP
     private lateinit var mNameTxt: EditText
     private lateinit var mLastNameTxt: EditText
     private lateinit var mBirthdateTxt: EditText
+    private lateinit var mStateTxt: EditText
+    private lateinit var mCityTxt: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -94,6 +100,14 @@ class EditGeneralInfoActivity : AppCompatActivity(), View.OnClickListener, DateP
         if (birthDate > 0) {
             mBirthdateTxt.setText(Utils.getFormatedDate(birthDate, getString(R.string.format_date)))
         }
+
+        val state = intent.getStringExtra("userState")
+        mStateTxt = findViewById(R.id.mStateTxt)
+        mStateTxt.setText(state)
+
+        val city = intent.getStringExtra("userCity")
+        mCityTxt = findViewById(R.id.mCityTxt)
+        mCityTxt.setText(city)
     }
 
     private fun showActionBar() {
@@ -104,10 +118,25 @@ class EditGeneralInfoActivity : AppCompatActivity(), View.OnClickListener, DateP
     }
 
     private fun saveGeneralInfo() {
-        val generalInfo = mDatabase.child("users/$userId/generalInfo")
-        generalInfo.child("name").setValue(mNameTxt.text.toString())
-        generalInfo.child("lastName").setValue(mLastNameTxt.text.toString())
-        generalInfo.child("birthdate").setValue(Utils.getFullDate(mBirthdateTxt.text.toString()))
-        finish()
+        val generalInfoReference = mDatabase.child("users/$userId/generalInfo")
+        val generalInfo = UserGeneralInfo(
+                                          mNameTxt.text.toString(),
+                                          mLastNameTxt.text.toString(),
+                                          Utils.getFullDate(mBirthdateTxt.text.toString()),
+                                          mStateTxt.text.toString(),
+                                          mCityTxt.text.toString())
+        generalInfoReference.setValue(generalInfo).addOnCompleteListener {
+            finish()
+        }.addOnFailureListener {
+            showError(R.string.update_general_info_error)
+        }
+    }
+
+    private fun showError(errorMessage: Int) {
+        val snackBar = Snackbar.make(findViewById(R.id.mGeneralInfoLayout), errorMessage, Snackbar.LENGTH_LONG)
+        snackBar.setActionTextColor(ContextCompat.getColor(this, R.color.white))
+        val group = snackBar.view as ViewGroup
+        group.setBackgroundColor(ContextCompat.getColor(this, R.color.red))
+        snackBar.show()
     }
 }

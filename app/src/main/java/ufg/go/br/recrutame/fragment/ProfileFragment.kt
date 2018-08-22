@@ -179,6 +179,8 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
         i.putExtra("userName", userModel?.generalInfo?.name)
         i.putExtra("userLastName", userModel?.generalInfo?.lastName)
         i.putExtra("userBirthdate", userModel?.generalInfo?.birthdate)
+        i.putExtra("userState", userModel?.generalInfo?.state)
+        i.putExtra("userCity", userModel?.generalInfo?.city)
         startActivity(i)
     }
 

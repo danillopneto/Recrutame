@@ -130,26 +130,6 @@
                     android:layout_height="wrap_content" />
             </LinearLayout>
             <LinearLayout
-                android:id="@+id/linear_nascionalidade"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/border_linear_layout"
-                android:orientation="vertical"
-                android:layout_marginTop="8dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp">
-                <com.rengwuxian.materialedittext.MaterialEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:met_floatingLabel="highlight"
-                    app:met_maxCharacters="14"
-                    app:met_singleLineEllipsis="true"
-                    app:met_helperText="Ex: Brasileiro(a)"
-                    android:id="@+id/Nacionalidade"
-                    android:hint="Nacionalidade"
-                    android:inputType="textPersonName" />
-            </LinearLayout>
-            <LinearLayout
                 android:id="@+id/linear_Telefonefixo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -429,36 +409,6 @@
                         app:layout_behavior="@string/appbar_scrolling_view_behavior"
                         tools:listitem="@layout/item_idioma" />
                 </LinearLayout>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
-                android:orientation="vertical"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp">
-                <Button
-                    android:id="@+id/btnSave"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:background="@drawable/background_login"
-                    android:text="Salvar"
-                    android:textAllCaps="false"
-                    android:textColor="@color/primaryColor"
-                    android:textSize="18sp" />
-                <Button
-                    android:id="@+id/btnDeleta"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:background="@drawable/background_login"
-                    android:text="Limpar"
-                    android:textAllCaps="false"
-                    android:textColor="@color/primaryColor"
-                    android:textSize="18sp"/>
             </LinearLayout>
         </LinearLayout>
 </ScrollView>

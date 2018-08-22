@@ -7,7 +7,8 @@
     android:theme="@style/InsideAppTheme"
     tools:context=".EditGeneralInfoActivity"
     android:padding="20dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:id="@+id/mGeneralInfoLayout">
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
@@ -43,7 +44,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColorHint="@color/grey"
-        app:hintTextAppearance="@style/TextAppearance.App.ProfileInputLayout">
+        app:hintTextAppearance="@style/TextAppearance.App.ProfileInputLayout"
+        android:paddingBottom="30dp">
         <EditText
             android:id="@+id/mBirthdateTxt"
             android:clickable="true"
@@ -53,6 +55,35 @@
             android:singleLine="true"
             android:hint="@string/birthdate"
             android:inputType="date" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColorHint="@color/grey"
+        app:hintTextAppearance="@style/TextAppearance.App.ProfileInputLayout"
+        android:paddingBottom="30dp">
+        <EditText
+            android:id="@+id/mStateTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:hint="@string/uf"
+            android:inputType="textCapWords" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColorHint="@color/grey"
+        app:hintTextAppearance="@style/TextAppearance.App.ProfileInputLayout">
+        <EditText
+            android:id="@+id/mCityTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:hint="@string/city"
+            android:inputType="textCapWords" />
     </android.support.design.widget.TextInputLayout>
 
 </LinearLayout>
