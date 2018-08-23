@@ -25,6 +25,7 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import rec.protelas.User
+import ufg.go.br.recrutame.EditContactInfoActivity
 import ufg.go.br.recrutame.EditGeneralInfoActivity
 import ufg.go.br.recrutame.R
 import ufg.go.br.recrutame.TAG
@@ -73,6 +74,7 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
                         userModel = dataSnapshot?.getValue(UserProfile::class.java)
                         if (userModel != null) {
                             fillGeneralInfo(view, userModel!!.generalInfo)
+                            fillContactInfo(view, userModel!!.contactInfo)
                         }
                     }
 
@@ -111,21 +113,6 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
         return view
     }
 
-    private fun fillGeneralInfo(view: View, generalInfo: UserGeneralInfo) {
-        view.findViewById<TextView>(R.id.mUsernameTxt).text = "${generalInfo.name} ${generalInfo.lastName}"
-
-        val generalInfoTxt = view.findViewById<TextView>(R.id.mGeneralInfoTxt)
-        val generalInfoData = StringBuilder()
-        if (!generalInfo.gender.isEmpty()) {
-            generalInfoData.appendln(generalInfo.gender)
-        }
-
-        generalInfoData.appendln(Utils.getFormatedDate(generalInfo.birthdate, getString(R.string.format_date)))
-        generalInfoData.appendln("${generalInfo.city} - ${generalInfo.state}")
-
-        generalInfoTxt.text = generalInfoData.toString()
-    }
-
     private fun inicializeControls(view: View) {
         mProfileImage = view.findViewById(R.id.mProfileImage)
         newAtividadesTxt = view.findViewById(R.id.Atividades_Desenvolvidas)
@@ -133,6 +120,7 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
 
         view.findViewById<FloatingActionButton>(R.id.mChangePictureBtn).setOnClickListener(this)
         view.findViewById<ImageButton>(R.id.mEditGeneralInfoBtn).setOnClickListener(this)
+        view.findViewById<ImageButton>(R.id.mEditContactInfoBtn).setOnClickListener(this)
 
         mStorageRef.child(getUserPhotoUrl()).downloadUrl.addOnSuccessListener { task ->
             EventBus.getDefault().post(task)
@@ -146,7 +134,17 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
             R.id.btnAddAtividade -> handleAddAtividades()
             R.id.mChangePictureBtn -> chooseImage()
             R.id.mEditGeneralInfoBtn -> editGeneralInfo()
+            R.id.mEditContactInfoBtn -> editContactInfo()
         }
+    }
+
+    private fun editContactInfo() {
+        val i = Intent(context, EditContactInfoActivity :: class.java)
+        i.putExtra("userId", mAuth.currentUser?.uid)
+        i.putExtra("userEmail", userModel?.contactInfo?.email)
+        i.putExtra("userWebsite", userModel?.contactInfo?.webSite)
+        i.putExtra("userPhone", userModel?.contactInfo?.phone)
+        startActivity(i)
     }
 
     private fun editGeneralInfo() {
@@ -159,6 +157,34 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
         i.putExtra("userState", userModel?.generalInfo?.state)
         i.putExtra("userCity", userModel?.generalInfo?.city)
         startActivity(i)
+    }
+
+    private fun fillContactInfo(view: View, contactInfo: UserContactInfo) {
+        view.findViewById<TextView>(R.id.mEmailTxt).text = contactInfo.email
+        if (!contactInfo.webSite.isEmpty()) {
+            view.findViewById<TextView>(R.id.mWebsiteTxt).text = contactInfo.webSite
+            view.findViewById<LinearLayout>(R.id.mWebSiteContainer).visibility = View.VISIBLE
+        }
+
+        if (!contactInfo.phone.isEmpty()) {
+            view.findViewById<TextView>(R.id.mPhoneTxt).text = contactInfo.phone
+            view.findViewById<LinearLayout>(R.id.mPhoneContainer).visibility = View.VISIBLE
+        }
+    }
+
+    private fun fillGeneralInfo(view: View, generalInfo: UserGeneralInfo) {
+        view.findViewById<TextView>(R.id.mUsernameTxt).text = "${generalInfo.name} ${generalInfo.lastName}"
+
+        val generalInfoTxt = view.findViewById<TextView>(R.id.mGeneralInfoTxt)
+        val generalInfoData = StringBuilder()
+        if (!generalInfo.gender.isEmpty()) {
+            generalInfoData.appendln(generalInfo.gender)
+        }
+
+        generalInfoData.appendln(Utils.getFormatedDate(generalInfo.birthdate, getString(R.string.format_date)))
+        generalInfoData.appendln("${generalInfo.city} - ${generalInfo.state}")
+
+        generalInfoTxt.text = generalInfoData.toString()
     }
 
     private fun handleAddAtividades(){

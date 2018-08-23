@@ -10,9 +10,14 @@ import kotlinx.android.synthetic.main.activity_register.*
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import ufg.go.br.recrutame.model.UserContactInfo
 import ufg.go.br.recrutame.util.Utils
 
 class RegisterActivity : LoginActivity(), View.OnClickListener {
+    private lateinit var mDatabase: DatabaseReference
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
@@ -34,6 +39,7 @@ class RegisterActivity : LoginActivity(), View.OnClickListener {
 
     private fun inicializeControls() {
         mAuth = FirebaseAuth.getInstance()
+        mDatabase = FirebaseDatabase.getInstance().reference
         mActionButton = findViewById(R.id.mRegisterButton)
         mRegisterButton.setOnClickListener(this)
     }
@@ -59,7 +65,13 @@ class RegisterActivity : LoginActivity(), View.OnClickListener {
                 }
             } else {
                 Toast.makeText(this, getString(R.string.user_registered), Toast.LENGTH_LONG).show()
-                handleLogin(email, password, true, false)
+                val contactInfoReference = mDatabase.child("users/${task.result.user.uid}/contactInfo")
+                val contactInfo = UserContactInfo(email, "", "", "")
+                contactInfoReference.setValue(contactInfo).addOnCompleteListener {
+                    handleLogin(email, password, true, false)
+                }.addOnFailureListener {
+                    Toast.makeText(this, getString(R.string.update_contact_info_error), Toast.LENGTH_LONG).show()
+                }
             }
         }
     }

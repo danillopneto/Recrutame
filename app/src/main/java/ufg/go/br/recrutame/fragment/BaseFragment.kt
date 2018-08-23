@@ -14,10 +14,13 @@ import android.content.Intent
 import android.net.Uri
 import android.widget.Toast
 import android.app.ProgressDialog
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.myhexaville.smartimagepicker.ImagePicker
 import org.greenrobot.eventbus.EventBus
 
 abstract class BaseFragment : Fragment() {
+    lateinit var mDatabase: DatabaseReference
     lateinit var mAuth: FirebaseAuth
 
     private var imagePicker: ImagePicker? = null
@@ -54,6 +57,7 @@ abstract class BaseFragment : Fragment() {
 
     fun inicializeApis() {
         mAuth = FirebaseAuth.getInstance()
+        mDatabase = FirebaseDatabase.getInstance().reference
         mStorageRef = FirebaseStorage.getInstance().reference
     }
 

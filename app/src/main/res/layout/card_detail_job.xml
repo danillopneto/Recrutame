@@ -103,7 +103,7 @@
                             android:paddingRight="10dp"
                             android:paddingTop="5dp"
                             android:text="description"
-                            android:textColor="@color/primaryColor"
+                            android:textColor="@color/black"
                             android:textSize="14sp"
                             android:textStyle="normal" />
                     </LinearLayout>
@@ -131,7 +131,7 @@
                             android:paddingLeft="10dp"
                             android:paddingRight="10dp"
                             android:paddingTop="10dp"
-                            android:text="Detalhes"
+                            android:text="@string/details"
                             android:textColor="@color/colorAccent"
                             android:textStyle="bold" />
 
@@ -156,7 +156,7 @@
                                     android:layout_marginRight="5dp"
                                     android:background="@drawable/ic_resume_2"
                                     android:paddingLeft="10dp"
-                                    android:tint="@color/colorAccent" />
+                                    android:backgroundTint="@color/primaryColor" />
 
                                 <TextView
                                     android:id="@+id/jobTypeTxt"
@@ -165,7 +165,7 @@
                                     android:gravity="left|center_vertical"
                                     android:paddingLeft="2dp"
                                     android:text="CLT"
-                                    android:textColor="@color/primaryColor"
+                                    android:textColor="@color/black"
                                     android:textStyle="normal" />
                             </LinearLayout>
 
@@ -181,7 +181,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginRight="5dp"
                                     android:background="@drawable/ic_map"
-                                    android:tint="@color/colorAccent" />
+                                    android:backgroundTint="@color/primaryColor" />
 
                                 <TextView
                                     android:id="@+id/jobLocationTxt"
@@ -190,7 +190,7 @@
                                     android:gravity="left|center_vertical"
                                     android:paddingLeft="2dp"
                                     android:text="Goiânia"
-                                    android:textColor="@color/primaryColor"
+                                    android:textColor="@color/black"
                                     android:textStyle="normal" />
                             </LinearLayout>
 
@@ -208,7 +208,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginRight="5dp"
                                     android:background="@drawable/ic_distance"
-                                    android:tint="@color/colorAccent" />
+                                    android:backgroundTint="@color/primaryColor" />
 
                                 <TextView
                                     android:id="@+id/jobDistanceTxt"
@@ -217,7 +217,7 @@
                                     android:gravity="left|center_vertical"
                                     android:paddingLeft="2dp"
                                     android:text="1Km"
-                                    android:textColor="@color/primaryColor"
+                                    android:textColor="@color/black"
                                     android:textStyle="normal" />
                             </LinearLayout>
 
@@ -233,7 +233,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginRight="5dp"
                                     android:background="@drawable/ic_wallet"
-                                    android:tint="@color/colorAccent" />
+                                    android:backgroundTint="@color/primaryColor" />
 
                                 <TextView
                                     android:id="@+id/jobSalaryTxt"
@@ -242,21 +242,15 @@
                                     android:gravity="left|center_vertical"
                                     android:paddingLeft="2dp"
                                     android:text="R$ 1.000,00"
-                                    android:textColor="@color/primaryColor"
+                                    android:textColor="@color/black"
                                     android:textStyle="normal" />
                             </LinearLayout>
                         </LinearLayout>
-
                     </LinearLayout>
-
                 </android.support.v7.widget.CardView>
             </LinearLayout>
-
-
         </LinearLayout>
-
     </ScrollView>
-
     <LinearLayout
         android:id="@+id/actionBtn"
         android:layout_width="match_parent"

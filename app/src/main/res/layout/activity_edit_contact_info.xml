@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:theme="@style/InsideAppTheme"
+    tools:context=".EditContactInfoActivity"
+    android:padding="20dp"
+    android:orientation="vertical"
+    android:id="@+id/mContactInfoLayout">
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColorHint="@color/grey"
+        app:hintTextAppearance="@style/TextAppearance.App.ProfileInputLayout"
+        android:paddingBottom="30dp">
+        <EditText
+            android:id="@+id/mEmailTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:hint="@string/email"
+            android:inputType="textEmailAddress" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColorHint="@color/grey"
+        app:hintTextAppearance="@style/TextAppearance.App.ProfileInputLayout"
+        android:paddingBottom="30dp">
+        <EditText
+            android:id="@+id/mWebsiteTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:hint="@string/website"
+            android:inputType="textUri" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColorHint="@color/grey"
+        app:hintTextAppearance="@style/TextAppearance.App.ProfileInputLayout"
+        android:paddingBottom="30dp">
+        <EditText
+            android:id="@+id/mPhoneTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:hint="@string/phone"
+            android:inputType="phone" />
+    </android.support.design.widget.TextInputLayout>
+
+</LinearLayout>

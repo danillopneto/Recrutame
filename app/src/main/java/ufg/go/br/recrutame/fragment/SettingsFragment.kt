@@ -16,6 +16,7 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.widget.*
+import com.google.firebase.database.DatabaseReference
 import ufg.go.br.recrutame.util.Utils
 import ufg.go.br.recrutame.adapter.ItemFilterAdapter
 
@@ -72,7 +73,12 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
                             }
                         } else {
                             Toast.makeText(context, getString(R.string.delete_user_success), Toast.LENGTH_LONG).show()
-                            logout()
+                            val userReference = mDatabase.child("users/${user.uid}")
+                            userReference.removeValue().addOnCompleteListener {
+                                logout()
+                            }.addOnFailureListener {
+                                Toast.makeText(context, getString(R.string.delete_account_failed), Toast.LENGTH_LONG).show()
+                            }
                         }
                     }
                 }

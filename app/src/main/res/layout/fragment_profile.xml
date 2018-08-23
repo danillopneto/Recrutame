@@ -92,6 +92,119 @@
                         android:inputType="textMultiLine" />
                 </RelativeLayout>
             </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:cardUseCompatPadding="true"
+                app:cardElevation="1dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:translationZ="@dimen/bottom_ellipsis_height"
+                    android:divider="@drawable/divider_drawable"
+                    android:showDividers="middle">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingTop="10dp"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:paddingBottom="5dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/contact"
+                            android:textStyle="bold"
+                            android:textSize="14sp"
+                            android:layout_gravity="center_vertical"
+                            android:textColor="@color/colorAccent" />
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1" />
+                        <ImageButton
+                            android:id="@+id/mEditContactInfoBtn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_edit"
+                            android:tint="@color/primaryColor"
+                            android:layout_gravity="end"
+                            android:elevation="4dp"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:background="@null"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:id="@+id/mEmailContainer"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/mEditContactInfoBtn"
+                            android:padding="10dp">
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_email"
+                                android:tint="@color/primaryColor"/>
+                            <TextView
+                                android:id="@+id/mEmailTxt"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:paddingLeft="10dp"
+                                android:textColor="@color/black"/>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:id="@+id/mWebSiteContainer"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="10dp"
+                            android:visibility="gone">
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_web"
+                                android:tint="@color/primaryColor"/>
+                            <TextView
+                                android:id="@+id/mWebsiteTxt"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:paddingLeft="10dp"
+                                android:textColor="@color/black"/>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:id="@+id/mPhoneContainer"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="10dp"
+                            android:visibility="gone">
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_phone"
+                                android:tint="@color/primaryColor"/>
+                            <TextView
+                                android:id="@+id/mPhoneTxt"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:paddingLeft="10dp"
+                                android:textColor="@color/black"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
             <LinearLayout
                 android:id="@+id/linear_cpf"
                 android:layout_width="match_parent"
@@ -112,72 +225,6 @@
                     android:ems="10"
                     android:hint="CPF"
                     android:inputType="number" />
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/linear_Telefonefixo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/border_linear_layout"
-                android:orientation="vertical"
-                android:layout_marginTop="8dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp">
-                <com.rengwuxian.materialedittext.MaterialEditText
-                    android:id="@+id/Telefonefixo"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:digits="1234567890"
-                    android:ems="10"
-                    android:hint="Telefone fixo"
-                    android:inputType="phone"
-                    android:maxLength="12"
-                    app:met_floatingLabel="highlight"
-                    app:met_helperText="(64) 3999-9999"
-                    app:met_maxCharacters="14"
-                    app:met_singleLineEllipsis="true" />
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/linear_Telefonecelular"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/border_linear_layout"
-                android:orientation="vertical"
-                android:layout_marginTop="8dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp">
-                <com.rengwuxian.materialedittext.MaterialEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:met_floatingLabel="highlight"
-                    app:met_maxCharacters="14"
-                    app:met_singleLineEllipsis="true"
-                    app:met_helperText="(64) 9999-9999"
-                    android:id="@+id/Telefonecelular"
-                    android:hint="Telefone celular"
-                    android:digits="1234567890"
-                    android:ems="10"
-                    android:inputType="phone"
-                    android:maxLength="12" />
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/linear_Email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/border_linear_layout"
-                android:orientation="vertical"
-                android:layout_marginTop="8dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp">
-                <com.rengwuxian.materialedittext.MaterialEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:met_floatingLabel="highlight"
-                    app:met_maxCharacters="80"
-                    app:met_singleLineEllipsis="true"
-                    app:met_helperText="Ex: Fulano@zika.com.br"
-                    android:id="@+id/Email"
-                    android:hint="E-mail"
-                    android:inputType="textPersonName" />
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/linear_Area_Atuacao"

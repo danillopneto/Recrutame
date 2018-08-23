@@ -1,29 +1,20 @@
 package ufg.go.br.recrutame
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.DatabaseReference
 import com.tsongkha.spinnerdatepicker.DatePicker
 import com.tsongkha.spinnerdatepicker.DatePickerDialog
 import com.tsongkha.spinnerdatepicker.SpinnerDatePickerDialogBuilder
 import ufg.go.br.recrutame.model.UserGeneralInfo
 import ufg.go.br.recrutame.util.Utils
 import java.util.*
-import android.support.design.widget.Snackbar
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.AppCompatSpinner
-import android.view.ViewGroup
 import android.widget.ArrayAdapter
 
-class EditGeneralInfoActivity : AppCompatActivity(), View.OnClickListener, DatePickerDialog.OnDateSetListener {
-    private lateinit var userId: String
-    private lateinit var mDatabase: DatabaseReference
-
+class EditGeneralInfoActivity : ProfileInfoActivity(), View.OnClickListener, DatePickerDialog.OnDateSetListener {
+    override var layoutId: Int = R.id.mGeneralInfoLayout
     private lateinit var mNameTxt: EditText
     private lateinit var mLastNameTxt: EditText
     private lateinit var mBirthdateTxt: EditText
@@ -34,27 +25,32 @@ class EditGeneralInfoActivity : AppCompatActivity(), View.OnClickListener, DateP
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_general_info)
-        showActionBar()
         inicializeControls()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_action_edit, menu)
-        return super.onCreateOptionsMenu(menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> { finish(); return true; }
-            R.id.mMenuSaveProfile -> saveGeneralInfo()
-        }
-
-        return super.onOptionsItemSelected(item)
     }
 
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.mBirthdateTxt -> handleDatePicker()
+        }
+    }
+
+    override fun onDateSet(view: DatePicker, year: Int, monthOfYear: Int, dayOfMonth: Int) {
+        mBirthdateTxt.setText(Utils.getFormatedDate(year, monthOfYear + 1, dayOfMonth, getString(R.string.format_date)))
+    }
+
+    override fun saveGeneralInfo() {
+        val generalInfoReference = mDatabase.child("users/$userId/generalInfo")
+        val generalInfo = UserGeneralInfo(
+                                          mNameTxt.text.toString(),
+                                          mLastNameTxt.text.toString(),
+                                          Utils.getFullDate(mBirthdateTxt.text.toString()),
+                                          mGenderSpinner.selectedItem.toString(),
+                                          mStateTxt.text.toString(),
+                                          mCityTxt.text.toString())
+        generalInfoReference.setValue(generalInfo).addOnCompleteListener {
+            finish()
+        }.addOnFailureListener {
+            showError(R.string.update_general_info_error)
         }
     }
 
@@ -80,15 +76,7 @@ class EditGeneralInfoActivity : AppCompatActivity(), View.OnClickListener, DateP
                 .show()
     }
 
-    override fun onDateSet(view: DatePicker, year: Int, monthOfYear: Int, dayOfMonth: Int) {
-        mBirthdateTxt.setText(Utils.getFormatedDate(year, monthOfYear + 1, dayOfMonth, getString(R.string.format_date)))
-    }
-
     private fun inicializeControls() {
-        mDatabase = FirebaseDatabase.getInstance().reference
-
-        userId = intent.getStringExtra("userId")
-
         val name = intent.getStringExtra("userName")
         mNameTxt = findViewById(R.id.mNameTxt)
         mNameTxt.setText(name)
@@ -122,36 +110,5 @@ class EditGeneralInfoActivity : AppCompatActivity(), View.OnClickListener, DateP
         val city = intent.getStringExtra("userCity")
         mCityTxt = findViewById(R.id.mCityTxt)
         mCityTxt.setText(city)
-    }
-
-    private fun showActionBar() {
-        val actionBar = supportActionBar
-        actionBar!!.setDisplayShowTitleEnabled(true)
-        actionBar.setDisplayHomeAsUpEnabled(true)
-        actionBar.title = getString(R.string.edit)
-    }
-
-    private fun saveGeneralInfo() {
-        val generalInfoReference = mDatabase.child("users/$userId/generalInfo")
-        val generalInfo = UserGeneralInfo(
-                                          mNameTxt.text.toString(),
-                                          mLastNameTxt.text.toString(),
-                                          Utils.getFullDate(mBirthdateTxt.text.toString()),
-                                          mGenderSpinner.selectedItem.toString(),
-                                          mStateTxt.text.toString(),
-                                          mCityTxt.text.toString())
-        generalInfoReference.setValue(generalInfo).addOnCompleteListener {
-            finish()
-        }.addOnFailureListener {
-            showError(R.string.update_general_info_error)
-        }
-    }
-
-    private fun showError(errorMessage: Int) {
-        val snackBar = Snackbar.make(findViewById(R.id.mGeneralInfoLayout), errorMessage, Snackbar.LENGTH_LONG)
-        snackBar.setActionTextColor(ContextCompat.getColor(this, R.color.white))
-        val group = snackBar.view as ViewGroup
-        group.setBackgroundColor(ContextCompat.getColor(this, R.color.red))
-        snackBar.show()
     }
 }
