@@ -20,23 +20,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".TabActivity"
-            android:theme="@style/InsideAppTheme"
-            android:windowSoftInputMode="adjustPan" />
-        <activity
-            android:name=".MainActivity"
-            android:theme="@style/LoginAppTheme" />
-        <activity android:name=".api.activities.LILoginActivity" />
-        <activity
-            android:name=".RegisterActivity"
-            android:theme="@style/LoginAppTheme" />
-        <activity
-            android:name=".ForgotPasswordActivity"
-            android:theme="@style/LoginAppTheme" />
-        <activity
-            android:name=".JobDetailActivity"
-            android:theme="@style/InsideAppTheme" />
-        <activity
             android:name=".SplashScreenActivity"
             android:theme="@style/LoginAppTheme">
             <intent-filter>
@@ -45,8 +28,25 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".EditGeneralInfoActivity" />
-        <activity android:name=".EditContactInfoActivity"></activity>
+        <activity
+            android:name=".activity.user.MainActivity"
+            android:theme="@style/LoginAppTheme" />
+        <activity
+            android:name=".activity.user.RegisterActivity"
+            android:theme="@style/LoginAppTheme" />
+        <activity
+            android:name=".activity.user.ForgotPasswordActivity"
+            android:theme="@style/LoginAppTheme" />
+        <activity android:name=".api.activities.LILoginActivity" />
+        <activity
+            android:name=".TabActivity"
+            android:theme="@style/InsideAppTheme"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".JobDetailActivity"
+            android:theme="@style/InsideAppTheme" />
+        <activity android:name=".activity.profile.EditGeneralInfoActivity" />
+        <activity android:name=".activity.profile.EditContactInfoActivity"></activity>
     </application>
 
 </manifest>

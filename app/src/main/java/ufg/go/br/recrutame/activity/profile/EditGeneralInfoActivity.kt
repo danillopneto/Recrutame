@@ -1,4 +1,4 @@
-package ufg.go.br.recrutame
+package ufg.go.br.recrutame.activity.profile
 
 import android.os.Bundle
 import android.view.View
@@ -12,8 +12,9 @@ import java.util.*
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.AppCompatSpinner
 import android.widget.ArrayAdapter
+import ufg.go.br.recrutame.R
 
-class EditGeneralInfoActivity : ProfileInfoActivity(), View.OnClickListener, DatePickerDialog.OnDateSetListener {
+class EditGeneralInfoActivity : EditProfileActivity(), View.OnClickListener, DatePickerDialog.OnDateSetListener {
     override var layoutId: Int = R.id.mGeneralInfoLayout
     private lateinit var mNameTxt: EditText
     private lateinit var mLastNameTxt: EditText

@@ -5,7 +5,6 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
-import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.view.View
 import android.widget.ImageView
@@ -23,6 +22,7 @@ import java.text.NumberFormat
 import java.util.*
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import ufg.go.br.recrutame.activity.BaseActivity
 
 class JobDetailActivity : BaseActivity(), View.OnClickListener {
     private lateinit var database: FirebaseDatabase

@@ -16,7 +16,7 @@ import com.mindorks.placeholderview.SwipeViewBuilder
 import android.view.*
 import com.google.firebase.database.*
 import ufg.go.br.recrutame.util.Utils
-import ufg.go.br.recrutame.TAG
+import ufg.go.br.recrutame.util.TAG
 import ufg.go.br.recrutame.model.JobModel
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe

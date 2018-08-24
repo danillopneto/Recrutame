@@ -7,18 +7,18 @@ import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import android.widget.ProgressBar
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.android.synthetic.main.activity_login.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import ufg.go.br.recrutame.*
+import ufg.go.br.recrutame.activity.user.LoginActivity
 import ufg.go.br.recrutame.api.model.LIAccessToken
 import ufg.go.br.recrutame.api.model.LIProfileInfo
 import ufg.go.br.recrutame.api.service.LIService
 import ufg.go.br.recrutame.api.service.ServiceGenerator
+import ufg.go.br.recrutame.util.*
 
 class LILoginActivity : LoginActivity() {
     private val url = "$AUTHORIZATION_URL?$RESPONSE_TYPE_PARAM=$RESPONSE_TYPE_VALUE&$CLIENT_ID_PARAM=$CLIENT_ID&$REDIRECT_URI_PARAM=$REDIRECT_URI&$SCOPE_PARAM=$SCOPES"
@@ -124,7 +124,9 @@ class LILoginActivity : LoginActivity() {
                         progressBar?.visibility = View.INVISIBLE
                         if (task.isSuccessful) {
                             mAuth.currentUser?.updateProfile(profileUpdates.build())
-                            handleLogin(email, LINKEDIN_PASSWORD, true, true)
+                            insertUserData(task.result.user.uid, email) {
+                                handleLogin(email, LINKEDIN_PASSWORD, true, true)
+                            }
                         } else {
                             Toast.makeText(this, getString(R.string.login_failed), Toast.LENGTH_LONG).show()
                         }

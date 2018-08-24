@@ -16,9 +16,11 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.widget.*
-import com.google.firebase.database.DatabaseReference
+import ufg.go.br.recrutame.activity.user.MainActivity
 import ufg.go.br.recrutame.util.Utils
 import ufg.go.br.recrutame.adapter.ItemFilterAdapter
+import ufg.go.br.recrutame.util.LINKEDIN_PASSWORD
+import ufg.go.br.recrutame.util.TAG
 
 class SettingsFragment : BaseFragment(), View.OnClickListener {
     private lateinit var maximumDistanceSlider: FluidSlider

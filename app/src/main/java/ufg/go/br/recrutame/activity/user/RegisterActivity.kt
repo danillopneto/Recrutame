@@ -1,26 +1,23 @@
-package ufg.go.br.recrutame
+package ufg.go.br.recrutame.activity.user
 
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.google.firebase.FirebaseNetworkException
-import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_register.*
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import ufg.go.br.recrutame.model.UserContactInfo
+import ufg.go.br.recrutame.R
 import ufg.go.br.recrutame.util.Utils
 
 class RegisterActivity : LoginActivity(), View.OnClickListener {
-    private lateinit var mDatabase: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
+        inicializeApis()
         inicializeControls()
     }
 
@@ -38,8 +35,6 @@ class RegisterActivity : LoginActivity(), View.OnClickListener {
     }
 
     private fun inicializeControls() {
-        mAuth = FirebaseAuth.getInstance()
-        mDatabase = FirebaseDatabase.getInstance().reference
         mActionButton = findViewById(R.id.mRegisterButton)
         mRegisterButton.setOnClickListener(this)
     }
@@ -61,16 +56,12 @@ class RegisterActivity : LoginActivity(), View.OnClickListener {
                     Toast.makeText(this, getString(R.string.error_user_exists), Toast.LENGTH_LONG).show()
                 } catch (e: Exception) {
                     Toast.makeText(this, getString(R.string.error_register), Toast.LENGTH_LONG).show()
-                    Log.e(TAG, e.message)
+                    Log.e(ufg.go.br.recrutame.util.TAG, e.message)
                 }
             } else {
                 Toast.makeText(this, getString(R.string.user_registered), Toast.LENGTH_LONG).show()
-                val contactInfoReference = mDatabase.child("users/${task.result.user.uid}/contactInfo")
-                val contactInfo = UserContactInfo(email, "", "", "")
-                contactInfoReference.setValue(contactInfo).addOnCompleteListener {
+                insertUserData(task.result.user.uid, email) {
                     handleLogin(email, password, true, false)
-                }.addOnFailureListener {
-                    Toast.makeText(this, getString(R.string.update_contact_info_error), Toast.LENGTH_LONG).show()
                 }
             }
         }

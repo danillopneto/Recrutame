@@ -25,10 +25,10 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import rec.protelas.User
-import ufg.go.br.recrutame.EditContactInfoActivity
-import ufg.go.br.recrutame.EditGeneralInfoActivity
+import ufg.go.br.recrutame.activity.profile.EditContactInfoActivity
+import ufg.go.br.recrutame.activity.profile.EditGeneralInfoActivity
 import ufg.go.br.recrutame.R
-import ufg.go.br.recrutame.TAG
+import ufg.go.br.recrutame.util.TAG
 import ufg.go.br.recrutame.util.Utils
 import ufg.go.br.recrutame.adapter.ItemIdiomaAdapter
 import ufg.go.br.recrutame.adapter.ItemProfileAdapter
@@ -139,7 +139,7 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
     }
 
     private fun editContactInfo() {
-        val i = Intent(context, EditContactInfoActivity :: class.java)
+        val i = Intent(context, EditContactInfoActivity:: class.java)
         i.putExtra("userId", mAuth.currentUser?.uid)
         i.putExtra("userEmail", userModel?.contactInfo?.email)
         i.putExtra("userWebsite", userModel?.contactInfo?.webSite)
@@ -148,7 +148,7 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
     }
 
     private fun editGeneralInfo() {
-        val i = Intent(context, EditGeneralInfoActivity :: class.java)
+        val i = Intent(context, EditGeneralInfoActivity:: class.java)
         i.putExtra("userId", mAuth.currentUser?.uid)
         i.putExtra("userName", userModel?.generalInfo?.name)
         i.putExtra("userLastName", userModel?.generalInfo?.lastName)

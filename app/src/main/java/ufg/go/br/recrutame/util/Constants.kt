@@ -1,4 +1,4 @@
-package ufg.go.br.recrutame
+package ufg.go.br.recrutame.util
 
 const val TAG = "Recruta.me"
 

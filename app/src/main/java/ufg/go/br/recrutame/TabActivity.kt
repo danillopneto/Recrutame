@@ -1,22 +1,22 @@
 package ufg.go.br.recrutame
 
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx
-import net.orange_box.storebox.StoreBox
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import ufg.go.br.recrutame.activity.BaseActivity
+import ufg.go.br.recrutame.activity.user.MainActivity
 import ufg.go.br.recrutame.enum.EnumShowCase
 import ufg.go.br.recrutame.fragment.ChatFragment
 import ufg.go.br.recrutame.fragment.SettingsFragment
 import ufg.go.br.recrutame.fragment.JobFragment
 import ufg.go.br.recrutame.fragment.ProfileFragment
-import ufg.go.br.recrutame.model.MyPreferences
+import ufg.go.br.recrutame.util.CLIENT_ID
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView
 import uk.co.deanwild.materialshowcaseview.ShowcaseConfig
@@ -29,7 +29,7 @@ class TabActivity : BaseActivity() {
 
 
         if (FirebaseAuth.getInstance().currentUser == null) {
-            startActivity(Intent(this, MainActivity :: class.java))
+            startActivity(Intent(this, MainActivity:: class.java))
             return
         }
 

@@ -1,4 +1,4 @@
-package ufg.go.br.recrutame
+package ufg.go.br.recrutame.activity.user
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -11,6 +11,8 @@ import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
+import ufg.go.br.recrutame.util.LINKEDIN_PASSWORD
+import ufg.go.br.recrutame.R
 import ufg.go.br.recrutame.util.Utils
 
 class ForgotPasswordActivity : AppCompatActivity(), View.OnClickListener {
@@ -59,7 +61,7 @@ class ForgotPasswordActivity : AppCompatActivity(), View.OnClickListener {
                                     Toast.makeText(this, getString(R.string.no_user_found), Toast.LENGTH_LONG).show()
                                 } catch (e: Exception) {
                                     Toast.makeText(this, getString(R.string.reset_password_failed), Toast.LENGTH_LONG).show()
-                                    Log.e(TAG, e.message)
+                                    Log.e(ufg.go.br.recrutame.util.TAG, e.message)
                                 }
                             } else {
                                 Toast.makeText(applicationContext, getString(R.string.email_reset_password), Toast.LENGTH_LONG).show()

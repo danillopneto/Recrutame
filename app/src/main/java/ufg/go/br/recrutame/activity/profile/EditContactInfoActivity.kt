@@ -1,13 +1,13 @@
-package ufg.go.br.recrutame
+package ufg.go.br.recrutame.activity.profile
 
 import android.os.Bundle
 import android.widget.EditText
 import ufg.go.br.recrutame.model.UserContactInfo
-import android.telephony.PhoneNumberFormattingTextWatcher
+import ufg.go.br.recrutame.R
 import ufg.go.br.recrutame.util.PhoneMaskUtil
 
 
-class EditContactInfoActivity : ProfileInfoActivity() {
+class EditContactInfoActivity : EditProfileActivity() {
     override var layoutId: Int = R.id.mContactInfoLayout
     private lateinit var mEmailTxt: EditText
     private lateinit var mWebsiteTxt: EditText
@@ -31,6 +31,10 @@ class EditContactInfoActivity : ProfileInfoActivity() {
         }.addOnFailureListener {
             showError(R.string.update_contact_info_error)
         }
+    }
+
+    override fun getActionBarTitle(): String {
+        return getString(R.string.edit_contact)
     }
 
     private fun inicializeControls() {

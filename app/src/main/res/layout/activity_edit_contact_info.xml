@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:theme="@style/InsideAppTheme"
-    tools:context=".EditContactInfoActivity"
+    tools:context=".activity.profile.EditContactInfoActivity"
     android:padding="20dp"
     android:orientation="vertical"
     android:id="@+id/mContactInfoLayout">

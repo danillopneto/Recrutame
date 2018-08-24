@@ -1,9 +1,11 @@
-package ufg.go.br.recrutame
+package ufg.go.br.recrutame.activity.user
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
+import ufg.go.br.recrutame.R
+import ufg.go.br.recrutame.TabActivity
 import ufg.go.br.recrutame.api.activities.LILoginActivity
 
 class MainActivity : LoginActivity(), View.OnClickListener {
@@ -26,12 +28,12 @@ class MainActivity : LoginActivity(), View.OnClickListener {
     override fun onResume() {
         super.onResume()
         if (mAuth.currentUser != null) {
-            startActivity(Intent(this, TabActivity :: class.java))
+            startActivity(Intent(this, TabActivity:: class.java))
         }
     }
 
     private fun handleForgotPassword() {
-        startActivity(Intent(this, ForgotPasswordActivity :: class.java))
+        startActivity(Intent(this, ForgotPasswordActivity:: class.java))
     }
 
     private fun handleLinkedInLogin() {
@@ -40,7 +42,7 @@ class MainActivity : LoginActivity(), View.OnClickListener {
 
     private fun handleRegister() {
         hideKeyboard()
-        startActivity(Intent(this, RegisterActivity :: class.java))
+        startActivity(Intent(this, RegisterActivity:: class.java))
     }
 
     private fun inicializeControls() {

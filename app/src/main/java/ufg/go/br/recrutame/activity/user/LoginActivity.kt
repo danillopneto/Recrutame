@@ -1,4 +1,4 @@
-package ufg.go.br.recrutame
+package ufg.go.br.recrutame.activity.user
 
 import android.content.Context
 import android.content.Intent
@@ -15,14 +15,20 @@ import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.UserProfileChangeRequest
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import net.orange_box.storebox.StoreBox
+import ufg.go.br.recrutame.R
+import ufg.go.br.recrutame.TabActivity
 import ufg.go.br.recrutame.util.Utils
 import ufg.go.br.recrutame.api.model.LIProfileInfo
 import ufg.go.br.recrutame.model.MyPreferences
+import ufg.go.br.recrutame.model.UserContactInfo
 
 abstract class LoginActivity : AppCompatActivity() {
     lateinit var liProfileInfo: LIProfileInfo
     lateinit var mAuth: FirebaseAuth
+    lateinit var mDatabase: DatabaseReference
     var mActionButton: CircularProgressButton? = null
     var progressBar: ProgressBar? = null
     val profileUpdates = UserProfileChangeRequest.Builder()
@@ -31,13 +37,21 @@ abstract class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         inicializeApis()
         if (mAuth.currentUser != null) {
-            startActivity(Intent(this, TabActivity :: class.java))
+            startActivity(Intent(this, TabActivity:: class.java))
         }
     }
 
     override fun onDestroy() {
         super.onDestroy()
         mActionButton?.dispose()
+    }
+
+    fun insertUserData(userId: String, email: String, action: () -> Unit) {
+        val contactInfoReference = mDatabase.child("users/$userId/contactInfo")
+        val contactInfo = UserContactInfo(email, "", "", "")
+        contactInfoReference.setValue(contactInfo).addOnCompleteListener {
+            action()
+        }
     }
 
     fun handleLogin(email: String, password: String, isNewUser: Boolean, isLIUser: Boolean) {
@@ -57,12 +71,12 @@ abstract class LoginActivity : AppCompatActivity() {
                         Toast.makeText(this, getString(R.string.no_connection), Toast.LENGTH_LONG).show()
                     } catch (e: Exception) {
                         Toast.makeText(this, getString(R.string.login_failed), Toast.LENGTH_LONG).show()
-                        Log.e(TAG, e.message)
+                        Log.e(ufg.go.br.recrutame.util.TAG, e.message)
                     }
                 } else {
                     this.finishAffinity()
                     getMyPreferences().setUserEmail(email)
-                    startActivity(Intent(this, TabActivity :: class.java))
+                    startActivity(Intent(this, TabActivity:: class.java))
                 }
             }
         } else {
@@ -83,8 +97,9 @@ abstract class LoginActivity : AppCompatActivity() {
         profileUpdates.setPhotoUri(Uri.parse(photoUri))
     }
 
-    private fun inicializeApis() {
+    fun inicializeApis() {
         mAuth = FirebaseAuth.getInstance()
+        mDatabase = FirebaseDatabase.getInstance().reference
     }
 
     private fun getMyPreferences(): MyPreferences {

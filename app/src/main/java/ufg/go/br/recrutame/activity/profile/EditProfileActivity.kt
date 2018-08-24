@@ -1,4 +1,4 @@
-package ufg.go.br.recrutame
+package ufg.go.br.recrutame.activity.profile
 
 import android.os.Bundle
 import android.support.design.widget.Snackbar
@@ -9,8 +9,9 @@ import android.view.MenuItem
 import android.view.ViewGroup
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import ufg.go.br.recrutame.R
 
-abstract class ProfileInfoActivity : AppCompatActivity() {
+abstract class EditProfileActivity : AppCompatActivity() {
     protected lateinit var userId: String
     protected lateinit var mDatabase: DatabaseReference
     abstract var layoutId: Int
@@ -23,7 +24,7 @@ abstract class ProfileInfoActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_action_edit, menu)
+        menuInflater.inflate(getActionMenu(), menu)
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -46,10 +47,18 @@ abstract class ProfileInfoActivity : AppCompatActivity() {
         snackBar.show()
     }
 
+    open fun getActionMenu(): Int {
+        return R.menu.menu_action_edit
+    }
+
+    open fun getActionBarTitle(): String {
+        return getString(R.string.edit)
+    }
+
     private fun showActionBar() {
         val actionBar = supportActionBar
         actionBar!!.setDisplayShowTitleEnabled(true)
         actionBar.setDisplayHomeAsUpEnabled(true)
-        actionBar.title = getString(R.string.edit)
+        actionBar.title = getActionBarTitle()
     }
 }

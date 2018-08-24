@@ -86,6 +86,7 @@
     <string name="update_contact_info_error">Erro ao atualizar os dados de contato.</string>
     <string name="website">Website</string>
     <string name="phone">Telefone</string>
+    <string name="edit_contact">Editar contato</string>
     <string-array name="nivel">
         <item>Profissional</item>
         <item>Superior</item>

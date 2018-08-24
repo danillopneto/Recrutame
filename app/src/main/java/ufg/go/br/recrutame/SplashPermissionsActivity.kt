@@ -17,7 +17,8 @@ import android.app.AlertDialog
 import android.content.DialogInterface
 import android.net.Uri
 import android.provider.Settings
-import android.widget.ImageView
+import ufg.go.br.recrutame.activity.BaseActivity
+import ufg.go.br.recrutame.activity.user.MainActivity
 
 abstract class SplashPermissionsActivity : BaseActivity() {
     private val timeoutMillis = 500

@@ -1,4 +1,4 @@
-package ufg.go.br.recrutame
+package ufg.go.br.recrutame.activity
 
 import android.support.v7.app.AppCompatActivity
 import net.orange_box.storebox.StoreBox
