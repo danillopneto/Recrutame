@@ -88,8 +88,7 @@
                         tools:text="01/01/2018\nGoiânia - Goiás - Brasil"
                         android:layout_centerHorizontal="true"
                         android:gravity="center"
-                        android:layout_marginBottom="10dp"
-                        android:inputType="textMultiLine" />
+                        android:layout_marginBottom="10dp" />
                 </RelativeLayout>
             </android.support.v7.widget.CardView>
             <android.support.v7.widget.CardView
@@ -143,89 +142,122 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
-
                         <LinearLayout
                             android:id="@+id/mEmailContainer"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/mEditContactInfoBtn"
-                            android:padding="10dp">
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:src="@drawable/ic_email"
-                                android:tint="@color/primaryColor"/>
+                            android:paddingTop="10dp"
+                            android:paddingBottom="10dp"
+                            android:orientation="vertical">
                             <TextView
                                 android:id="@+id/mEmailTxt"
+                                android:drawableStart="@drawable/ic_email"
+                                android:drawableTint="@color/primaryColor"
+                                android:drawablePadding="10dp"
+                                android:gravity="center_vertical"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:paddingLeft="10dp"
-                                android:textColor="@color/black"/>
-                        </LinearLayout>
-                        <LinearLayout
-                            android:id="@+id/mWebSiteContainer"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:padding="10dp"
-                            android:visibility="gone">
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:src="@drawable/ic_web"
-                                android:tint="@color/primaryColor"/>
+                                android:paddingRight="10dp"
+                                android:paddingBottom="10dp"
+                                android:textColor="@color/labelDefaultColor"
+                                tools:text="email@email.com" />
                             <TextView
                                 android:id="@+id/mWebsiteTxt"
+                                android:drawableStart="@drawable/ic_web"
+                                android:drawableTint="@color/primaryColor"
+                                android:drawablePadding="10dp"
+                                android:gravity="center_vertical"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:paddingLeft="10dp"
-                                android:textColor="@color/black"/>
-                        </LinearLayout>
-                        <LinearLayout
-                            android:id="@+id/mPhoneContainer"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:padding="10dp"
-                            android:visibility="gone">
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:src="@drawable/ic_phone"
-                                android:tint="@color/primaryColor"/>
+                                android:paddingRight="10dp"
+                                android:paddingBottom="10dp"
+                                android:textColor="@color/labelDefaultColor"
+                                android:visibility="gone" />
                             <TextView
                                 android:id="@+id/mPhoneTxt"
+                                android:drawableStart="@drawable/ic_phone"
+                                android:drawableTint="@color/primaryColor"
+                                android:drawablePadding="10dp"
+                                android:gravity="center_vertical"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:paddingLeft="10dp"
-                                android:textColor="@color/black"/>
+                                android:paddingRight="10dp"
+                                android:textColor="@color/labelDefaultColor"
+                                android:visibility="gone"/>
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
-            <LinearLayout
-                android:id="@+id/linear_cpf"
+            <android.support.v7.widget.CardView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/border_linear_layout"
-                android:orientation="vertical"
-                android:layout_marginTop="8dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp">
-                <com.rengwuxian.materialedittext.MaterialEditText
+                android:layout_height="match_parent"
+                app:cardUseCompatPadding="true"
+                app:cardElevation="1dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp">
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:met_floatingLabel="highlight"
-                    app:met_maxCharacters="14"
-                    app:met_singleLineEllipsis="true"
-                    app:met_helperText="123.456.789-99"
-                    android:id="@+id/Cpf"
-                    android:ems="10"
-                    android:hint="CPF"
-                    android:inputType="number" />
-            </LinearLayout>
+                    android:orientation="vertical"
+                    android:translationZ="@dimen/bottom_ellipsis_height"
+                    android:divider="@drawable/divider_drawable"
+                    android:showDividers="middle">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingTop="10dp"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:paddingBottom="5dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/languages"
+                            android:textStyle="bold"
+                            android:textSize="14sp"
+                            android:layout_gravity="center_vertical"
+                            android:textColor="@color/colorAccent" />
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1" />
+                        <ImageButton
+                            android:id="@+id/mEditLanguaguesInfoBtn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_edit"
+                            android:tint="@color/primaryColor"
+                            android:layout_gravity="end"
+                            android:elevation="4dp"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:background="@null"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <TextView
+                            android:id="@+id/mLanguaguesTxt"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:paddingTop="10dp"
+                            android:paddingStart="10dp"
+                            android:paddingEnd="10dp"
+                            android:textColor="@color/labelDefaultColor"
+                            tools:text="Inglês (Nível básico)" />
+                    </LinearLayout>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
             <LinearLayout
                 android:id="@+id/linear_Area_Atuacao"
                 android:layout_width="match_parent"
@@ -391,54 +423,6 @@
                         android:layout_marginStart="5dp"
                         app:layout_behavior="@string/appbar_scrolling_view_behavior"
                         tools:listitem="@layout/item_atividades" />
-                </LinearLayout>
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/linear_Idioma"
-                android:layout_width="match_parent"
-                android:layout_height="220dp"
-                android:translationZ="@dimen/bottom_ellipsis_height"
-                android:orientation="vertical"
-                android:showDividers="middle"
-                android:background="@color/white"
-                android:layout_marginTop="8dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:padding="8dp">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-                        <com.rengwuxian.materialedittext.MaterialEditText
-                            android:layout_height="wrap_content"
-                            android:layout_width="0dp"
-                            android:layout_weight="0.8"
-                            app:met_floatingLabel="highlight"
-                            app:met_maxCharacters="50"
-                            app:met_singleLineEllipsis="true"
-                            app:met_helperText="Ex: Inglês, Espanhol"
-                            android:id="@+id/Idioma"
-                            android:hint="Idioma" />
-                        <ImageButton
-                            android:id="@+id/btnAddIdioma"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:background="@drawable/ic_add"
-                            android:layout_marginStart="10dp"
-                            android:backgroundTint="@color/primaryColor"
-                            android:layout_gravity="center_vertical"/>
-                    </LinearLayout>
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/recyclerIdiomaItems"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="5dp"
-                        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                        tools:listitem="@layout/item_idioma" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

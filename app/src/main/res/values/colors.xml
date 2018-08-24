@@ -15,4 +15,5 @@
     <color name="endBlue">#3a6073</color>
     <color name="primaryColor">@color/purple_900</color>
     <color name="primaryColorDark">@color/dark_purple_800</color>
+    <color name="labelDefaultColor">@color/grey_800</color>
 </resources>
