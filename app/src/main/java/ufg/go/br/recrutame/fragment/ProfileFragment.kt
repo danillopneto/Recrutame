@@ -21,6 +21,7 @@ import org.greenrobot.eventbus.ThreadMode
 import ufg.go.br.recrutame.activity.profile.EditContactInfoActivity
 import ufg.go.br.recrutame.activity.profile.EditGeneralInfoActivity
 import ufg.go.br.recrutame.R
+import ufg.go.br.recrutame.activity.profile.EditLanguagesInfoActivity
 import ufg.go.br.recrutame.util.TAG
 import ufg.go.br.recrutame.util.Utils
 import ufg.go.br.recrutame.model.*
@@ -116,7 +117,9 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
     }
 
     private fun editLanguagesInfo() {
-
+        val i = Intent(context, EditLanguagesInfoActivity:: class.java)
+        i.putExtra("userId", mAuth.currentUser?.uid)
+        startActivity(i)
     }
 
     private fun fillContactInfo(view: View, contactInfo: UserContactInfo) {
@@ -149,17 +152,16 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
         generalInfoTxt.text = generalInfoData.toString()
     }
 
-    private fun fillLanguagesInfo(view: View, languagesInfo: List<UserLanguageInfo>) {
-        val languageTxt = view.findViewById<TextView>(R.id.mLanguaguesTxt)
+    private fun fillLanguagesInfo(view: View, languagesInfo: HashMap<String, UserLanguageInfo>) {
+        val languageTxt = view.findViewById<TextView>(R.id.mLanguagesTxt)
 
         val languages = StringBuilder()
-        for (i in languagesInfo.indices) {
-            languages.appendln("${languagesInfo[i].language} (${getString(languagesInfo[i].level!!.idString)})")
-            if (i != languagesInfo.size - 1) {
-                languages.appendln()
-            }
+        for (language in languagesInfo.values) {
+            languages.appendln("${language.language} (${getString(language.level!!.idString)})")
+            languages.appendln()
         }
 
+        languages.deleteCharAt(languages.lastIndexOf("\n"))
         languageTxt.text = languages.toString()
     }
 }

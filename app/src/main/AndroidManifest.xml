@@ -46,7 +46,9 @@
             android:name=".JobDetailActivity"
             android:theme="@style/InsideAppTheme" />
         <activity android:name=".activity.profile.EditGeneralInfoActivity" />
-        <activity android:name=".activity.profile.EditContactInfoActivity"></activity>
+        <activity android:name=".activity.profile.EditContactInfoActivity" />
+        <activity android:name=".activity.profile.EditLanguagesInfoActivity" />
+        <activity android:name=".activity.profile.AddEditLanguageInfoActivity"></activity>
     </application>
 
 </manifest>

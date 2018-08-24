@@ -93,6 +93,10 @@
     <string name="professional_working">Nível intermediário</string>
     <string name="full_professional">Nível avançado</string>
     <string name="native_or_bilingual">Fluente ou nativo</string>
+    <string name="edit_language">Editar Idioma</string>
+    <string name="language">Idioma</string>
+    <string name="proficiency">Proficiência</string>
+    <string name="add_language">Adicionar Idioma</string>
     <string-array name="nivel">
         <item>Profissional</item>
         <item>Superior</item>

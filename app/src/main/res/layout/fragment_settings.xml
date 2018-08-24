@@ -125,7 +125,7 @@
                             android:id="@+id/addFilterBtn"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            android:background="@drawable/ic_add"
+                            android:background="@drawable/ic_add_circle"
                             android:layout_marginStart="10dp"
                             android:backgroundTint="@color/primaryColor"
                             android:layout_gravity="center_vertical"/>

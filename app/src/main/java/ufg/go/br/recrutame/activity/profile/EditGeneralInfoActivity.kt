@@ -39,7 +39,7 @@ class EditGeneralInfoActivity : EditProfileActivity(), View.OnClickListener, Dat
         mBirthdateTxt.setText(Utils.getFormatedDate(year, monthOfYear + 1, dayOfMonth, getString(R.string.format_date)))
     }
 
-    override fun saveGeneralInfo() {
+    override fun saveInfo() {
         val generalInfoReference = mDatabase.child("users/$userId/generalInfo")
         val generalInfo = UserGeneralInfo(
                                           mNameTxt.text.toString(),

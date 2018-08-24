@@ -31,13 +31,13 @@ abstract class EditProfileActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> { finish(); return true; }
-            R.id.mMenuSaveProfile -> saveGeneralInfo()
+            R.id.mMenuSaveProfile -> saveInfo()
         }
 
         return super.onOptionsItemSelected(item)
     }
 
-    abstract fun saveGeneralInfo()
+    abstract fun saveInfo()
 
     protected fun showError(errorMessage: Int) {
         val snackBar = Snackbar.make(findViewById(layoutId), errorMessage, Snackbar.LENGTH_LONG)

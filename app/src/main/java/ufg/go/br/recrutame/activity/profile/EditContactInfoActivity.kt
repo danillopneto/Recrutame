@@ -19,7 +19,7 @@ class EditContactInfoActivity : EditProfileActivity() {
         inicializeControls()
     }
 
-    override fun saveGeneralInfo() {
+    override fun saveInfo() {
         val contactInfoReference = mDatabase.child("users/$userId/contactInfo")
         val contactInfo = UserContactInfo(
                                           mEmailTxt.text.toString(),
