@@ -6,8 +6,6 @@ import net.orange_box.storebox.annotations.method.KeyByString
 import net.orange_box.storebox.annotations.method.TypeAdapter
 import ufg.go.br.recrutame.R
 import ufg.go.br.recrutame.adapter.FiltersTypeAdapter
-import ufg.go.br.recrutame.adapter.IdiomTypeAdapter
-import ufg.go.br.recrutame.adapter.SkillTypeAdapter
 
 interface MyPreferences {
     @ClearMethod
@@ -18,13 +16,6 @@ interface MyPreferences {
 
     @KeyByString("key_is_li_user")
     fun setIsLIUser(value: Boolean)
-
-    @KeyByString("key_user_email")
-    @DefaultValue(R.string.empty)
-    fun getUserEmail(): String
-
-    @KeyByString("key_user_email")
-    fun setUserEmail(email: String)
 
     @KeyByString("key_maximum_distance")
     @DefaultValue(R.string.default_maximum_distance)
@@ -46,22 +37,6 @@ interface MyPreferences {
     @KeyByString("key_filters")
     @TypeAdapter(FiltersTypeAdapter:: class)
     fun setFilters(filters: List<String>)
-
-    @KeyByString("key_skills")
-    @TypeAdapter(SkillTypeAdapter:: class)
-    fun getSkills(): List<String>
-
-    @KeyByString("key_skills")
-    @TypeAdapter(SkillTypeAdapter:: class)
-    fun setSkills(skills: List<String>)
-
-    @KeyByString("key_idioms")
-    @TypeAdapter(IdiomTypeAdapter:: class)
-    fun getIdioms(): List<String>
-
-    @KeyByString("key_idioms")
-    @TypeAdapter(IdiomTypeAdapter:: class)
-    fun setIdioms(skills: List<String>)
 
     @KeyByString("key_user_country")
     @DefaultValue(R.string.default_country)
