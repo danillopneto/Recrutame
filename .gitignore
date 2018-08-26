@@ -68,3 +68,6 @@ fabric.properties
 .idea/assetWizardSettings.xml
 .idea/assetWizardSettings.xml
 .idea/misc.xml
+
+funcRecrutame/functions/node_modules
+*.log
