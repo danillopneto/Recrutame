@@ -36,7 +36,7 @@ class JobDetailActivity : BaseActivity(), View.OnClickListener {
         setContentView(R.layout.card_detail_job)
         inicializeControls()
 
-        val codigoVaga = intent.getStringExtra("key")
+        val codigoVaga = intent.getStringExtra("id")
 
         database = FirebaseDatabase.getInstance()
         database.getReference("vagas").child(codigoVaga).addValueEventListener(object : ValueEventListener {
