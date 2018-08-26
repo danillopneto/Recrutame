@@ -9,6 +9,8 @@ import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import android.widget.TextView
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -41,6 +43,21 @@ abstract class EditProfileActivity : AppCompatActivity() {
     }
 
     abstract fun saveInfo()
+
+    protected fun <T>setSpinnerConfig(spinner: Spinner, list: Array<T>, defaultValue: T) {
+        val adapter = ArrayAdapter<T>(this, R.layout.custom_simple_spinner_item, list)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinner.adapter = adapter
+        spinner.background = ContextCompat.getDrawable(this, R.drawable.abc_edit_text_material)
+        if (defaultValue != null) {
+            val position = adapter.getPosition(defaultValue)
+            spinner.setSelection(position)
+        } else {
+            spinner.setSelection(0)
+        }
+
+        adapter.notifyDataSetChanged()
+    }
 
     protected fun showError(errorMessage: Int) {
         val snackBar = Snackbar.make(findViewById(layoutId), errorMessage, Snackbar.LENGTH_LONG)

@@ -1,116 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:theme="@style/InsideAppTheme"
-    tools:context=".activity.profile.EditGeneralInfoActivity"
-    android:padding="20dp"
-    android:orientation="vertical"
-    android:id="@+id/mGeneralInfoLayout">
-
-    <android.support.design.widget.TextInputLayout
+    android:scrollbars="vertical">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColorHint="@color/grey"
-        app:hintTextAppearance="@style/TextAppearance.App.ProfileInputLayout"
-        android:paddingBottom="30dp">
-        <EditText
-            android:id="@+id/mNameTxt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:hint="@string/name"
-            android:inputType="textCapWords" />
-    </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColorHint="@color/grey"
-        app:hintTextAppearance="@style/TextAppearance.App.ProfileInputLayout"
-        android:paddingBottom="30dp">
-        <EditText
-            android:id="@+id/mLastNameTxt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:hint="@string/lastname"
-            android:inputType="textCapWords" />
-    </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColorHint="@color/grey"
-        app:hintTextAppearance="@style/TextAppearance.App.ProfileInputLayout"
-        android:paddingBottom="30dp">
-        <EditText
-            android:id="@+id/mBirthdateTxt"
-            android:clickable="true"
-            android:focusable="false"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:hint="@string/birthdate"
-            android:inputType="date" />
-    </android.support.design.widget.TextInputLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:theme="@style/InsideAppTheme"
+        tools:context=".activity.profile.EditGeneralInfoActivity"
+        android:padding="20dp"
         android:orientation="vertical"
-        android:paddingBottom="30dp">
-        <TextView
+        android:id="@+id/mGeneralInfoLayout">
+
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/gender"
-            android:textColor="@color/grey_700"
-            android:textSize="12dip"
-            android:paddingLeft="4dp"
-            android:paddingRight="4dp" />
-        <Spinner
-            android:id="@+id/mGenderSpinner"
-            android:layout_width="fill_parent"
+            android:textColorHint="@color/grey"
+            app:hintTextAppearance="@style/TextAppearance.App.ProfileInputLayout"
+            android:paddingBottom="30dp">
+            <EditText
+                android:id="@+id/mNameTxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:hint="@string/name"
+                android:inputType="textCapWords" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:spinnerMode="dialog"
-            style="@style/Widget.AppCompat.Spinner.Underlined"/>
+            android:textColorHint="@color/grey"
+            app:hintTextAppearance="@style/TextAppearance.App.ProfileInputLayout"
+            android:paddingBottom="30dp">
+            <EditText
+                android:id="@+id/mLastNameTxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:hint="@string/lastname"
+                android:inputType="textCapWords" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/grey"
+            app:hintTextAppearance="@style/TextAppearance.App.ProfileInputLayout"
+            android:paddingBottom="30dp">
+            <EditText
+                android:id="@+id/mBirthdateTxt"
+                android:clickable="true"
+                android:focusable="false"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:hint="@string/birthdate"
+                android:inputType="date" />
+        </android.support.design.widget.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="30dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/gender"
+                android:textColor="@color/grey_700"
+                android:textSize="12dip"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp" />
+            <Spinner
+                android:id="@+id/mGenderSpinner"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:spinnerMode="dialog"
+                style="@style/Widget.AppCompat.Spinner.Underlined"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="30dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/uf"
+                android:textColor="@color/grey_700"
+                android:textSize="12dip"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp" />
+            <Spinner
+                android:id="@+id/mStateSpinner"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:spinnerMode="dialog"
+                style="@style/Widget.AppCompat.Spinner.Underlined"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="30dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/city"
+                android:textColor="@color/grey_700"
+                android:textSize="12dip"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp" />
+            <Spinner
+                android:id="@+id/mCitySpinner"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:spinnerMode="dialog"
+                style="@style/Widget.AppCompat.Spinner.Underlined"/>
+        </LinearLayout>
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingBottom="30dp">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/uf"
-            android:textColor="@color/grey_700"
-            android:textSize="12dip"
-            android:paddingLeft="4dp"
-            android:paddingRight="4dp" />
-        <Spinner
-            android:id="@+id/mStateSpinner"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:spinnerMode="dialog"
-            style="@style/Widget.AppCompat.Spinner.Underlined"/>
-    </LinearLayout>
-
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColorHint="@color/grey"
-        app:hintTextAppearance="@style/TextAppearance.App.ProfileInputLayout">
-        <EditText
-            android:id="@+id/mCityTxt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:hint="@string/city"
-            android:inputType="textCapWords" />
-    </android.support.design.widget.TextInputLayout>
-
-</LinearLayout>
+</ScrollView>
