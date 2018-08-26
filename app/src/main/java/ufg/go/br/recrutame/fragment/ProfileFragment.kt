@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
+import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -29,6 +30,7 @@ import ufg.go.br.recrutame.model.*
 class ProfileFragment : BaseFragment(), View.OnClickListener  {
     private lateinit var database: FirebaseDatabase
     private lateinit var mProfileImage: CircleImageView
+    private lateinit var mExperiencesRv: RecyclerView
     private var userModel: UserProfile? = null
 
     override fun onStart() {
@@ -58,6 +60,7 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
                         if (userModel != null) {
                             fillGeneralInfo(view, userModel!!.generalInfo)
                             fillContactInfo(view, userModel!!.contactInfo)
+                            fillExperiencesInfo(view, userModel!!.experiences)
                             fillLanguagesInfo(view, userModel!!.languages)
                         }
                     }
@@ -90,6 +93,7 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
         when (v?.id) {
             R.id.mChangePictureBtn -> chooseImage()
             R.id.mEditGeneralInfoBtn -> editGeneralInfo()
+            R.id.mEditExperincesInfoBtn -> editExperiencesInfo()
             R.id.mEditContactInfoBtn -> editContactInfo()
             R.id.mEditLanguaguesInfoBtn -> editLanguagesInfo()
         }
@@ -102,6 +106,10 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
         i.putExtra("userWebsite", userModel?.contactInfo?.webSite)
         i.putExtra("userPhone", userModel?.contactInfo?.phone)
         startActivity(i)
+    }
+
+    private fun editExperiencesInfo() {
+
     }
 
     private fun editGeneralInfo() {
@@ -137,6 +145,11 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
         }
     }
 
+    private fun fillExperiencesInfo(view: View, experiences: HashMap<String, UserExperienceInfo>) {
+        mExperiencesRv = view.findViewById(R.id.mExperiencesRv)
+
+    }
+
     private fun fillGeneralInfo(view: View, generalInfo: UserGeneralInfo) {
         view.findViewById<TextView>(R.id.mUsernameTxt).text = "${generalInfo.name} ${generalInfo.lastName}"
 
@@ -146,13 +159,20 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
             generalInfoData.appendln(generalInfo.gender)
         }
 
-        generalInfoData.appendln(Utils.getFormatedDate(generalInfo.birthdate, getString(R.string.format_date)))
+        if (generalInfo.birthdate != null) {
+            generalInfoData.appendln(Utils.getFormatedDate(generalInfo.birthdate, getString(R.string.format_date)))
+        }
+
         generalInfoData.appendln("${generalInfo.city} - ${generalInfo.state}")
 
         generalInfoTxt.text = generalInfoData.toString()
     }
 
     private fun fillLanguagesInfo(view: View, languagesInfo: HashMap<String, UserLanguageInfo>) {
+        if (languagesInfo.isEmpty()) {
+            return
+        }
+
         val languageTxt = view.findViewById<TextView>(R.id.mLanguagesTxt)
 
         val languagesOrdered = languagesInfo.values.sortedWith(compareBy(UserLanguageInfo::language, UserLanguageInfo::language))
