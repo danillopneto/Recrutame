@@ -8,10 +8,9 @@
     tools:context=".activity.profile.EditContactInfoActivity"
     android:orientation="vertical"
     android:id="@+id/mLanguageInfoLayout">
-    <ListView
-        android:id="@+id/mLanguagesLv"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/mLanguagesRv"
+        android:scrollbars="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:divider="@null"
-        android:dividerHeight="0dp" />
+        android:layout_height="wrap_content"/>
 </LinearLayout>

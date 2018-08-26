@@ -2,21 +2,24 @@ package ufg.go.br.recrutame.activity.profile
 
 import android.content.Intent
 import android.os.Bundle
+import android.support.v7.widget.RecyclerView
 import android.util.Log
 import ufg.go.br.recrutame.R
 import android.view.MenuItem
-import android.widget.ListView
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import ufg.go.br.recrutame.adapter.LanguageAdapter
 import ufg.go.br.recrutame.model.UserLanguageInfo
-import android.widget.AdapterView
+import android.support.v7.widget.DefaultItemAnimator
+import android.support.v7.widget.LinearLayoutManager
+import android.view.View
 
 class EditLanguagesInfoActivity : EditProfileActivity() {
     override var layoutId: Int = R.id.mLanguageInfoLayout
-    private lateinit var mLanguagesLv: ListView
     private var languages = mutableListOf<UserLanguageInfo>()
+    private lateinit var recyclerViewLanguages: RecyclerView
+    private lateinit var mLanguageAdapter: LanguageAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,8 +52,6 @@ class EditLanguagesInfoActivity : EditProfileActivity() {
     }
 
     private fun inicializeControls() {
-        mLanguagesLv = findViewById(R.id.mLanguagesLv)
-
         mDatabase.child("users/$userId/languages")
                 .orderByChild("language")
                 .addValueEventListener( object: ValueEventListener {
@@ -73,10 +74,9 @@ class EditLanguagesInfoActivity : EditProfileActivity() {
     }
 
     private fun inflateLanguageAdapter(languages: List<UserLanguageInfo>) {
-        val adapter = LanguageAdapter(languages, this)
-        mLanguagesLv.adapter = adapter
-        mLanguagesLv.onItemClickListener = AdapterView.OnItemClickListener { adapter, view, position, arg ->
-            if (view.id == R.id.mEditLanguagueBtn) {
+        recyclerViewLanguages = findViewById(R.id.mLanguagesRv)
+        mLanguageAdapter = LanguageAdapter(languages, object : LanguageAdapter.LanguageAdapterListener {
+            override fun iconImageViewOnClick(v: View, position: Int) {
                 val i = Intent(baseContext,  AddEditLanguageInfoActivity:: class.java)
                 i.putExtra("userId", userId)
                 i.putExtra("languageKey", languages[position].key)
@@ -84,6 +84,13 @@ class EditLanguagesInfoActivity : EditProfileActivity() {
                 i.putExtra("languageLevel", languages[position].level.toString())
                 startActivity(i)
             }
-        }
+        }, this)
+
+        val mLayoutManager = LinearLayoutManager(applicationContext)
+        recyclerViewLanguages.layoutManager = mLayoutManager
+        recyclerViewLanguages.itemAnimator = DefaultItemAnimator()
+        recyclerViewLanguages.adapter = mLanguageAdapter
+
+        mLanguageAdapter.notifyDataSetChanged()
     }
 }
