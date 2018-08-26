@@ -41,7 +41,7 @@ class JobCard(private val mContext: Context, private val mJob: JobModel?, privat
         jobCompanyTxt!!.setText(mJob?.company)
         jobInfoBtn!!.setOnClickListener({
             val intent = Intent(mContext, JobDetailActivity::class.java)
-            intent.putExtra("key", mJob?.key)
+            intent.putExtra("id", mJob?.id)
             mContext.startActivity(intent)
         })
     }

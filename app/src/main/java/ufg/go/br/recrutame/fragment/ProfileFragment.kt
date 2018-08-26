@@ -19,6 +19,7 @@ import de.hdodenhof.circleimageview.CircleImageView
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import org.jetbrains.annotations.NotNull
 import ufg.go.br.recrutame.activity.profile.EditContactInfoActivity
 import ufg.go.br.recrutame.activity.profile.EditGeneralInfoActivity
 import ufg.go.br.recrutame.R
@@ -55,8 +56,8 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
 
         database.getReference("users/" + mAuth.currentUser?.uid)
                 .addValueEventListener( object: ValueEventListener {
-                    override fun onDataChange(dataSnapshot: DataSnapshot?) {
-                        userModel = dataSnapshot?.getValue(UserProfile::class.java)
+                    override fun onDataChange(@NotNull dataSnapshot: DataSnapshot) {
+                        userModel = dataSnapshot.getValue(UserProfile::class.java)
                         if (userModel != null) {
                             fillGeneralInfo(view, userModel!!.generalInfo)
                             fillContactInfo(view, userModel!!.contactInfo)
@@ -65,7 +66,7 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
                         }
                     }
 
-                    override fun onCancelled(databaseError: DatabaseError?) {
+                    override fun onCancelled(@NotNull databaseError: DatabaseError) {
                         Log.d(TAG, "" + databaseError)
                     }
                 })

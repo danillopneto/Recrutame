@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
 import android.os.Handler
+import android.support.annotation.NonNull
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.content.ContextCompat
 import android.util.Log
@@ -25,7 +26,19 @@ import ufg.go.br.recrutame.enum.EnumUserIteraction
 import android.view.animation.AnimationUtils
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import ufg.go.br.recrutame.util.GeoLocation
+import com.google.android.gms.tasks.Continuation
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.RuntimeExecutionException
+import com.google.android.gms.tasks.Task
+import com.google.firebase.FirebaseNetworkException
+import com.google.firebase.auth.FirebaseAuthException
+import ufg.go.br.recrutame.Util.GeoLocation
+import com.google.firebase.functions.FirebaseFunctions
+import com.google.firebase.functions.FirebaseFunctionsException
+import com.google.firebase.functions.HttpsCallableResult
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import ufg.go.br.recrutame.adapter.IdiomTypeAdapter
 
 class JobFragment : BaseFragment(){
     private lateinit var database:FirebaseDatabase
@@ -34,10 +47,12 @@ class JobFragment : BaseFragment(){
     private lateinit var rejectBtn: FloatingActionButton
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var boundingCoordinates: Array<GeoLocation>
+    private lateinit var mFunctions: FirebaseFunctions
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         inicializeApis()
         database = FirebaseDatabase.getInstance()
+        mFunctions = FirebaseFunctions.getInstance()
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity!!)
 
         val rootView = inflater.inflate(R.layout.fragment_job, container, false)
@@ -112,7 +127,62 @@ class JobFragment : BaseFragment(){
 
                             boundingCoordinates = geoLocation.boundingCoordinates(getMyPreferences().getMaximumDistance().toDouble(), 6371.01)
 
-                            database.getReference("vagas")
+                            val data = HashMap<String, kotlin.Any>() //Criar o parametro data
+                            data.put("minLatitude", boundingCoordinates[0].latitudeInDegrees)
+                            data.put("maxLatitude", boundingCoordinates[1].latitudeInDegrees)
+                            data.put("minLongitude", boundingCoordinates[0].longitudeInDegrees)
+                            data.put("maxLongitude", boundingCoordinates[1].longitudeInDegrees)
+                            data.put("userId", mAuth.currentUser?.uid.orEmpty())
+
+                            mFunctions
+                                    .getHttpsCallable("vagasNaoCandidatadas")
+                                    .call(data)
+                                    .continueWith(object:Continuation<HttpsCallableResult, String> {
+                                        @Throws(Exception::class)
+                                        override fun then(@NonNull task:Task<HttpsCallableResult>):String {
+                                            val result = task.getResult()
+                                            var data = result?.getData() as String
+
+                                            return data
+                                        }
+                                    })
+                                    .addOnCompleteListener(object: OnCompleteListener<String> {
+                                        override fun onComplete(@NonNull task:Task<String>) {
+                                            if (!task.isSuccessful()) {
+                                                 try{
+                                                    throw task.getException()!!
+                                                }
+                                                catch (e: IllegalStateException){
+                                                    System.out.println(e.message);
+                                                }
+                                                catch(e: RuntimeExecutionException){
+                                                    System.out.println(e.message);
+                                                }
+                                                catch(e: FirebaseNetworkException){
+                                                    System.out.println(e.message);
+                                                }
+                                                catch(e: FirebaseAuthException){
+                                                    System.out.println(e.message);
+                                                }
+                                                catch(e: Exception){
+                                                    System.out.println(e.message);
+                                                }
+                                            } else{
+                                                if(task.result != null){
+                                                    var job = Gson().fromJson<List<JobModel>>(task.result, object : TypeToken<List<JobModel>>() {
+
+                                                    }.type)
+
+                                                    for(jobModel in job){
+                                                        mSwipeView.addView(JobCard(context!!, jobModel, mSwipeView))
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    });
+
+
+                            /*database.getReference("vagas")
                                     .orderByChild("latitude")
                                     .startAt(boundingCoordinates[0].latitudeInDegrees)
                                     .endAt(boundingCoordinates[1].latitudeInDegrees)
@@ -123,17 +193,15 @@ class JobFragment : BaseFragment(){
                                                 val jobModel:JobModel? = postSnapshot.getValue(JobModel::class.java)
                                                 if (boundingCoordinates[1].longitudeInDegrees >= jobModel!!.longitude
                                                         && boundingCoordinates[0].longitudeInDegrees <= jobModel!!.longitude) {
-                                                    jobModel?.key = postSnapshot.key
+                                                    //jobModel?.id = postSnapshot.key
                                                     mSwipeView.addView(JobCard(context!!, jobModel, mSwipeView))
                                                 }
                                             }
                                         }
-
                                         override fun onCancelled(databaseError: DatabaseError?) {
                                             Log.d(TAG, "" + databaseError)
                                         }
-
-                                    })
+                                    })*/
 
                         }
                     }
