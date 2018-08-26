@@ -102,6 +102,7 @@
     <string name="update_language_info_error">Erro ao atualizar o idioma</string>
     <string name="add_language_info_error">Erro ao adicionar idioma</string>
     <string name="really_remove_language">Deseja realmente remover o idioma?</string>
+    <string name="get_states_failed">Falha ao obter estados</string>
     <string-array name="nivel">
         <item>Profissional</item>
         <item>Superior</item>

@@ -2,6 +2,8 @@ package ufg.go.br.recrutame.util
 
 const val TAG = "Recruta.me"
 
+const val IBGE_BASE_URL = "https://servicodados.ibge.gov.br/"
+
 const val CLIENT_ID = "77567lpmjntdti"
 const val CLIENT_SECRET = "0y88whgSChJkldrl"
 const val LINKEDIN_USER = "user.linkedin"
