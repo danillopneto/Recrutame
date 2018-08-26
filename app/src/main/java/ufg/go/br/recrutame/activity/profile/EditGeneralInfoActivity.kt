@@ -97,6 +97,7 @@ class EditGeneralInfoActivity : EditProfileActivity(), View.OnClickListener, Dat
         mGenderSpinner = findViewById(R.id.mGenderSpinner)
         val genders = resources.getStringArray(R.array.genders)
         val adapter = ArrayAdapter<String>(this, R.layout.custom_simple_spinner_item, genders)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         mGenderSpinner.adapter = adapter
         mGenderSpinner.background = ContextCompat.getDrawable(this, R.drawable.abc_edit_text_material)
         if (!gender.isEmpty()) {

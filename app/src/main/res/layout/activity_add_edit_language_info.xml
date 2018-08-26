@@ -32,8 +32,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/proficiency"
-            android:fontFamily="sans-serif"
-            android:textColor="@color/grey"
+            android:textColor="@color/grey_700"
+            android:textSize="12dip"
             android:paddingLeft="4dp"
             android:paddingRight="4dp" />
         <Spinner

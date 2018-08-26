@@ -87,6 +87,7 @@ class AddEditLanguageInfoActivity : EditProfileActivity(), View.OnClickListener 
         }
 
         val adapter = ArrayAdapter<String>(this, R.layout.custom_simple_spinner_item, proficiencies)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         mProficiencySpinner.adapter = adapter
         mProficiencySpinner.background = ContextCompat.getDrawable(this, R.drawable.abc_edit_text_material)
 
