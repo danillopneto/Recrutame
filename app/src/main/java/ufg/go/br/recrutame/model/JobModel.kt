@@ -1,7 +1,7 @@
 package ufg.go.br.recrutame.model
 
 class JobModel {
-    lateinit var id: String
+    var id: Long = 0
     lateinit var title:String
     lateinit var image: String
     lateinit var city: String

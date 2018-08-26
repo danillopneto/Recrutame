@@ -8,7 +8,6 @@ import android.os.Handler
 import android.support.annotation.NonNull
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.content.ContextCompat
-import android.util.Log
 import com.mindorks.placeholderview.SwipePlaceHolderView
 import ufg.go.br.recrutame.JobCard
 import ufg.go.br.recrutame.R
@@ -17,7 +16,6 @@ import com.mindorks.placeholderview.SwipeViewBuilder
 import android.view.*
 import com.google.firebase.database.*
 import ufg.go.br.recrutame.util.Utils
-import ufg.go.br.recrutame.util.TAG
 import ufg.go.br.recrutame.model.JobModel
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -28,17 +26,13 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.RuntimeExecutionException
 import com.google.android.gms.tasks.Task
-import com.google.firebase.FirebaseNetworkException
-import com.google.firebase.auth.FirebaseAuthException
 import ufg.go.br.recrutame.Util.GeoLocation
 import com.google.firebase.functions.FirebaseFunctions
 import com.google.firebase.functions.FirebaseFunctionsException
 import com.google.firebase.functions.HttpsCallableResult
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import ufg.go.br.recrutame.adapter.IdiomTypeAdapter
 
 class JobFragment : BaseFragment(){
     private lateinit var database:FirebaseDatabase
@@ -149,23 +143,12 @@ class JobFragment : BaseFragment(){
                                     .addOnCompleteListener(object: OnCompleteListener<String> {
                                         override fun onComplete(@NonNull task:Task<String>) {
                                             if (!task.isSuccessful()) {
-                                                 try{
-                                                    throw task.getException()!!
-                                                }
-                                                catch (e: IllegalStateException){
-                                                    System.out.println(e.message);
-                                                }
-                                                catch(e: RuntimeExecutionException){
-                                                    System.out.println(e.message);
-                                                }
-                                                catch(e: FirebaseNetworkException){
-                                                    System.out.println(e.message);
-                                                }
-                                                catch(e: FirebaseAuthException){
-                                                    System.out.println(e.message);
-                                                }
-                                                catch(e: Exception){
-                                                    System.out.println(e.message);
+                                                var e = task.getException();
+                                                if (e is FirebaseFunctionsException) {
+                                                    var ffe = e as FirebaseFunctionsException;
+                                                    var code = ffe.getCode();
+                                                    var details = ffe.getDetails();
+                                                    var details2 = ffe.getDetails();
                                                 }
                                             } else{
                                                 if(task.result != null){

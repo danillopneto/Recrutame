@@ -36,10 +36,10 @@ class JobDetailActivity : BaseActivity(), View.OnClickListener {
         setContentView(R.layout.card_detail_job)
         inicializeControls()
 
-        val codigoVaga = intent.getStringExtra("id")
+        val codigoVaga = intent.getLongExtra("id",0)
 
         database = FirebaseDatabase.getInstance()
-        database.getReference("vagas").child(codigoVaga).addValueEventListener(object : ValueEventListener {
+        database.getReference("vagas").child(codigoVaga.toString()).addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val jobTitleTxt: TextView = findViewById(R.id.jobTitleTxt)
                 val jobCompanyTxt: TextView = findViewById(R.id.jobCompanyTxt)
