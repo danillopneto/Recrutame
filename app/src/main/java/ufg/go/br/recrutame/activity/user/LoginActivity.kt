@@ -75,7 +75,6 @@ abstract class LoginActivity : AppCompatActivity() {
                     }
                 } else {
                     this.finishAffinity()
-                    getMyPreferences().setUserEmail(email)
                     startActivity(Intent(this, TabActivity:: class.java))
                 }
             }

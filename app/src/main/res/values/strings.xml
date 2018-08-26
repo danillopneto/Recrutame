@@ -97,6 +97,13 @@
     <string name="language">Idioma</string>
     <string name="proficiency">Proficiência</string>
     <string name="add_language">Adicionar Idioma</string>
+    <string name="remove_language">Remover idioma</string>
+    <string name="remove_language_error">Erro ao remover o idioma</string>
+    <string name="update_language_info_error">Erro ao atualizar o idioma</string>
+    <string name="add_language_info_error">Erro ao adicionar idioma</string>
+    <string name="really_remove_language">Deseja realmente remover o idioma?</string>
+    <string name="get_states_failed">Falha ao obter estados</string>
+    <string name="get_cities_failed">Erro ao obter cidades</string>
     <string-array name="nivel">
         <item>Profissional</item>
         <item>Superior</item>

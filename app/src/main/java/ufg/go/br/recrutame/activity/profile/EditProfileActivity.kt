@@ -1,12 +1,17 @@
 package ufg.go.br.recrutame.activity.profile
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.Spinner
+import android.widget.TextView
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import ufg.go.br.recrutame.R
@@ -39,6 +44,21 @@ abstract class EditProfileActivity : AppCompatActivity() {
 
     abstract fun saveInfo()
 
+    protected fun <T>setSpinnerConfig(spinner: Spinner, list: Array<T>, defaultValue: T) {
+        val adapter = ArrayAdapter<T>(this, R.layout.custom_simple_spinner_item, list)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinner.adapter = adapter
+        spinner.background = ContextCompat.getDrawable(this, R.drawable.abc_edit_text_material)
+        if (defaultValue != null) {
+            val position = adapter.getPosition(defaultValue)
+            spinner.setSelection(position)
+        } else {
+            spinner.setSelection(0)
+        }
+
+        adapter.notifyDataSetChanged()
+    }
+
     protected fun showError(errorMessage: Int) {
         val snackBar = Snackbar.make(findViewById(layoutId), errorMessage, Snackbar.LENGTH_LONG)
         snackBar.setActionTextColor(ContextCompat.getColor(this, R.color.white))
@@ -53,6 +73,25 @@ abstract class EditProfileActivity : AppCompatActivity() {
 
     open fun getActionBarTitle(): String {
         return getString(R.string.edit)
+    }
+
+    fun handleYesNoDialog(message: Int, yesAction: () -> Unit) {
+        val li = LayoutInflater.from(this)
+        val promptsView = li.inflate(R.layout.dialog_yes_no, null)
+        promptsView.findViewById<TextView>(R.id.questionTxt).text = getString(message)
+        val alertDialogBuilder = AlertDialog.Builder(this)
+        alertDialogBuilder.setView(promptsView)
+        alertDialogBuilder
+                .setCancelable(false)
+                .setPositiveButton(getString(R.string.yes)
+                ) { dialog, id ->
+                    yesAction()
+                }
+                .setNegativeButton(getString(R.string.no)
+                ) { dialog, id -> dialog.cancel() }
+
+        val alertDialog = alertDialogBuilder.create()
+        alertDialog.show()
     }
 
     private fun showActionBar() {

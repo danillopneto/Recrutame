@@ -9,7 +9,6 @@
     android:orientation="vertical"
     tools:context=".activity.profile.AddEditLanguageInfoActivity"
     android:id="@+id/mAddEditLanguageContainer">
-
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -24,7 +23,6 @@
             android:hint="@string/language"
             android:inputType="textCapWords" />
     </android.support.design.widget.TextInputLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -34,8 +32,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/proficiency"
-            android:fontFamily="sans-serif"
-            android:textColor="@color/grey"
+            android:textColor="@color/grey_700"
+            android:textSize="12dip"
             android:paddingLeft="4dp"
             android:paddingRight="4dp" />
         <Spinner
@@ -45,5 +43,13 @@
             android:spinnerMode="dialog"
             style="@style/Widget.AppCompat.Spinner.Underlined"/>
     </LinearLayout>
-
+    <Button
+        android:id="@+id/mRemoveLanguageBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:text="@string/remove_language"
+        android:textColor="@color/primaryColor"
+        android:visibility="gone"
+        android:background="@null"/>
 </LinearLayout>

@@ -156,13 +156,14 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
     private fun fillLanguagesInfo(view: View, languagesInfo: HashMap<String, UserLanguageInfo>) {
         val languageTxt = view.findViewById<TextView>(R.id.mLanguagesTxt)
 
-        val languages = StringBuilder()
-        for (language in languagesInfo.values) {
-            languages.appendln("${language.language} (${getString(language.level!!.idString)})")
-            languages.appendln()
+        val languagesOrdered = languagesInfo.values.sortedWith(compareBy(UserLanguageInfo::language, UserLanguageInfo::language))
+        val languagesDescription = StringBuilder()
+        for (language in languagesOrdered) {
+            languagesDescription.appendln("${language.language} (${getString(language.level!!.idString)})")
+            languagesDescription.appendln()
         }
 
-        languages.deleteCharAt(languages.lastIndexOf("\n"))
-        languageTxt.text = languages.toString()
+        languagesDescription.deleteCharAt(languagesDescription.lastIndexOf("\n"))
+        languageTxt.text = languagesDescription.toString()
     }
 }
