@@ -104,6 +104,7 @@
     <string name="really_remove_language">Deseja realmente remover o idioma?</string>
     <string name="get_states_failed">Falha ao obter estados</string>
     <string name="get_cities_failed">Erro ao obter cidades</string>
+    <string name="experience">Experiência</string>
     <string-array name="nivel">
         <item>Profissional</item>
         <item>Superior</item>
