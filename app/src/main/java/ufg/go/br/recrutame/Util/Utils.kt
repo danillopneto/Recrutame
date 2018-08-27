@@ -1,12 +1,13 @@
 package ufg.go.br.recrutame.util
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.content.res.Resources
 import android.graphics.Point
 import android.util.DisplayMetrics
-import android.view.Display
 import android.os.Build
+import android.view.View
 import android.view.WindowManager
-import ufg.go.br.recrutame.R
 import java.text.SimpleDateFormat
 import java.util.*
 

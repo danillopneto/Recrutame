@@ -5,21 +5,21 @@ import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuItem
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.TextView
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import ufg.go.br.recrutame.R
+import ufg.go.br.recrutame.util.CustomProgressBar
 
 abstract class EditProfileActivity : AppCompatActivity() {
     protected lateinit var userId: String
     protected lateinit var mDatabase: DatabaseReference
     abstract var layoutId: Int
+    protected lateinit var mMenuSaveProfile: MenuItem
+    private val progressBar = CustomProgressBar()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +30,7 @@ abstract class EditProfileActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(getActionMenu(), menu)
+        mMenuSaveProfile = menu.findItem(R.id.mMenuSaveProfile)
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -43,6 +44,14 @@ abstract class EditProfileActivity : AppCompatActivity() {
     }
 
     abstract fun saveInfo()
+
+    open fun getActionMenu(): Int {
+        return R.menu.menu_action_edit
+    }
+
+    open fun getActionBarTitle(): String {
+        return getString(R.string.edit)
+    }
 
     protected fun <T>setSpinnerConfig(spinner: Spinner, list: Array<T>, defaultValue: T) {
         val adapter = ArrayAdapter<T>(this, R.layout.custom_simple_spinner_item, list)
@@ -59,23 +68,7 @@ abstract class EditProfileActivity : AppCompatActivity() {
         adapter.notifyDataSetChanged()
     }
 
-    protected fun showError(errorMessage: Int) {
-        val snackBar = Snackbar.make(findViewById(layoutId), errorMessage, Snackbar.LENGTH_LONG)
-        snackBar.setActionTextColor(ContextCompat.getColor(this, R.color.white))
-        val group = snackBar.view as ViewGroup
-        group.setBackgroundColor(ContextCompat.getColor(this, R.color.red))
-        snackBar.show()
-    }
-
-    open fun getActionMenu(): Int {
-        return R.menu.menu_action_edit
-    }
-
-    open fun getActionBarTitle(): String {
-        return getString(R.string.edit)
-    }
-
-    fun handleYesNoDialog(message: Int, yesAction: () -> Unit) {
+    protected fun handleYesNoDialog(message: Int, yesAction: () -> Unit) {
         val li = LayoutInflater.from(this)
         val promptsView = li.inflate(R.layout.dialog_yes_no, null)
         promptsView.findViewById<TextView>(R.id.questionTxt).text = getString(message)
@@ -92,6 +85,25 @@ abstract class EditProfileActivity : AppCompatActivity() {
 
         val alertDialog = alertDialogBuilder.create()
         alertDialog.show()
+    }
+
+    protected fun showError(errorMessage: Int) {
+        val snackBar = Snackbar.make(findViewById(layoutId), errorMessage, Snackbar.LENGTH_LONG)
+        snackBar.setActionTextColor(ContextCompat.getColor(this, R.color.white))
+        val group = snackBar.view as ViewGroup
+        group.setBackgroundColor(ContextCompat.getColor(this, R.color.red))
+        snackBar.show()
+    }
+
+    protected fun showProgressBar() {
+        if (progressBar.dialog == null
+                || !progressBar.dialog!!.isShowing) {
+            progressBar.show(this)
+        }
+    }
+
+    protected fun hideProgressBar() {
+        progressBar.hide()
     }
 
     private fun showActionBar() {

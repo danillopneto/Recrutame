@@ -105,6 +105,11 @@
     <string name="get_states_failed">Falha ao obter estados</string>
     <string name="get_cities_failed">Erro ao obter cidades</string>
     <string name="experience">Experiência</string>
+    <string name="name_required">Informe o nome</string>
+    <string name="lastname_required">Informe o sobrenome</string>
+    <string name="birthdate_required">Informe a data de nascimento</string>
+    <string name="state_required">Informe o estado</string>
+    <string name="city_required">Informe a cidade</string>
     <string-array name="nivel">
         <item>Profissional</item>
         <item>Superior</item>

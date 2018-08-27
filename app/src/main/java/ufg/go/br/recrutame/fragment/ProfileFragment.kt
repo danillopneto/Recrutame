@@ -160,7 +160,8 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
             generalInfoData.appendln(generalInfo.gender)
         }
 
-        if (generalInfo.birthdate != null) {
+        if (generalInfo.birthdate != null
+                && activity != null) {
             generalInfoData.appendln(Utils.getFormatedDate(generalInfo.birthdate, getString(R.string.format_date)))
         }
 
