@@ -8,6 +8,7 @@ import android.util.DisplayMetrics
 import android.os.Build
 import android.view.View
 import android.view.WindowManager
+import java.text.Collator
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -90,6 +91,12 @@ class Utils {
             val month = dateFormated.substring(3, 5)
             val year = dateFormated.substring(6, 10)
             return "$year$month$dayOfMonth".toInt()
+        }
+
+        fun orderList(list: List<String>) {
+            val usCollator = Collator.getInstance(Locale.getDefault())
+            usCollator.strength = Collator.PRIMARY
+            Collections.sort(list, usCollator)
         }
     }
 }

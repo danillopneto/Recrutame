@@ -18,7 +18,6 @@ abstract class EditProfileActivity : AppCompatActivity() {
     protected lateinit var userId: String
     protected lateinit var mDatabase: DatabaseReference
     abstract var layoutId: Int
-    protected lateinit var mMenuSaveProfile: MenuItem
     private val progressBar = CustomProgressBar()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,7 +29,6 @@ abstract class EditProfileActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(getActionMenu(), menu)
-        mMenuSaveProfile = menu.findItem(R.id.mMenuSaveProfile)
         return super.onCreateOptionsMenu(menu)
     }
 

@@ -21,6 +21,7 @@ import ufg.go.br.recrutame.api.service.IBGEService
 import ufg.go.br.recrutame.api.service.ServiceGenerator
 import ufg.go.br.recrutame.util.IBGE_BASE_URL
 import android.widget.AdapterView
+import java.text.Collator
 
 class EditGeneralInfoActivity : EditProfileActivity(), View.OnClickListener, DatePickerDialog.OnDateSetListener {
     override var layoutId: Int = R.id .mGeneralInfoLayout
@@ -138,19 +139,21 @@ class EditGeneralInfoActivity : EditProfileActivity(), View.OnClickListener, Dat
 
         val citiesName = mutableListOf<String>()
         cities.forEach { citiesName.add(it.nome) }
-        val citiesOrdered = citiesName.toSortedSet(String.CASE_INSENSITIVE_ORDER)
+
+        Utils.orderList(citiesName)
 
         val city = intent.getStringExtra("userCity")
-        setSpinnerConfig(mCitySpinner, citiesOrdered.toTypedArray(), city)
+        setSpinnerConfig(mCitySpinner, citiesName.toTypedArray(), city)
     }
 
     private fun fillStates() {
         val statesName = mutableListOf<String>()
         states.forEach { statesName.add(it.nome) }
-        val statesOrdered = statesName.toSortedSet(String.CASE_INSENSITIVE_ORDER)
+
+        Utils.orderList(statesName)
 
         val state = intent.getStringExtra("userState")
-        setSpinnerConfig(mStateSpinner, statesOrdered.toTypedArray(), state)
+        setSpinnerConfig(mStateSpinner, statesName.toTypedArray(), state)
         if (mStateSpinner.selectedItem != null) {
             syncCities(getStateData(mStateSpinner.selectedItem.toString()))
         } else {
