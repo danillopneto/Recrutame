@@ -4,6 +4,8 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
+import android.support.v7.widget.DefaultItemAnimator
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
@@ -24,6 +26,7 @@ import ufg.go.br.recrutame.activity.profile.EditContactInfoActivity
 import ufg.go.br.recrutame.activity.profile.EditGeneralInfoActivity
 import ufg.go.br.recrutame.R
 import ufg.go.br.recrutame.activity.profile.EditLanguagesInfoActivity
+import ufg.go.br.recrutame.adapter.ExperienceSimpleAdapter
 import ufg.go.br.recrutame.util.TAG
 import ufg.go.br.recrutame.util.Utils
 import ufg.go.br.recrutame.model.*
@@ -32,6 +35,8 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
     private lateinit var database: FirebaseDatabase
     private lateinit var mProfileImage: CircleImageView
     private lateinit var mExperiencesRv: RecyclerView
+    private lateinit var mExperienceAdapter: ExperienceSimpleAdapter
+
     private var userModel: UserProfile? = null
 
     override fun onStart() {
@@ -148,7 +153,7 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
 
     private fun fillExperiencesInfo(view: View, experiences: HashMap<String, UserExperienceInfo>) {
         mExperiencesRv = view.findViewById(R.id.mExperiencesRv)
-
+        inflateExperienceAdapter(experiences)
     }
 
     private fun fillGeneralInfo(view: View, generalInfo: UserGeneralInfo) {
@@ -162,7 +167,11 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
 
         if (generalInfo.birthdate != null
                 && activity != null) {
-            generalInfoData.appendln(Utils.getFormatedDate(generalInfo.birthdate, getString(R.string.format_date)))
+            generalInfoData.append(Utils.getFormatedDate(generalInfo.birthdate, getString(R.string.format_date_full)))
+            generalInfoData.append(" ◔ ")
+            generalInfoData.append(Utils.calculatePeriod(generalInfo.birthdate, null).years)
+            generalInfoData.append(" ")
+            generalInfoData.appendln(getString(R.string.years))
         }
 
         generalInfoData.appendln("${generalInfo.city} - ${generalInfo.state}")
@@ -186,5 +195,22 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
 
         languagesDescription.deleteCharAt(languagesDescription.lastIndexOf("\n"))
         languageTxt.text = languagesDescription.toString()
+    }
+
+    private fun inflateExperienceAdapter(experiences: HashMap<String, UserExperienceInfo>) {
+        if (experiences.isEmpty()
+                || activity == null) {
+            return
+        }
+
+        val experiencesAsList = experiences.values.sortedByDescending { it.startDate }
+        mExperienceAdapter = ExperienceSimpleAdapter(experiencesAsList, activity!!)
+
+        val mLayoutManager = LinearLayoutManager(context)
+        mExperiencesRv.layoutManager = mLayoutManager
+        mExperiencesRv.itemAnimator = DefaultItemAnimator()
+        mExperiencesRv.adapter = mExperienceAdapter
+
+        mExperienceAdapter.notifyDataSetChanged()
     }
 }

@@ -18,7 +18,7 @@ import android.view.View
 class EditLanguagesInfoActivity : EditProfileActivity() {
     override var layoutId: Int = R.id.mLanguageInfoLayout
     private var languages = mutableListOf<UserLanguageInfo>()
-    private lateinit var recyclerViewLanguages: RecyclerView
+    private lateinit var mLanguagesRv: RecyclerView
     private lateinit var mLanguageAdapter: LanguageAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,7 +74,7 @@ class EditLanguagesInfoActivity : EditProfileActivity() {
     }
 
     private fun inflateLanguageAdapter(languages: List<UserLanguageInfo>) {
-        recyclerViewLanguages = findViewById(R.id.mLanguagesRv)
+        mLanguagesRv = findViewById(R.id.mLanguagesRv)
         mLanguageAdapter = LanguageAdapter(languages, object : LanguageAdapter.LanguageAdapterListener {
             override fun iconImageViewOnClick(v: View, position: Int) {
                 val i = Intent(baseContext,  AddEditLanguageInfoActivity:: class.java)
@@ -87,9 +87,9 @@ class EditLanguagesInfoActivity : EditProfileActivity() {
         }, this)
 
         val mLayoutManager = LinearLayoutManager(applicationContext)
-        recyclerViewLanguages.layoutManager = mLayoutManager
-        recyclerViewLanguages.itemAnimator = DefaultItemAnimator()
-        recyclerViewLanguages.adapter = mLanguageAdapter
+        mLanguagesRv.layoutManager = mLayoutManager
+        mLanguagesRv.itemAnimator = DefaultItemAnimator()
+        mLanguagesRv.adapter = mLanguageAdapter
 
         mLanguageAdapter.notifyDataSetChanged()
     }

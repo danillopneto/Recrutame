@@ -73,7 +73,8 @@
     <string name="name">Nome</string>
     <string name="lastname">Sobrenome</string>
     <string name="birthdate">Data de nascimento</string>
-    <string name="format_date">dd/MM/yyyy</string>
+    <string name="format_date_full">dd/MM/yyyy</string>
+    <string name="format_date_no_day">MM/yyyy</string>
     <string name="uf">UF</string>
     <string name="city">Cidade</string>
     <string name="update_general_info_error">Erro ao atualizar os dados gerais.</string>
@@ -110,6 +111,9 @@
     <string name="birthdate_required">Informe a data de nascimento</string>
     <string name="state_required">Informe o estado</string>
     <string name="city_required">Informe a cidade</string>
+    <string name="present">Atualmente</string>
+    <string name="years">anos</string>
+    <string name="months">meses</string>
     <string-array name="nivel">
         <item>Profissional</item>
         <item>Superior</item>

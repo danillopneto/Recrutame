@@ -34,7 +34,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/labelDefaultColor"
                     tools:text="Nível básico"
-                    android:textSize="11sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
             <View
                 android:layout_width="0dp"

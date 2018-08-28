@@ -21,7 +21,6 @@ import ufg.go.br.recrutame.api.service.IBGEService
 import ufg.go.br.recrutame.api.service.ServiceGenerator
 import ufg.go.br.recrutame.util.IBGE_BASE_URL
 import android.widget.AdapterView
-import java.text.Collator
 
 class EditGeneralInfoActivity : EditProfileActivity(), View.OnClickListener, DatePickerDialog.OnDateSetListener {
     override var layoutId: Int = R.id .mGeneralInfoLayout
@@ -48,7 +47,7 @@ class EditGeneralInfoActivity : EditProfileActivity(), View.OnClickListener, Dat
     }
 
     override fun onDateSet(view: DatePicker, year: Int, monthOfYear: Int, dayOfMonth: Int) {
-        mBirthdateTxt.setText(Utils.getFormatedDate(year, monthOfYear + 1, dayOfMonth, getString(R.string.format_date)))
+        mBirthdateTxt.setText(Utils.getFormatedDate(year, monthOfYear + 1, dayOfMonth, getString(R.string.format_date_full)))
     }
 
     override fun saveInfo() {
@@ -108,7 +107,7 @@ class EditGeneralInfoActivity : EditProfileActivity(), View.OnClickListener, Dat
         mBirthdateTxt.setOnClickListener(this)
         val birthDate = intent.getIntExtra("userBirthdate", 0)
         if (birthDate > 0) {
-            mBirthdateTxt.setText(Utils.getFormatedDate(birthDate, getString(R.string.format_date)))
+            mBirthdateTxt.setText(Utils.getFormatedDate(birthDate, getString(R.string.format_date_full)))
         }
 
         mGenderSpinner = findViewById(R.id.mGenderSpinner)

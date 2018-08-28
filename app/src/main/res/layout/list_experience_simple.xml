@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:descendantFocusability="blocksDescendants"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp">
+        <TextView
+            android:id="@+id/mExperienceTitleTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/labelDefaultColor"
+            tools:text="Developer"
+            android:textStyle="bold"
+            android:textSize="14sp" />
+        <TextView
+            android:id="@+id/mCompanyTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/labelDefaultColor"
+            tools:text="Google"
+            android:textSize="12sp" />
+        <TextView
+            android:id="@+id/mPeriodTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/labelDefaultColor"
+            tools:text="Fevereiro 2013 - Atualmente"
+            android:textSize="12sp" />
+</LinearLayout>
