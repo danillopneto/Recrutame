@@ -114,6 +114,16 @@
     <string name="present">Atualmente</string>
     <string name="years">anos</string>
     <string name="months">meses</string>
+    <string name="remove_experience">Remover experiência</string>
+    <string name="position">Cargo</string>
+    <string name="company">Empresa</string>
+    <string name="start">Início</string>
+    <string name="end">Término</string>
+    <string name="currently_working">Trabalho aqui atualmente</string>
+    <string name="add_experience">Adicionar Experiência</string>
+    <string name="edit_experience">Editar Experiência</string>
+    <string name="remove_experience_error">Erro ao remover experiência</string>
+    <string name="really_remove_experience">Deseja realmente remover a experiência?</string>
     <string-array name="nivel">
         <item>Profissional</item>
         <item>Superior</item>

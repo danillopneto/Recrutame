@@ -15,14 +15,14 @@
             android:textStyle="bold"
             android:textSize="14sp" />
         <TextView
-            android:id="@+id/mCompanyTxt"
+            android:id="@+id/mExperienceCompanyTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/labelDefaultColor"
             tools:text="Google"
-            android:textSize="12sp" />
+            android:textSize="13sp" />
         <TextView
-            android:id="@+id/mPeriodTxt"
+            android:id="@+id/mExperiencePeriodTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/labelDefaultColor"

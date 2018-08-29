@@ -13,13 +13,13 @@
         android:value="GoogleMap Key" />
 
     <application
+        android:name=".RecrutameApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:name="ufg.go.br.recrutame.RecrutameApp">
+        android:theme="@style/AppTheme">
         <activity
             android:name=".SplashScreenActivity"
             android:theme="@style/LoginAppTheme">
@@ -49,7 +49,9 @@
         <activity android:name=".activity.profile.EditGeneralInfoActivity" />
         <activity android:name=".activity.profile.EditContactInfoActivity" />
         <activity android:name=".activity.profile.EditLanguagesInfoActivity" />
-        <activity android:name=".activity.profile.AddEditLanguageInfoActivity"></activity>
+        <activity android:name=".activity.profile.AddEditLanguageInfoActivity" />
+        <activity android:name=".activity.profile.EditExperiencesInfoActivity" />
+        <activity android:name=".activity.profile.AddEditExperienceInfoActivity"></activity>
     </application>
 
 </manifest>

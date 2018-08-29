@@ -30,7 +30,7 @@ class EditLanguagesInfoActivity : EditProfileActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> { finish(); return true; }
-            R.id.mMenuAddProfile -> saveInfo()
+            R.id.mMenuAddItem -> saveInfo()
         }
 
         return super.onOptionsItemSelected(item)

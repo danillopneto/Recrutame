@@ -25,8 +25,9 @@ import org.jetbrains.annotations.NotNull
 import ufg.go.br.recrutame.activity.profile.EditContactInfoActivity
 import ufg.go.br.recrutame.activity.profile.EditGeneralInfoActivity
 import ufg.go.br.recrutame.R
+import ufg.go.br.recrutame.activity.profile.EditExperiencesInfoActivity
 import ufg.go.br.recrutame.activity.profile.EditLanguagesInfoActivity
-import ufg.go.br.recrutame.adapter.ExperienceSimpleAdapter
+import ufg.go.br.recrutame.adapter.ExperienceAdapter
 import ufg.go.br.recrutame.util.TAG
 import ufg.go.br.recrutame.util.Utils
 import ufg.go.br.recrutame.model.*
@@ -35,7 +36,7 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
     private lateinit var database: FirebaseDatabase
     private lateinit var mProfileImage: CircleImageView
     private lateinit var mExperiencesRv: RecyclerView
-    private lateinit var mExperienceAdapter: ExperienceSimpleAdapter
+    private lateinit var mExperienceAdapter: ExperienceAdapter
 
     private var userModel: UserProfile? = null
 
@@ -86,6 +87,7 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
         view.findViewById<FloatingActionButton>(R.id.mChangePictureBtn).setOnClickListener(this)
         view.findViewById<ImageButton>(R.id.mEditGeneralInfoBtn).setOnClickListener(this)
         view.findViewById<ImageButton>(R.id.mEditContactInfoBtn).setOnClickListener(this)
+        view.findViewById<ImageButton>(R.id.mEditExperincesInfoBtn).setOnClickListener(this)
         view.findViewById<ImageButton>(R.id.mEditLanguaguesInfoBtn).setOnClickListener(this)
 
         mStorageRef.child(getUserPhotoUrl()).downloadUrl.addOnSuccessListener { task ->
@@ -115,7 +117,9 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
     }
 
     private fun editExperiencesInfo() {
-
+        val i = Intent(context, EditExperiencesInfoActivity:: class.java)
+        i.putExtra("userId", mAuth.currentUser?.uid)
+        startActivity(i)
     }
 
     private fun editGeneralInfo() {
@@ -204,7 +208,7 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
         }
 
         val experiencesAsList = experiences.values.sortedByDescending { it.startDate }
-        mExperienceAdapter = ExperienceSimpleAdapter(experiencesAsList, activity!!)
+        mExperienceAdapter = ExperienceAdapter(experiencesAsList, activity!!, false, null)
 
         val mLayoutManager = LinearLayoutManager(context)
         mExperiencesRv.layoutManager = mLayoutManager
