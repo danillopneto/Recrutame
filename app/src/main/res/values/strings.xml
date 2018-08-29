@@ -106,11 +106,11 @@
     <string name="get_states_failed">Falha ao obter estados</string>
     <string name="get_cities_failed">Erro ao obter cidades</string>
     <string name="experience">Experiência</string>
-    <string name="name_required">Informe o nome</string>
-    <string name="lastname_required">Informe o sobrenome</string>
-    <string name="birthdate_required">Informe a data de nascimento</string>
-    <string name="state_required">Informe o estado</string>
-    <string name="city_required">Informe a cidade</string>
+    <string name="name_required">Informe o Nome</string>
+    <string name="lastname_required">Informe o Sobrenome</string>
+    <string name="birthdate_required">Informe a Data de nascimento</string>
+    <string name="state_required">Informe o Estado</string>
+    <string name="city_required">Informe a Cidade</string>
     <string name="present">Atualmente</string>
     <string name="years">anos</string>
     <string name="months">meses</string>
@@ -124,6 +124,10 @@
     <string name="edit_experience">Editar Experiência</string>
     <string name="remove_experience_error">Erro ao remover experiência</string>
     <string name="really_remove_experience">Deseja realmente remover a experiência?</string>
+    <string name="experience_title_required">Informe o Cargo</string>
+    <string name="experience_company_required">Informe a Empresa</string>
+    <string name="experience_start_required">Informe o Início</string>
+    <string name="experience_end_required">Informe o Término</string>
     <string-array name="nivel">
         <item>Profissional</item>
         <item>Superior</item>

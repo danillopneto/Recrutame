@@ -61,6 +61,10 @@ class AddEditExperienceInfoActivity : EditProfileActivity(), View.OnClickListene
     }
 
     override fun saveInfo() {
+        if (!validateForm()) {
+            return
+        }
+
         if (experienceKey.isEmpty()) {
             val newExperience = infoReference.push()
             val data = UserExperienceInfo(
@@ -165,5 +169,24 @@ class AddEditExperienceInfoActivity : EditProfileActivity(), View.OnClickListene
         }.addOnFailureListener {
             showError(R.string.remove_experience_error)
         }
+    }
+
+    private fun validateForm(): Boolean {
+        if (Utils.isNullOrWhiteSpace(mExperienceTitleTxt.text.toString())) {
+            showError(R.string.experience_title_required)
+            return false
+        } else if (Utils.isNullOrWhiteSpace(mExperienceCompanyTxt.text.toString())) {
+            showError(R.string.experience_company_required)
+            return false
+        } else if (Utils.isNullOrWhiteSpace(mStartDateTxt.text.toString())) {
+            showError(R.string.experience_start_required)
+            return false
+        } else if (!mCurrentWorkChk.isChecked
+            && Utils.isNullOrWhiteSpace(mEndDateTxt.text.toString())) {
+            showError(R.string.experience_end_required)
+            return false
+        }
+
+        return true
     }
 }
