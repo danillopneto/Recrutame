@@ -121,7 +121,7 @@ class JobFragment : BaseFragment(){
 
                             boundingCoordinates = geoLocation.boundingCoordinates(getMyPreferences().getMaximumDistance().toDouble(), 6371.01)
 
-                            val data = HashMap<String, kotlin.Any>() //Criar o parametro data
+                            val data = HashMap<String, kotlin.Any>()
                             data.put("minLatitude", boundingCoordinates[0].latitudeInDegrees)
                             data.put("maxLatitude", boundingCoordinates[1].latitudeInDegrees)
                             data.put("minLongitude", boundingCoordinates[0].longitudeInDegrees)
@@ -129,7 +129,7 @@ class JobFragment : BaseFragment(){
                             data.put("userId", mAuth.currentUser?.uid.orEmpty())
 
                             mFunctions
-                                    .getHttpsCallable("vagasNaoCandidatadas")
+                                    .getHttpsCallable("getJobOffers")
                                     .call(data)
                                     .continueWith(object:Continuation<HttpsCallableResult, String> {
                                         @Throws(Exception::class)
@@ -145,11 +145,7 @@ class JobFragment : BaseFragment(){
                                             if (!task.isSuccessful()) {
                                                 var e = task.getException();
                                                 if (e is FirebaseFunctionsException) {
-                                                    var ffe = e as FirebaseFunctionsException;
-                                                    var code = ffe.getCode();
-                                                    var details = ffe.getDetails();
-                                                    var details2 = ffe.getDetails();
-                                                }
+                                                                     }
                                             } else{
                                                 if(task.result != null){
                                                     var job = Gson().fromJson<List<JobModel>>(task.result, object : TypeToken<List<JobModel>>() {
@@ -163,29 +159,6 @@ class JobFragment : BaseFragment(){
                                             }
                                         }
                                     });
-
-
-                            /*database.getReference("vagas")
-                                    .orderByChild("latitude")
-                                    .startAt(boundingCoordinates[0].latitudeInDegrees)
-                                    .endAt(boundingCoordinates[1].latitudeInDegrees)
-                                    .addValueEventListener( object: ValueEventListener{
-                                        override fun onDataChange(dataSnapshot: DataSnapshot?) {
-
-                                            for (postSnapshot in dataSnapshot!!.children) {
-                                                val jobModel:JobModel? = postSnapshot.getValue(JobModel::class.java)
-                                                if (boundingCoordinates[1].longitudeInDegrees >= jobModel!!.longitude
-                                                        && boundingCoordinates[0].longitudeInDegrees <= jobModel!!.longitude) {
-                                                    //jobModel?.id = postSnapshot.key
-                                                    mSwipeView.addView(JobCard(context!!, jobModel, mSwipeView))
-                                                }
-                                            }
-                                        }
-                                        override fun onCancelled(databaseError: DatabaseError?) {
-                                            Log.d(TAG, "" + databaseError)
-                                        }
-                                    })*/
-
                         }
                     }
         }
@@ -195,6 +168,7 @@ class JobFragment : BaseFragment(){
         val shake = AnimationUtils.loadAnimation(context, R.anim.shake)
         acceptBtn.startAnimation(shake)
         mSwipeView.doSwipe(true)
+        database.getReference("vagas")
     }
 
     private fun rejectJob() {
