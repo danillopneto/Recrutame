@@ -173,18 +173,23 @@ class AddEditExperienceInfoActivity : EditProfileActivity(), View.OnClickListene
     }
 
     private fun validateForm(): Boolean {
+        clearError(mExperienceTitleTxt)
+        clearError(mExperienceCompanyTxt)
+        clearError(mStartDateTxt)
+        clearError(mEndDateTxt)
+        
         if (Utils.isNullOrWhiteSpace(mExperienceTitleTxt.text.toString())) {
-            showError(R.string.experience_title_required)
+            showError(mExperienceTitleTxt, R.string.experience_title_required)
             return false
         } else if (Utils.isNullOrWhiteSpace(mExperienceCompanyTxt.text.toString())) {
-            showError(R.string.experience_company_required)
+            showError(mExperienceCompanyTxt, R.string.experience_company_required)
             return false
         } else if (Utils.isNullOrWhiteSpace(mStartDateTxt.text.toString())) {
-            showError(R.string.experience_start_required)
+            showError(mStartDateTxt, R.string.experience_start_required)
             return false
         } else if (!mCurrentWorkChk.isChecked
             && Utils.isNullOrWhiteSpace(mEndDateTxt.text.toString())) {
-            showError(R.string.experience_end_required)
+            showError(mEndDateTxt, R.string.experience_end_required)
             return false
         }
 
