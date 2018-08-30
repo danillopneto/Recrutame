@@ -12,9 +12,10 @@ import android.widget.TextView
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import ufg.go.br.recrutame.R
+import ufg.go.br.recrutame.activity.BaseActivity
 import ufg.go.br.recrutame.util.CustomProgressBar
 
-abstract class EditProfileActivity : AppCompatActivity() {
+abstract class EditProfileActivity : BaseActivity() {
     protected lateinit var userId: String
     protected lateinit var mDatabase: DatabaseReference
     abstract var layoutId: Int

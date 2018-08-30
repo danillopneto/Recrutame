@@ -47,7 +47,7 @@ class AddEditExperienceInfoActivity : EditProfileActivity(), View.OnClickListene
 
     override fun onDateSet(view: DatePicker, year: Int, monthOfYear: Int, dayOfMonth: Int) {
         if (dateEdited != null) {
-            val formatedDate = Utils.getFormatedDate(year, monthOfYear + 1, dayOfMonth, getString(R.string.format_date_full))
+            val formatedDate = Utils.getFormatedDate(year, monthOfYear + 1, dayOfMonth, getString(R.string.format_date_no_day))
             findViewById<EditText>(dateEdited!!).setText(formatedDate)
         }
     }
@@ -61,6 +61,7 @@ class AddEditExperienceInfoActivity : EditProfileActivity(), View.OnClickListene
     }
 
     override fun saveInfo() {
+        hideKeyboard()
         if (!validateForm()) {
             return
         }
@@ -71,8 +72,8 @@ class AddEditExperienceInfoActivity : EditProfileActivity(), View.OnClickListene
                                           newExperience.key,
                                           mExperienceTitleTxt.text.toString(),
                                           mExperienceCompanyTxt.text.toString(),
-                                          Utils.getFullDate(mStartDateTxt.text.toString()),
-                                          Utils.getFullDate(mEndDateTxt.text.toString()))
+                                          Utils.getFullDateFromMonthYear(mStartDateTxt.text.toString()),
+                                          Utils.getFullDateFromMonthYear(mEndDateTxt.text.toString()))
             newExperience.setValue(data).addOnCompleteListener {
                 finish()
             }.addOnFailureListener {
@@ -83,8 +84,8 @@ class AddEditExperienceInfoActivity : EditProfileActivity(), View.OnClickListene
                                           experienceKey,
                                           mExperienceTitleTxt.text.toString(),
                                           mExperienceCompanyTxt.text.toString(),
-                                          Utils.getFullDate(mStartDateTxt.text.toString()),
-                                          Utils.getFullDate(mEndDateTxt.text.toString()))
+                                          Utils.getFullDateFromMonthYear(mStartDateTxt.text.toString()),
+                                          Utils.getFullDateFromMonthYear(mEndDateTxt.text.toString()))
             infoReference.child(experienceKey).setValue(data).addOnCompleteListener {
                 finish()
             }.addOnFailureListener {
@@ -110,8 +111,7 @@ class AddEditExperienceInfoActivity : EditProfileActivity(), View.OnClickListene
         var year = calendar.get(Calendar.YEAR)
 
         if (!input.text.isEmpty()) {
-            val fullDate = Utils.getFullDate(input.text.toString())
-            dayOfMonth = Utils.getDayOfMonth(fullDate.toString()).toInt()
+            val fullDate = Utils.getFullDateFromMonthYear(input.text.toString())
             month = Utils.getMonth(fullDate.toString()).toInt() - 1
             year = Utils.getYear(fullDate.toString()).toInt()
         }
@@ -120,7 +120,8 @@ class AddEditExperienceInfoActivity : EditProfileActivity(), View.OnClickListene
                 .context(this)
                 .callback(this)
                 .spinnerTheme(R.style.DatePickerSpinner)
-                .defaultDate(year, month, dayOfMonth)
+                .showDaySpinner(false)
+                .defaultDate(year, month, 1)
                 .build()
                 .show()
     }
@@ -145,12 +146,12 @@ class AddEditExperienceInfoActivity : EditProfileActivity(), View.OnClickListene
             mExperienceCompanyTxt.setText(intent.getStringExtra("experienceCompany"))
             val startDate = intent.getIntExtra("experienceStartDate", 0)
             if (startDate > 0) {
-                mStartDateTxt.setText(Utils.getFormatedDate(startDate, getString(R.string.format_date_full)))
+                mStartDateTxt.setText(Utils.getFormatedDate(startDate, getString(R.string.format_date_no_day)))
             }
 
             val endDate = intent.getIntExtra("experienceEndDate", 0)
             if (endDate > 0) {
-                mEndDateTxt.setText(Utils.getFormatedDate(endDate, getString(R.string.format_date_full)))
+                mEndDateTxt.setText(Utils.getFormatedDate(endDate, getString(R.string.format_date_no_day)))
             } else {
                 mCurrentWorkChk.isChecked = true
             }

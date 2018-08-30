@@ -1,4 +1,4 @@
-package ufg.go.br.recrutame.api.model
+package ufg.go.br.recrutame.model.api
 
 import com.google.gson.annotations.SerializedName
 

@@ -1,4 +1,4 @@
-package ufg.go.br.recrutame.api.service
+package ufg.go.br.recrutame.service
 
 import retrofit2.Call
 import retrofit2.http.*
@@ -6,8 +6,8 @@ import ufg.go.br.recrutame.util.CLIENT_ID
 import ufg.go.br.recrutame.util.GRANT_TYPE
 import ufg.go.br.recrutame.util.REDIRECT_URI
 import ufg.go.br.recrutame.util.CLIENT_SECRET
-import ufg.go.br.recrutame.api.model.LIAccessToken
-import ufg.go.br.recrutame.api.model.LIProfileInfo
+import ufg.go.br.recrutame.model.api.LIAccessToken
+import ufg.go.br.recrutame.model.api.LIProfileInfo
 
 interface LIService {
     @FormUrlEncoded

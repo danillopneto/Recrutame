@@ -81,11 +81,11 @@ class EditExperiencesInfoActivity : EditProfileActivity() {
             override fun iconImageViewOnClick(v: View, position: Int) {
                 val i = Intent(baseContext,  AddEditExperienceInfoActivity:: class.java)
                 i.putExtra("userId", userId)
-                i.putExtra("experienceKey", experiences[position].key)
-                i.putExtra("experienceTitle", experiences[position].title)
-                i.putExtra("experienceCompany", experiences[position].company)
-                i.putExtra("experienceStartDate", experiences[position].startDate)
-                i.putExtra("experienceEndDate", experiences[position].endDate)
+                i.putExtra("experienceKey", experiencesOrdered[position].key)
+                i.putExtra("experienceTitle", experiencesOrdered[position].title)
+                i.putExtra("experienceCompany", experiencesOrdered[position].company)
+                i.putExtra("experienceStartDate", experiencesOrdered[position].startDate)
+                i.putExtra("experienceEndDate", experiencesOrdered[position].endDate)
                 startActivity(i)
             }
         })

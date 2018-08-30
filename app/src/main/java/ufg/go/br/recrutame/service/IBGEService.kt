@@ -1,9 +1,9 @@
-package ufg.go.br.recrutame.api.service
+package ufg.go.br.recrutame.service
 
 import retrofit2.Call
 import retrofit2.http.*
-import ufg.go.br.recrutame.api.model.CityInfo
-import ufg.go.br.recrutame.api.model.UFInfo
+import ufg.go.br.recrutame.model.api.CityInfo
+import ufg.go.br.recrutame.model.api.UFInfo
 
 interface IBGEService {
     @Headers("Content-Type: application/json")

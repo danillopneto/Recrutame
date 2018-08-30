@@ -1,6 +1,7 @@
-package ufg.go.br.recrutame
+package ufg.go.br.recrutame.activity
 
 import android.os.Bundle
+import ufg.go.br.recrutame.R
 
 class SplashScreenActivity : SplashPermissionsActivity() {
 

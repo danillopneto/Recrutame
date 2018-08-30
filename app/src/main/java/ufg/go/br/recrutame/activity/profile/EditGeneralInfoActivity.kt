@@ -15,10 +15,10 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import ufg.go.br.recrutame.R
-import ufg.go.br.recrutame.api.model.CityInfo
-import ufg.go.br.recrutame.api.model.UFInfo
-import ufg.go.br.recrutame.api.service.IBGEService
-import ufg.go.br.recrutame.api.service.ServiceGenerator
+import ufg.go.br.recrutame.model.api.CityInfo
+import ufg.go.br.recrutame.model.api.UFInfo
+import ufg.go.br.recrutame.service.IBGEService
+import ufg.go.br.recrutame.service.ServiceGenerator
 import ufg.go.br.recrutame.util.IBGE_BASE_URL
 import android.widget.AdapterView
 
@@ -51,6 +51,8 @@ class EditGeneralInfoActivity : EditProfileActivity(), View.OnClickListener, Dat
     }
 
     override fun saveInfo() {
+        hideKeyboard()
+
         if (!validateForm()) {
             return
         }

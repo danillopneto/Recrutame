@@ -1,4 +1,4 @@
-package ufg.go.br.recrutame
+package ufg.go.br.recrutame.activity
 
 import android.app.Activity
 import android.content.Intent
@@ -17,7 +17,7 @@ import android.app.AlertDialog
 import android.content.DialogInterface
 import android.net.Uri
 import android.provider.Settings
-import ufg.go.br.recrutame.activity.BaseActivity
+import ufg.go.br.recrutame.R
 import ufg.go.br.recrutame.activity.user.MainActivity
 
 abstract class SplashPermissionsActivity : BaseActivity() {

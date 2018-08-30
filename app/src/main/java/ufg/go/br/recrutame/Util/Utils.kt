@@ -87,6 +87,18 @@ class Utils {
             return fmt.format(calendar.time)
         }
 
+        fun getFullDateFromMonthYear(dateFormated: String): Int? {
+            if (dateFormated.isEmpty()) {
+                return null
+            }
+
+            val fullDateFormated = "01/$dateFormated"
+            val dayOfMonth = fullDateFormated.substring(0, 2)
+            val month = fullDateFormated.substring(3, 5)
+            val year = fullDateFormated.substring(6, 10)
+            return "$year$month$dayOfMonth".toInt()
+        }
+
         fun getFullDate(dateFormated: String): Int? {
             if (dateFormated.isEmpty()) {
                 return null
