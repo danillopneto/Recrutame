@@ -1,4 +1,4 @@
-package ufg.go.br.recrutame.api.service
+package ufg.go.br.recrutame.service
 
 import okhttp3.*
 import retrofit2.Retrofit

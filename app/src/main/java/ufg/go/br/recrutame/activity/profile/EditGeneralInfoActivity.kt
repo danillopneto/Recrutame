@@ -9,23 +9,21 @@ import com.tsongkha.spinnerdatepicker.SpinnerDatePickerDialogBuilder
 import ufg.go.br.recrutame.model.UserGeneralInfo
 import ufg.go.br.recrutame.util.Utils
 import java.util.*
-import android.support.v4.content.ContextCompat
-import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.Toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import ufg.go.br.recrutame.R
-import ufg.go.br.recrutame.api.model.CityInfo
-import ufg.go.br.recrutame.api.model.UFInfo
-import ufg.go.br.recrutame.api.service.IBGEService
-import ufg.go.br.recrutame.api.service.ServiceGenerator
+import ufg.go.br.recrutame.model.api.CityInfo
+import ufg.go.br.recrutame.model.api.UFInfo
+import ufg.go.br.recrutame.service.IBGEService
+import ufg.go.br.recrutame.service.ServiceGenerator
 import ufg.go.br.recrutame.util.IBGE_BASE_URL
 import android.widget.AdapterView
 
 class EditGeneralInfoActivity : EditProfileActivity(), View.OnClickListener, DatePickerDialog.OnDateSetListener {
-    override var layoutId: Int = R.id.mGeneralInfoLayout
+    override var layoutId: Int = R.id .mGeneralInfoLayout
     private lateinit var ibgeService: IBGEService
     private lateinit var mNameTxt: EditText
     private lateinit var mLastNameTxt: EditText
@@ -49,10 +47,16 @@ class EditGeneralInfoActivity : EditProfileActivity(), View.OnClickListener, Dat
     }
 
     override fun onDateSet(view: DatePicker, year: Int, monthOfYear: Int, dayOfMonth: Int) {
-        mBirthdateTxt.setText(Utils.getFormatedDate(year, monthOfYear + 1, dayOfMonth, getString(R.string.format_date)))
+        mBirthdateTxt.setText(Utils.getFormatedDate(year, monthOfYear + 1, dayOfMonth, getString(R.string.format_date_full)))
     }
 
     override fun saveInfo() {
+        hideKeyboard()
+
+        if (!validateForm()) {
+            return
+        }
+
         val generalInfoReference = mDatabase.child("users/$userId/generalInfo")
         val generalInfo = UserGeneralInfo(
                                           mNameTxt.text.toString(),
@@ -105,7 +109,7 @@ class EditGeneralInfoActivity : EditProfileActivity(), View.OnClickListener, Dat
         mBirthdateTxt.setOnClickListener(this)
         val birthDate = intent.getIntExtra("userBirthdate", 0)
         if (birthDate > 0) {
-            mBirthdateTxt.setText(Utils.getFormatedDate(birthDate, getString(R.string.format_date)))
+            mBirthdateTxt.setText(Utils.getFormatedDate(birthDate, getString(R.string.format_date_full)))
         }
 
         mGenderSpinner = findViewById(R.id.mGenderSpinner)
@@ -136,7 +140,8 @@ class EditGeneralInfoActivity : EditProfileActivity(), View.OnClickListener, Dat
 
         val citiesName = mutableListOf<String>()
         cities.forEach { citiesName.add(it.nome) }
-        citiesName.sort()
+
+        Utils.orderList(citiesName)
 
         val city = intent.getStringExtra("userCity")
         setSpinnerConfig(mCitySpinner, citiesName.toTypedArray(), city)
@@ -145,12 +150,15 @@ class EditGeneralInfoActivity : EditProfileActivity(), View.OnClickListener, Dat
     private fun fillStates() {
         val statesName = mutableListOf<String>()
         states.forEach { statesName.add(it.nome) }
-        statesName.sort()
+
+        Utils.orderList(statesName)
 
         val state = intent.getStringExtra("userState")
         setSpinnerConfig(mStateSpinner, statesName.toTypedArray(), state)
         if (mStateSpinner.selectedItem != null) {
             syncCities(getStateData(mStateSpinner.selectedItem.toString()))
+        } else {
+            hideProgressBar()
         }
     }
 
@@ -164,8 +172,10 @@ class EditGeneralInfoActivity : EditProfileActivity(), View.OnClickListener, Dat
             return
         }
 
+        showProgressBar()
         ibgeService.getCities(state.id).enqueue(object : Callback<List<CityInfo>> {
             override fun onResponse(call: Call<List<CityInfo>>, response: Response<List<CityInfo>>) {
+                hideProgressBar()
                 val statusCode = response.code()
                 if (statusCode == 200) {
                     fillCities(response.body())
@@ -176,11 +186,13 @@ class EditGeneralInfoActivity : EditProfileActivity(), View.OnClickListener, Dat
 
             override fun onFailure(call: Call<List<CityInfo>>, t: Throwable) {
                 Toast.makeText(applicationContext, getString(R.string.get_cities_failed), Toast.LENGTH_SHORT).show()
+                hideProgressBar()
             }
         })
     }
 
     private fun syncStates() {
+        showProgressBar()
         ibgeService.getUFs().enqueue(object : Callback<List<UFInfo>> {
             override fun onResponse(call: Call<List<UFInfo>>, response: Response<List<UFInfo>>) {
                 val statusCode = response.code()
@@ -194,7 +206,31 @@ class EditGeneralInfoActivity : EditProfileActivity(), View.OnClickListener, Dat
 
             override fun onFailure(call: Call<List<UFInfo>>, t: Throwable) {
                 Toast.makeText(applicationContext, getString(R.string.get_states_failed), Toast.LENGTH_SHORT).show()
+                hideProgressBar()
             }
         })
+    }
+
+    private fun validateForm(): Boolean {
+        if (Utils.isNullOrWhiteSpace(mNameTxt.text.toString())) {
+            showError(R.string.name_required)
+            return false
+        } else if (Utils.isNullOrWhiteSpace(mLastNameTxt.text.toString())) {
+            showError(R.string.lastname_required)
+            return false
+        } else if (Utils.isNullOrWhiteSpace(mBirthdateTxt.text.toString())) {
+            showError(R.string.birthdate_required)
+            return false
+        } else if (mStateSpinner.selectedItem == null
+                    || Utils.isNullOrWhiteSpace(mStateSpinner.selectedItem.toString())) {
+            showError(R.string.state_required)
+            return false
+        } else if (mCitySpinner.selectedItem == null
+                    || Utils.isNullOrWhiteSpace(mCitySpinner.selectedItem.toString())) {
+            showError(R.string.city_required)
+            return false
+        }
+
+        return true
     }
 }

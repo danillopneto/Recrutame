@@ -1,4 +1,4 @@
-package ufg.go.br.recrutame.api.model
+package ufg.go.br.recrutame.model.api
 
 class LIProfileInfo {
     var id: String? = null

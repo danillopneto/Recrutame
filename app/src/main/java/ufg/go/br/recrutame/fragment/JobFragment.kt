@@ -8,7 +8,6 @@ import android.os.Handler
 import android.support.annotation.NonNull
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.content.ContextCompat
-import com.mindorks.placeholderview.SwipePlaceHolderView
 import ufg.go.br.recrutame.JobCard
 import ufg.go.br.recrutame.R
 import com.mindorks.placeholderview.SwipeDecor
@@ -27,12 +26,13 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
-import ufg.go.br.recrutame.Util.GeoLocation
 import com.google.firebase.functions.FirebaseFunctions
 import com.google.firebase.functions.FirebaseFunctionsException
 import com.google.firebase.functions.HttpsCallableResult
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.mindorks.placeholderview.SwipePlaceHolderView
+import ufg.go.br.recrutame.util.GeoLocation
 
 class JobFragment : BaseFragment(){
     private lateinit var database:FirebaseDatabase

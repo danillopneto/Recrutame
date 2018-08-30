@@ -36,6 +36,8 @@ class AddEditLanguageInfoActivity : EditProfileActivity(), View.OnClickListener 
     }
 
     override fun saveInfo() {
+        hideKeyboard()
+
         if (languageKey.isEmpty()) {
             val newLanguage = infoReference.push()
             val generalInfo = UserLanguageInfo(

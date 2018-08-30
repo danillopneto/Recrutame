@@ -1,4 +1,4 @@
-package ufg.go.br.recrutame.api.activities
+package ufg.go.br.recrutame.activity.api
 
 import android.os.Bundle
 import android.util.Log
@@ -14,10 +14,10 @@ import retrofit2.Callback
 import retrofit2.Response
 import ufg.go.br.recrutame.*
 import ufg.go.br.recrutame.activity.user.LoginActivity
-import ufg.go.br.recrutame.api.model.LIAccessToken
-import ufg.go.br.recrutame.api.model.LIProfileInfo
-import ufg.go.br.recrutame.api.service.LIService
-import ufg.go.br.recrutame.api.service.ServiceGenerator
+import ufg.go.br.recrutame.model.api.LIAccessToken
+import ufg.go.br.recrutame.model.api.LIProfileInfo
+import ufg.go.br.recrutame.service.LIService
+import ufg.go.br.recrutame.service.ServiceGenerator
 import ufg.go.br.recrutame.util.*
 
 class LILoginActivity : LoginActivity() {

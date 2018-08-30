@@ -73,7 +73,8 @@
     <string name="name">Nome</string>
     <string name="lastname">Sobrenome</string>
     <string name="birthdate">Data de nascimento</string>
-    <string name="format_date">dd/MM/yyyy</string>
+    <string name="format_date_full">dd/MM/yyyy</string>
+    <string name="format_date_no_day">MM/yyyy</string>
     <string name="uf">UF</string>
     <string name="city">Cidade</string>
     <string name="update_general_info_error">Erro ao atualizar os dados gerais.</string>
@@ -105,6 +106,28 @@
     <string name="get_states_failed">Falha ao obter estados</string>
     <string name="get_cities_failed">Erro ao obter cidades</string>
     <string name="experience">Experiência</string>
+    <string name="name_required">Informe o Nome</string>
+    <string name="lastname_required">Informe o Sobrenome</string>
+    <string name="birthdate_required">Informe a Data de nascimento</string>
+    <string name="state_required">Informe o Estado</string>
+    <string name="city_required">Informe a Cidade</string>
+    <string name="present">Atualmente</string>
+    <string name="years">anos</string>
+    <string name="months">meses</string>
+    <string name="remove_experience">Remover experiência</string>
+    <string name="position">Cargo</string>
+    <string name="company">Empresa</string>
+    <string name="start">Início</string>
+    <string name="end">Término</string>
+    <string name="currently_working">Trabalho aqui atualmente</string>
+    <string name="add_experience">Adicionar Experiência</string>
+    <string name="edit_experience">Editar Experiência</string>
+    <string name="remove_experience_error">Erro ao remover experiência</string>
+    <string name="really_remove_experience">Deseja realmente remover a experiência?</string>
+    <string name="experience_title_required">Informe o Cargo</string>
+    <string name="experience_company_required">Informe a Empresa</string>
+    <string name="experience_start_required">Informe o Início</string>
+    <string name="experience_end_required">Informe o Término</string>
     <string-array name="nivel">
         <item>Profissional</item>
         <item>Superior</item>

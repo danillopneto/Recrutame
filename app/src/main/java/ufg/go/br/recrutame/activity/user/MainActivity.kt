@@ -5,8 +5,8 @@ import android.os.Bundle
 import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
 import ufg.go.br.recrutame.R
-import ufg.go.br.recrutame.TabActivity
-import ufg.go.br.recrutame.api.activities.LILoginActivity
+import ufg.go.br.recrutame.activity.TabActivity
+import ufg.go.br.recrutame.activity.api.LILoginActivity
 
 class MainActivity : LoginActivity(), View.OnClickListener {
 
@@ -37,7 +37,7 @@ class MainActivity : LoginActivity(), View.OnClickListener {
     }
 
     private fun handleLinkedInLogin() {
-        startActivity(Intent(this, LILoginActivity :: class.java))
+        startActivity(Intent(this, LILoginActivity:: class.java))
     }
 
     private fun handleRegister() {

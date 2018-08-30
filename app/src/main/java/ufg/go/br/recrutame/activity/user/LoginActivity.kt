@@ -1,13 +1,10 @@
 package ufg.go.br.recrutame.activity.user
 
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
-import android.view.inputmethod.InputMethodManager
 import android.widget.ProgressBar
 import android.widget.Toast
 import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
@@ -17,15 +14,14 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import net.orange_box.storebox.StoreBox
 import ufg.go.br.recrutame.R
-import ufg.go.br.recrutame.TabActivity
+import ufg.go.br.recrutame.activity.TabActivity
+import ufg.go.br.recrutame.activity.BaseActivity
 import ufg.go.br.recrutame.util.Utils
-import ufg.go.br.recrutame.api.model.LIProfileInfo
-import ufg.go.br.recrutame.model.MyPreferences
+import ufg.go.br.recrutame.model.api.LIProfileInfo
 import ufg.go.br.recrutame.model.UserContactInfo
 
-abstract class LoginActivity : AppCompatActivity() {
+abstract class LoginActivity : BaseActivity() {
     lateinit var liProfileInfo: LIProfileInfo
     lateinit var mAuth: FirebaseAuth
     lateinit var mDatabase: DatabaseReference
@@ -83,14 +79,6 @@ abstract class LoginActivity : AppCompatActivity() {
         }
     }
 
-    fun hideKeyboard() {
-        val view = this.currentFocus
-        if (view != null) {
-            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.hideSoftInputFromWindow(view.windowToken, 0)
-        }
-    }
-
     fun setNewUserData(displayName: String, photoUri: String) {
         profileUpdates.setDisplayName(displayName)
         profileUpdates.setPhotoUri(Uri.parse(photoUri))
@@ -99,10 +87,6 @@ abstract class LoginActivity : AppCompatActivity() {
     fun inicializeApis() {
         mAuth = FirebaseAuth.getInstance()
         mDatabase = FirebaseDatabase.getInstance().reference
-    }
-
-    private fun getMyPreferences(): MyPreferences {
-        return StoreBox.create(applicationContext, MyPreferences::class.java)
     }
 
     private fun hideLoading() {

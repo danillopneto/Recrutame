@@ -1,14 +1,21 @@
 package ufg.go.br.recrutame.util
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.content.res.Resources
 import android.graphics.Point
 import android.util.DisplayMetrics
-import android.view.Display
 import android.os.Build
+import android.view.View
 import android.view.WindowManager
-import ufg.go.br.recrutame.R
+import org.joda.time.LocalDate
+import org.joda.time.Period
+import java.text.Collator
 import java.text.SimpleDateFormat
 import java.util.*
+import org.joda.time.PeriodType
+
+
 
 class Utils {
     companion object {
@@ -80,6 +87,18 @@ class Utils {
             return fmt.format(calendar.time)
         }
 
+        fun getFullDateFromMonthYear(dateFormated: String): Int? {
+            if (dateFormated.isEmpty()) {
+                return null
+            }
+
+            val fullDateFormated = "01/$dateFormated"
+            val dayOfMonth = fullDateFormated.substring(0, 2)
+            val month = fullDateFormated.substring(3, 5)
+            val year = fullDateFormated.substring(6, 10)
+            return "$year$month$dayOfMonth".toInt()
+        }
+
         fun getFullDate(dateFormated: String): Int? {
             if (dateFormated.isEmpty()) {
                 return null
@@ -89,6 +108,29 @@ class Utils {
             val month = dateFormated.substring(3, 5)
             val year = dateFormated.substring(6, 10)
             return "$year$month$dayOfMonth".toInt()
+        }
+
+        fun orderList(list: List<String>) {
+            val usCollator = Collator.getInstance(Locale.getDefault())
+            usCollator.strength = Collator.PRIMARY
+            Collections.sort(list, usCollator)
+        }
+
+        fun calculatePeriod(startFullDate: Int, endFullDate: Int?): Period {
+            val dob = LocalDate(
+                                getYear(startFullDate.toString()).toInt(),
+                                getMonth(startFullDate.toString()).toInt(),
+                                getDayOfMonth(startFullDate.toString()).toInt())
+            var date: LocalDate = if (endFullDate == null) {
+                LocalDate()
+            } else {
+                LocalDate(
+                          getYear(endFullDate.toString()).toInt(),
+                          getMonth(endFullDate.toString()).toInt(),
+                          getDayOfMonth(endFullDate.toString()).toInt())
+            }
+
+            return Period(dob, date, PeriodType.yearMonthDay())
         }
     }
 }

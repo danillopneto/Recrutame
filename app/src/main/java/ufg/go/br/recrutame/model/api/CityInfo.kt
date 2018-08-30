@@ -1,4 +1,4 @@
-package ufg.go.br.recrutame.api.model
+package ufg.go.br.recrutame.model.api
 
 data class CityInfo(val nome: String) {
     constructor() : this("")

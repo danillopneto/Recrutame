@@ -1,4 +1,4 @@
-package ufg.go.br.recrutame
+package ufg.go.br.recrutame.activity
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,7 +9,7 @@ import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
-import ufg.go.br.recrutame.activity.BaseActivity
+import ufg.go.br.recrutame.R
 import ufg.go.br.recrutame.activity.user.MainActivity
 import ufg.go.br.recrutame.enum.EnumShowCase
 import ufg.go.br.recrutame.fragment.ChatFragment
