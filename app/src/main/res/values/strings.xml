@@ -128,6 +128,11 @@
     <string name="experience_company_required">Informe a Empresa</string>
     <string name="experience_start_required">Informe o Início</string>
     <string name="experience_end_required">Informe o Término</string>
+    <string name="language_name_required">Informe o idioma</string>
+    <string name="proficiency_required">Informe a proficiência</string>
+    <string name="email_required">Informe o e-mail</string>
+    <string name="error_invalid_website">O website informado é inválido.</string>
+    <string name="error_invalid_phone">O telefone informado é inválido.</string>
     <string-array name="nivel">
         <item>Profissional</item>
         <item>Superior</item>

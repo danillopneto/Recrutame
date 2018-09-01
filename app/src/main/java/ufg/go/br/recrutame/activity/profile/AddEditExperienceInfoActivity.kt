@@ -1,6 +1,7 @@
 package ufg.go.br.recrutame.activity.profile
 
 import android.os.Bundle
+import android.support.design.widget.TextInputLayout
 import android.view.View
 import android.widget.Button
 import android.widget.CheckBox
@@ -21,6 +22,7 @@ class AddEditExperienceInfoActivity : EditProfileActivity(), View.OnClickListene
     private lateinit var mExperienceTitleTxt: EditText
     private lateinit var mExperienceCompanyTxt: EditText
     private lateinit var mStartDateTxt: EditText
+    private lateinit var mEndDateContainer: TextInputLayout
     private lateinit var mEndDateTxt: EditText
     private lateinit var mCurrentWorkChk: CheckBox
     private lateinit var mRemoveExperienceBtn: Button
@@ -97,16 +99,15 @@ class AddEditExperienceInfoActivity : EditProfileActivity(), View.OnClickListene
     private fun handleCurrentWork() {
         if (mCurrentWorkChk.isChecked) {
             mEndDateTxt.text.clear()
-            mEndDateTxt.visibility = View.GONE
+            mEndDateContainer.visibility = View.GONE
         } else {
-            mEndDateTxt.visibility = View.VISIBLE
+            mEndDateContainer.visibility = View.VISIBLE
         }
     }
 
     private fun handleDatePicker(input: EditText) {
         dateEdited = input.id
         val calendar = Calendar.getInstance()
-        var dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
         var month = calendar.get(Calendar.MONTH)
         var year = calendar.get(Calendar.YEAR)
 
@@ -135,6 +136,7 @@ class AddEditExperienceInfoActivity : EditProfileActivity(), View.OnClickListene
         mStartDateTxt = findViewById(R.id.mStartDateTxt)
         mStartDateTxt.setOnClickListener(this)
 
+        mEndDateContainer = findViewById(R.id.mEndDateContainer)
         mEndDateTxt = findViewById(R.id.mEndDateTxt)
         mEndDateTxt.setOnClickListener(this)
 
@@ -177,22 +179,30 @@ class AddEditExperienceInfoActivity : EditProfileActivity(), View.OnClickListene
         clearError(mExperienceCompanyTxt)
         clearError(mStartDateTxt)
         clearError(mEndDateTxt)
-        
+
+        var isValid = true
+
         if (Utils.isNullOrWhiteSpace(mExperienceTitleTxt.text.toString())) {
             showError(mExperienceTitleTxt, R.string.experience_title_required)
-            return false
-        } else if (Utils.isNullOrWhiteSpace(mExperienceCompanyTxt.text.toString())) {
-            showError(mExperienceCompanyTxt, R.string.experience_company_required)
-            return false
-        } else if (Utils.isNullOrWhiteSpace(mStartDateTxt.text.toString())) {
-            showError(mStartDateTxt, R.string.experience_start_required)
-            return false
-        } else if (!mCurrentWorkChk.isChecked
-            && Utils.isNullOrWhiteSpace(mEndDateTxt.text.toString())) {
-            showError(mEndDateTxt, R.string.experience_end_required)
-            return false
+            isValid = false
         }
 
-        return true
+        if (Utils.isNullOrWhiteSpace(mExperienceCompanyTxt.text.toString())) {
+            showError(mExperienceCompanyTxt, R.string.experience_company_required)
+            isValid = false
+        }
+
+        if (Utils.isNullOrWhiteSpace(mStartDateTxt.text.toString())) {
+            showError(mStartDateTxt, R.string.experience_start_required)
+            isValid = false
+        }
+
+        if (!mCurrentWorkChk.isChecked
+            && Utils.isNullOrWhiteSpace(mEndDateTxt.text.toString())) {
+            showError(mEndDateTxt, R.string.experience_end_required)
+            isValid = false
+        }
+
+        return isValid
     }
 }

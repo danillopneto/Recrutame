@@ -107,8 +107,6 @@ abstract class EditProfileActivity : BaseActivity() {
         } else {
             editText.error = getString(errorMessage)
         }
-
-        editText.requestFocus()
     }
 
     protected fun showError(errorMessage: Int) {

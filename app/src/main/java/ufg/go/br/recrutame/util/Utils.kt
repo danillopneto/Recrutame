@@ -1,12 +1,9 @@
 package ufg.go.br.recrutame.util
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
 import android.content.res.Resources
 import android.graphics.Point
 import android.util.DisplayMetrics
 import android.os.Build
-import android.view.View
 import android.view.WindowManager
 import org.joda.time.LocalDate
 import org.joda.time.Period
@@ -14,6 +11,10 @@ import java.text.Collator
 import java.text.SimpleDateFormat
 import java.util.*
 import org.joda.time.PeriodType
+import android.util.Patterns
+import android.text.TextUtils
+
+
 
 
 
@@ -131,6 +132,14 @@ class Utils {
             }
 
             return Period(dob, date, PeriodType.yearMonthDay())
+        }
+
+        fun isValidEmail(email: CharSequence): Boolean {
+            return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches()
+        }
+
+        fun isValidUri(uri: CharSequence): Boolean {
+            return !TextUtils.isEmpty(uri) && Patterns.WEB_URL.matcher(uri).matches()
         }
     }
 }
