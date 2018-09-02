@@ -14,16 +14,18 @@ import ufg.go.br.recrutame.model.UserLanguageInfo
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
+import ufg.go.br.recrutame.adapter.ProfileInfoAdapter
 
 class EditLanguagesInfoActivity : EditProfileActivity() {
-    override var layoutId: Int = R.id.mLanguageInfoLayout
+    override var layoutId: Int = R.id.mProfileInfoLayout
+
     private var languages = mutableListOf<UserLanguageInfo>()
     private lateinit var mLanguagesRv: RecyclerView
     private lateinit var mLanguageAdapter: LanguageAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_edit_languages_info)
+        setContentView(R.layout.activity_edit_profile_info)
         inicializeControls()
     }
 
@@ -74,8 +76,8 @@ class EditLanguagesInfoActivity : EditProfileActivity() {
     }
 
     private fun inflateLanguageAdapter(languages: List<UserLanguageInfo>) {
-        mLanguagesRv = findViewById(R.id.mLanguagesRv)
-        mLanguageAdapter = LanguageAdapter(languages, object : LanguageAdapter.LanguageAdapterListener {
+        mLanguagesRv = findViewById(R.id.mProfileInfoRv)
+        mLanguageAdapter = LanguageAdapter(languages, this, true, object : ProfileInfoAdapter.ProfileInfoAdapterListener {
             override fun iconImageViewOnClick(v: View, position: Int) {
                 val i = Intent(baseContext,  AddEditLanguageInfoActivity:: class.java)
                 i.putExtra("userId", userId)
@@ -84,7 +86,7 @@ class EditLanguagesInfoActivity : EditProfileActivity() {
                 i.putExtra("languageLevel", languages[position].level.toString())
                 startActivity(i)
             }
-        }, this)
+        })
 
         val mLayoutManager = LinearLayoutManager(applicationContext)
         mLanguagesRv.layoutManager = mLayoutManager

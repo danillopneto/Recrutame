@@ -26,7 +26,7 @@
         android:paddingBottom="10dp"
         android:paddingTop="10dp"
         android:elevation="0dp"
-        app:itemIconTint="@color/primaryColor"
+        app:itemIconTint="@drawable/custom_color"
         app:itemTextColor="@color/colorPrimaryDark"
         app:menu="@menu/bottom_navigation_items" />
 </RelativeLayout>

@@ -5,6 +5,7 @@ import android.widget.EditText
 import ufg.go.br.recrutame.model.UserContactInfo
 import ufg.go.br.recrutame.R
 import ufg.go.br.recrutame.util.PhoneMaskUtil
+import ufg.go.br.recrutame.util.Utils
 
 
 class EditContactInfoActivity : EditProfileActivity() {
@@ -21,6 +22,9 @@ class EditContactInfoActivity : EditProfileActivity() {
 
     override fun saveInfo() {
         hideKeyboard()
+        if (!validateForm()) {
+            return
+        }
 
         val contactInfoReference = mDatabase.child("users/$userId/contactInfo")
         val contactInfo = UserContactInfo(
@@ -52,5 +56,33 @@ class EditContactInfoActivity : EditProfileActivity() {
         mPhoneTxt = findViewById(R.id.mPhoneTxt)
         mPhoneTxt.addTextChangedListener(PhoneMaskUtil.insert(mPhoneTxt))
         mPhoneTxt.setText(phone)
+    }
+
+    private fun validateForm(): Boolean {
+        clearError(mEmailTxt)
+
+        var isValid = true
+
+        if (Utils.isNullOrWhiteSpace(mEmailTxt.text.toString())) {
+            showError(mEmailTxt, R.string.email_required)
+            isValid = false
+        } else if (!Utils.isValidEmail(mEmailTxt.text.toString())) {
+            showError(mEmailTxt, R.string.error_invalid_email)
+            isValid = false
+        }
+
+        if (!Utils.isNullOrWhiteSpace(mWebsiteTxt.text.toString())
+                && !Utils.isValidUri(mWebsiteTxt.text.toString())) {
+            showError(mWebsiteTxt, R.string.error_invalid_website)
+            isValid = false
+        }
+
+        if (!Utils.isNullOrWhiteSpace(mPhoneTxt.text.toString())
+                && !PhoneMaskUtil.isValidNumber(mPhoneTxt.text.toString())) {
+            showError(mPhoneTxt, R.string.error_invalid_phone)
+            isValid = false
+        }
+
+        return isValid
     }
 }

@@ -126,8 +126,26 @@
     <string name="really_remove_experience">Deseja realmente remover a experiência?</string>
     <string name="experience_title_required">Informe o Cargo</string>
     <string name="experience_company_required">Informe a Empresa</string>
-    <string name="experience_start_required">Informe o Início</string>
-    <string name="experience_end_required">Informe o Término</string>
+    <string name="start_required">Informe o Início</string>
+    <string name="end_required">Informe o Término</string>
+    <string name="language_name_required">Informe o idioma</string>
+    <string name="proficiency_required">Informe a proficiência</string>
+    <string name="email_required">Informe o e-mail</string>
+    <string name="error_invalid_website">O website informado é inválido.</string>
+    <string name="error_invalid_phone">O telefone informado é inválido.</string>
+    <string name="Education">Formação acadêmica</string>
+    <string name="education">Formação acadêmica</string>
+    <string name="really_remove_education">Deseja realmente remover a formação acadêmica?</string>
+    <string name="add_education">Adicionar formação acadêmica</string>
+    <string name="edit_education">Editar formação acadêmica</string>
+    <string name="update_education_info_error">Erro ao atualizar a formação acadêmica</string>
+    <string name="remove_education_error">Erro ao remover formação acadêmica</string>
+    <string name="degree_required">Informe a formação</string>
+    <string name="school_required">Informe a instituição de ensino</string>
+    <string name="remove_education">Remover formação acadêmica</string>
+    <string name="school">Instituição de ensino</string>
+    <string name="degree">Formação</string>
+    <string name="end_prediction">Término ou Previsão</string>
     <string-array name="nivel">
         <item>Profissional</item>
         <item>Superior</item>

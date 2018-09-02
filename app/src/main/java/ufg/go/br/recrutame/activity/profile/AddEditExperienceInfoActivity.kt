@@ -1,31 +1,27 @@
 package ufg.go.br.recrutame.activity.profile
 
 import android.os.Bundle
+import android.support.design.widget.TextInputLayout
 import android.view.View
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
-import com.google.firebase.database.DatabaseReference
-import com.tsongkha.spinnerdatepicker.DatePicker
 import com.tsongkha.spinnerdatepicker.DatePickerDialog
-import com.tsongkha.spinnerdatepicker.SpinnerDatePickerDialogBuilder
 import ufg.go.br.recrutame.R
 import ufg.go.br.recrutame.model.UserExperienceInfo
 import ufg.go.br.recrutame.util.Utils
-import java.util.*
 
 class AddEditExperienceInfoActivity : EditProfileActivity(), View.OnClickListener, DatePickerDialog.OnDateSetListener {
     override var layoutId: Int = R.id.mAddEditExperienceContainer
 
-    private lateinit var infoReference: DatabaseReference
     private lateinit var mExperienceTitleTxt: EditText
     private lateinit var mExperienceCompanyTxt: EditText
     private lateinit var mStartDateTxt: EditText
+    private lateinit var mEndDateContainer: TextInputLayout
     private lateinit var mEndDateTxt: EditText
     private lateinit var mCurrentWorkChk: CheckBox
     private lateinit var mRemoveExperienceBtn: Button
     private var experienceKey: String = ""
-    private var dateEdited: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         experienceKey = intent.getStringExtra("experienceKey")
@@ -42,13 +38,6 @@ class AddEditExperienceInfoActivity : EditProfileActivity(), View.OnClickListene
             R.id.mRemoveExperienceBtn -> {
                 handleYesNoDialog(R.string.really_remove_experience) { removeExperience() }
             }
-        }
-    }
-
-    override fun onDateSet(view: DatePicker, year: Int, monthOfYear: Int, dayOfMonth: Int) {
-        if (dateEdited != null) {
-            val formatedDate = Utils.getFormatedDate(year, monthOfYear + 1, dayOfMonth, getString(R.string.format_date_no_day))
-            findViewById<EditText>(dateEdited!!).setText(formatedDate)
         }
     }
 
@@ -97,33 +86,10 @@ class AddEditExperienceInfoActivity : EditProfileActivity(), View.OnClickListene
     private fun handleCurrentWork() {
         if (mCurrentWorkChk.isChecked) {
             mEndDateTxt.text.clear()
-            mEndDateTxt.visibility = View.GONE
+            mEndDateContainer.visibility = View.GONE
         } else {
-            mEndDateTxt.visibility = View.VISIBLE
+            mEndDateContainer.visibility = View.VISIBLE
         }
-    }
-
-    private fun handleDatePicker(input: EditText) {
-        dateEdited = input.id
-        val calendar = Calendar.getInstance()
-        var dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
-        var month = calendar.get(Calendar.MONTH)
-        var year = calendar.get(Calendar.YEAR)
-
-        if (!input.text.isEmpty()) {
-            val fullDate = Utils.getFullDateFromMonthYear(input.text.toString())
-            month = Utils.getMonth(fullDate.toString()).toInt() - 1
-            year = Utils.getYear(fullDate.toString()).toInt()
-        }
-
-        SpinnerDatePickerDialogBuilder()
-                .context(this)
-                .callback(this)
-                .spinnerTheme(R.style.DatePickerSpinner)
-                .showDaySpinner(false)
-                .defaultDate(year, month, 1)
-                .build()
-                .show()
     }
 
     private fun inicializeControls() {
@@ -135,6 +101,7 @@ class AddEditExperienceInfoActivity : EditProfileActivity(), View.OnClickListene
         mStartDateTxt = findViewById(R.id.mStartDateTxt)
         mStartDateTxt.setOnClickListener(this)
 
+        mEndDateContainer = findViewById(R.id.mEndDateContainer)
         mEndDateTxt = findViewById(R.id.mEndDateTxt)
         mEndDateTxt.setOnClickListener(this)
 
@@ -142,7 +109,7 @@ class AddEditExperienceInfoActivity : EditProfileActivity(), View.OnClickListene
         mCurrentWorkChk.setOnClickListener(this)
 
         if (!experienceKey.isEmpty()) {
-            mExperienceTitleTxt.setText(intent.getStringExtra("experienceTitle"))
+            mExperienceTitleTxt.setText(intent.getStringExtra("title"))
             mExperienceCompanyTxt.setText(intent.getStringExtra("experienceCompany"))
             val startDate = intent.getIntExtra("experienceStartDate", 0)
             if (startDate > 0) {
@@ -173,21 +140,34 @@ class AddEditExperienceInfoActivity : EditProfileActivity(), View.OnClickListene
     }
 
     private fun validateForm(): Boolean {
+        clearError(mExperienceTitleTxt)
+        clearError(mExperienceCompanyTxt)
+        clearError(mStartDateTxt)
+        clearError(mEndDateTxt)
+
+        var isValid = true
+
         if (Utils.isNullOrWhiteSpace(mExperienceTitleTxt.text.toString())) {
-            showError(R.string.experience_title_required)
-            return false
-        } else if (Utils.isNullOrWhiteSpace(mExperienceCompanyTxt.text.toString())) {
-            showError(R.string.experience_company_required)
-            return false
-        } else if (Utils.isNullOrWhiteSpace(mStartDateTxt.text.toString())) {
-            showError(R.string.experience_start_required)
-            return false
-        } else if (!mCurrentWorkChk.isChecked
-            && Utils.isNullOrWhiteSpace(mEndDateTxt.text.toString())) {
-            showError(R.string.experience_end_required)
-            return false
+            showError(mExperienceTitleTxt, R.string.experience_title_required)
+            isValid = false
         }
 
-        return true
+        if (Utils.isNullOrWhiteSpace(mExperienceCompanyTxt.text.toString())) {
+            showError(mExperienceCompanyTxt, R.string.experience_company_required)
+            isValid = false
+        }
+
+        if (Utils.isNullOrWhiteSpace(mStartDateTxt.text.toString())) {
+            showError(mStartDateTxt, R.string.start_required)
+            isValid = false
+        }
+
+        if (!mCurrentWorkChk.isChecked
+            && Utils.isNullOrWhiteSpace(mEndDateTxt.text.toString())) {
+            showError(mEndDateTxt, R.string.end_required)
+            isValid = false
+        }
+
+        return isValid
     }
 }

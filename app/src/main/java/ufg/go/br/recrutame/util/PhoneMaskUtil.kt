@@ -4,7 +4,6 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
 
-
 object PhoneMaskUtil {
     private val mask10 = "(##) ####-####"
     private val mask11 = "(##) #####-####"
@@ -63,6 +62,10 @@ object PhoneMaskUtil {
 
             override fun afterTextChanged(s: Editable) {}
         }
+    }
+
+    fun isValidNumber(number: String): Boolean {
+        return number.length > 9 && android.util.Patterns.PHONE.matcher(number).matches()
     }
 
     private fun getDefaultMask(str: String): String {

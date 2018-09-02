@@ -7,14 +7,14 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
-import com.google.firebase.database.DatabaseReference
 import ufg.go.br.recrutame.R
 import ufg.go.br.recrutame.enum.EnumLanguageLevel
 import ufg.go.br.recrutame.model.UserLanguageInfo
+import ufg.go.br.recrutame.util.Utils
 
 class AddEditLanguageInfoActivity : EditProfileActivity(), View.OnClickListener {
     override var layoutId: Int = R.id.mAddEditLanguageContainer
-    private lateinit var infoReference: DatabaseReference
+
     private lateinit var mLanguageNameTxt: EditText
     private lateinit var mProficiencySpinner: Spinner
     private var languageKey: String = ""
@@ -37,6 +37,9 @@ class AddEditLanguageInfoActivity : EditProfileActivity(), View.OnClickListener 
 
     override fun saveInfo() {
         hideKeyboard()
+        if (!validateForm()) {
+            return
+        }
 
         if (languageKey.isEmpty()) {
             val newLanguage = infoReference.push()
@@ -120,5 +123,20 @@ class AddEditLanguageInfoActivity : EditProfileActivity(), View.OnClickListener 
         }.addOnFailureListener {
             showError(R.string.remove_language_error)
         }
+    }
+
+    private fun validateForm(): Boolean {
+        clearError(mLanguageNameTxt)
+
+        if (Utils.isNullOrWhiteSpace(mLanguageNameTxt.text.toString())) {
+            showError(mLanguageNameTxt, R.string.language_name_required)
+            return false
+        } else if (mProficiencySpinner.selectedItem == null
+            || Utils.isNullOrWhiteSpace(mProficiencySpinner.selectedItem.toString())) {
+            showError(R.string.proficiency_required)
+            return false
+        }
+
+        return true
     }
 }

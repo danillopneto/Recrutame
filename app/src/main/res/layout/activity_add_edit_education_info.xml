@@ -7,7 +7,7 @@
     android:theme="@style/InsideAppTheme"
     android:padding="20dp"
     android:orientation="vertical"
-    tools:context=".activity.profile.AddEditLanguageInfoActivity"
+    tools:context=".activity.profile.AddEditEducationInfoActivity"
     android:id="@+id/mAddEditExperienceContainer">
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
@@ -16,11 +16,11 @@
         app:hintTextAppearance="@style/TextAppearance.App.ProfileInputLayout"
         android:paddingBottom="30dp">
         <EditText
-            android:id="@+id/mExperienceTitleTxt"
+            android:id="@+id/mDegreeTxt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:singleLine="true"
-            android:hint="@string/position"
+            android:hint="@string/degree"
             android:inputType="textCapWords" />
     </android.support.design.widget.TextInputLayout>
     <android.support.design.widget.TextInputLayout
@@ -30,11 +30,11 @@
         app:hintTextAppearance="@style/TextAppearance.App.ProfileInputLayout"
         android:paddingBottom="30dp">
         <EditText
-            android:id="@+id/mExperienceCompanyTxt"
+            android:id="@+id/mSchoolTxt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:singleLine="true"
-            android:hint="@string/company"
+            android:hint="@string/school"
             android:inputType="textCapWords" />
     </android.support.design.widget.TextInputLayout>
     <android.support.design.widget.TextInputLayout
@@ -66,21 +66,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:singleLine="true"
-            android:hint="@string/end"
+            android:hint="@string/end_prediction"
             android:inputType="date" />
     </android.support.design.widget.TextInputLayout>
-    <CheckBox
-        android:id="@+id/mCurrentWorkChk"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/currently_working"
-        android:layout_marginBottom="30dp"/>
     <Button
-        android:id="@+id/mRemoveExperienceBtn"
+        android:id="@+id/mRemoveEducationBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|center_horizontal"
-        android:text="@string/remove_experience"
+        android:text="@string/remove_education"
         android:textColor="@color/primaryColor"
         android:visibility="gone"
         android:background="@null"/>

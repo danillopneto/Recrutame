@@ -12,16 +12,15 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import ufg.go.br.recrutame.R
-import ufg.go.br.recrutame.adapter.ExperienceAdapter
+import ufg.go.br.recrutame.adapter.EducationAdapter
 import ufg.go.br.recrutame.adapter.ProfileInfoAdapter
-import ufg.go.br.recrutame.model.UserExperienceInfo
+import ufg.go.br.recrutame.model.UserEducationInfo
 
-class EditExperiencesInfoActivity : EditProfileActivity() {
+class EditEducationsInfoActivity : EditProfileActivity() {
     override var layoutId: Int = R.id.mProfileInfoLayout
-
-    private var experiences = mutableListOf<UserExperienceInfo>()
-    private lateinit var mExperiencesRv: RecyclerView
-    private lateinit var mExperienceAdapter: ExperienceAdapter
+    private var educations = mutableListOf<UserEducationInfo>()
+    private lateinit var mEducationsRv: RecyclerView
+    private lateinit var mEducationsAdapter: EducationAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,9 +38,9 @@ class EditExperiencesInfoActivity : EditProfileActivity() {
     }
 
     override fun saveInfo() {
-        val i = Intent(this, AddEditExperienceInfoActivity:: class.java)
+        val i = Intent(this, AddEditEducationInfoActivity:: class.java)
         i.putExtra("userId", userId)
-        i.putExtra("experienceKey", "")
+        i.putExtra("educationKey", "")
         startActivity(i)
     }
 
@@ -50,22 +49,22 @@ class EditExperiencesInfoActivity : EditProfileActivity() {
     }
 
     override fun getActionBarTitle(): String {
-        return getString(R.string.experience)
+        return getString(R.string.education)
     }
 
     private fun inicializeControls() {
-        mDatabase.child("users/$userId/experiences")
+        mDatabase.child("users/$userId/educations")
                 .addValueEventListener( object: ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot?) {
-                        experiences.clear()
+                        educations.clear()
                         for (child in dataSnapshot!!.children) {
-                            val experience = child.getValue(UserExperienceInfo::class.java)
-                            if (experience != null) {
-                                experiences.add(experience)
+                            val education = child.getValue(UserEducationInfo::class.java)
+                            if (education != null) {
+                                educations.add(education)
                             }
                         }
 
-                        inflateExperienceAdapter(experiences)
+                        inflateEducationsAdapter(educations)
                     }
 
                     override fun onCancelled(databaseError: DatabaseError?) {
@@ -74,28 +73,28 @@ class EditExperiencesInfoActivity : EditProfileActivity() {
                 })
     }
 
-    private fun inflateExperienceAdapter(experiences: List<UserExperienceInfo>) {
-        mExperiencesRv = findViewById(R.id.mProfileInfoRv)
+    private fun inflateEducationsAdapter(educations: List<UserEducationInfo>) {
+        mEducationsRv = findViewById(R.id.mProfileInfoRv)
 
-        val experiencesOrdered = experiences.sortedByDescending { it.startDate }
-        mExperienceAdapter = ExperienceAdapter(experiencesOrdered, this, true, object : ProfileInfoAdapter.ProfileInfoAdapterListener {
+        val educationsOrdered = educations.sortedByDescending { it.startDate }
+        mEducationsAdapter = EducationAdapter(educationsOrdered, this, true, object : ProfileInfoAdapter.ProfileInfoAdapterListener {
             override fun iconImageViewOnClick(v: View, position: Int) {
-                val i = Intent(baseContext,  AddEditExperienceInfoActivity:: class.java)
+                val i = Intent(baseContext,  AddEditEducationInfoActivity:: class.java)
                 i.putExtra("userId", userId)
-                i.putExtra("experienceKey", experiencesOrdered[position].key)
-                i.putExtra("title", experiencesOrdered[position].title)
-                i.putExtra("experienceCompany", experiencesOrdered[position].company)
-                i.putExtra("experienceStartDate", experiencesOrdered[position].startDate)
-                i.putExtra("experienceEndDate", experiencesOrdered[position].endDate)
+                i.putExtra("educationKey", educationsOrdered[position].key)
+                i.putExtra("educationSchool", educationsOrdered[position].school)
+                i.putExtra("educationDegree", educationsOrdered[position].degree)
+                i.putExtra("educationStartDate", educationsOrdered[position].startDate)
+                i.putExtra("educationEndDate", educationsOrdered[position].endDate)
                 startActivity(i)
             }
         })
 
         val mLayoutManager = LinearLayoutManager(applicationContext)
-        mExperiencesRv.layoutManager = mLayoutManager
-        mExperiencesRv.itemAnimator = DefaultItemAnimator()
-        mExperiencesRv.adapter = mExperienceAdapter
+        mEducationsRv.layoutManager = mLayoutManager
+        mEducationsRv.itemAnimator = DefaultItemAnimator()
+        mEducationsRv.adapter = mEducationsAdapter
 
-        mExperienceAdapter.notifyDataSetChanged()
+        mEducationsAdapter.notifyDataSetChanged()
     }
 }

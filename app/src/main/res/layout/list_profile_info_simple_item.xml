@@ -7,25 +7,25 @@
     android:orientation="vertical"
     android:padding="10dp">
         <TextView
-            android:id="@+id/mExperienceTitleTxt"
+            android:id="@+id/mProfileInfoTitleTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/labelDefaultColor"
-            tools:text="Developer"
+            tools:text="Título"
             android:textStyle="bold"
             android:textSize="14sp" />
         <TextView
-            android:id="@+id/mExperienceCompanyTxt"
+            android:id="@+id/mProfileInfoSubtitleTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/labelDefaultColor"
-            tools:text="Google"
+            tools:text="Subtítulo"
             android:textSize="13sp" />
         <TextView
-            android:id="@+id/mExperiencePeriodTxt"
+            android:id="@+id/mProfileInfoPeriodTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/labelDefaultColor"
-            tools:text="Fevereiro 2013 - Atualmente"
+            tools:text="Março 2017 - Outubro 2018"
             android:textSize="12sp" />
 </LinearLayout>

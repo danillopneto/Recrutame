@@ -24,6 +24,7 @@ import android.widget.AdapterView
 
 class EditGeneralInfoActivity : EditProfileActivity(), View.OnClickListener, DatePickerDialog.OnDateSetListener {
     override var layoutId: Int = R.id .mGeneralInfoLayout
+
     private lateinit var ibgeService: IBGEService
     private lateinit var mNameTxt: EditText
     private lateinit var mLastNameTxt: EditText
@@ -212,25 +213,39 @@ class EditGeneralInfoActivity : EditProfileActivity(), View.OnClickListener, Dat
     }
 
     private fun validateForm(): Boolean {
+        clearError(mNameTxt)
+        clearError(mLastNameTxt)
+        clearError(mBirthdateTxt)
+
+        var isValid = true
+
         if (Utils.isNullOrWhiteSpace(mNameTxt.text.toString())) {
-            showError(R.string.name_required)
-            return false
-        } else if (Utils.isNullOrWhiteSpace(mLastNameTxt.text.toString())) {
-            showError(R.string.lastname_required)
-            return false
-        } else if (Utils.isNullOrWhiteSpace(mBirthdateTxt.text.toString())) {
-            showError(R.string.birthdate_required)
-            return false
-        } else if (mStateSpinner.selectedItem == null
-                    || Utils.isNullOrWhiteSpace(mStateSpinner.selectedItem.toString())) {
-            showError(R.string.state_required)
-            return false
-        } else if (mCitySpinner.selectedItem == null
-                    || Utils.isNullOrWhiteSpace(mCitySpinner.selectedItem.toString())) {
-            showError(R.string.city_required)
-            return false
+            showError(mNameTxt, R.string.name_required)
+            isValid = false
         }
 
-        return true
+        if (Utils.isNullOrWhiteSpace(mLastNameTxt.text.toString())) {
+            showError(mLastNameTxt, R.string.lastname_required)
+            isValid = false
+        }
+
+        if (Utils.isNullOrWhiteSpace(mBirthdateTxt.text.toString())) {
+            showError(mBirthdateTxt, R.string.birthdate_required)
+            isValid = false
+        }
+
+        if (mStateSpinner.selectedItem == null
+                    || Utils.isNullOrWhiteSpace(mStateSpinner.selectedItem.toString())) {
+            showError(R.string.state_required)
+            isValid = false
+        }
+
+        if (mCitySpinner.selectedItem == null
+                    || Utils.isNullOrWhiteSpace(mCitySpinner.selectedItem.toString())) {
+            showError(R.string.city_required)
+            isValid = false
+        }
+
+        return isValid
     }
 }

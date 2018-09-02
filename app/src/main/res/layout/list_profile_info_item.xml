@@ -17,13 +17,13 @@
             android:layout_height="wrap_content"
             android:translationZ="@dimen/bottom_ellipsis_height"
             android:paddingEnd="10dp">
-            <include layout="@layout/list_experience_simple_item" />
+            <include layout="@layout/list_profile_info_simple_item" />
             <View
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_weight="1" />
             <ImageButton
-                android:id="@+id/mEditLanguagueBtn"
+                android:id="@+id/mEditProfileInfoBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_edit"

@@ -75,7 +75,7 @@ class JobDetailActivity : BaseActivity(), View.OnClickListener {
         })
 
         /*val jobTitle = intent.getStringExtra("title")
-        val jobCompany = intent.getStringExtra("company")
+        val jobCompany = intent.getStringExtra("subtitle")
         val jobImage = intent.getStringExtra("image")
 
         var jobTitleTxt: TextView = findViewById(R.id.jobTitleTxt)
