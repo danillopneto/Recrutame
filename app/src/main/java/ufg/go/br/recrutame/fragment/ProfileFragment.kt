@@ -22,12 +22,11 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.annotations.NotNull
-import ufg.go.br.recrutame.activity.profile.EditContactInfoActivity
-import ufg.go.br.recrutame.activity.profile.EditGeneralInfoActivity
 import ufg.go.br.recrutame.R
-import ufg.go.br.recrutame.activity.profile.EditExperiencesInfoActivity
-import ufg.go.br.recrutame.activity.profile.EditLanguagesInfoActivity
+import ufg.go.br.recrutame.activity.profile.*
+import ufg.go.br.recrutame.adapter.EducationAdapter
 import ufg.go.br.recrutame.adapter.ExperienceAdapter
+import ufg.go.br.recrutame.adapter.LanguageAdapter
 import ufg.go.br.recrutame.util.TAG
 import ufg.go.br.recrutame.util.Utils
 import ufg.go.br.recrutame.model.*
@@ -37,6 +36,10 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
     private lateinit var mProfileImage: CircleImageView
     private lateinit var mExperiencesRv: RecyclerView
     private lateinit var mExperienceAdapter: ExperienceAdapter
+    private lateinit var mEducationRv: RecyclerView
+    private lateinit var mEducationAdapter: EducationAdapter
+    private lateinit var mLanguagesRv: RecyclerView
+    private lateinit var mLanguageAdapter: LanguageAdapter
 
     private var userModel: UserProfile? = null
 
@@ -67,8 +70,9 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
                         if (userModel != null) {
                             fillGeneralInfo(view, userModel!!.generalInfo)
                             fillContactInfo(view, userModel!!.contactInfo)
-                            fillExperiencesInfo(view, userModel!!.experiences)
-                            fillLanguagesInfo(view, userModel!!.languages)
+                            inflateExperienceAdapter(userModel!!.experiences)
+                            inflateEducationAdapter(userModel!!.educations)
+                            inflateLanguagesAdapter(userModel!!.languages)
                         }
                     }
 
@@ -87,8 +91,15 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
         view.findViewById<FloatingActionButton>(R.id.mChangePictureBtn).setOnClickListener(this)
         view.findViewById<ImageButton>(R.id.mEditGeneralInfoBtn).setOnClickListener(this)
         view.findViewById<ImageButton>(R.id.mEditContactInfoBtn).setOnClickListener(this)
+
         view.findViewById<ImageButton>(R.id.mEditExperincesInfoBtn).setOnClickListener(this)
+        mExperiencesRv = view.findViewById(R.id.mExperiencesRv)
+
+        view.findViewById<ImageButton>(R.id.mEditEducationsInfoBtn).setOnClickListener(this)
+        mEducationRv = view.findViewById(R.id.mEducationRv)
+
         view.findViewById<ImageButton>(R.id.mEditLanguaguesInfoBtn).setOnClickListener(this)
+        mLanguagesRv = view.findViewById(R.id.mLanguagesRv)
 
         mStorageRef.child(getUserPhotoUrl()).downloadUrl.addOnSuccessListener { task ->
             EventBus.getDefault().post(task)
@@ -102,6 +113,7 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
             R.id.mChangePictureBtn -> chooseImage()
             R.id.mEditGeneralInfoBtn -> editGeneralInfo()
             R.id.mEditExperincesInfoBtn -> editExperiencesInfo()
+            R.id.mEditEducationsInfoBtn -> editEducationsInfo()
             R.id.mEditContactInfoBtn -> editContactInfo()
             R.id.mEditLanguaguesInfoBtn -> editLanguagesInfo()
         }
@@ -113,6 +125,12 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
         i.putExtra("userEmail", userModel?.contactInfo?.email)
         i.putExtra("userWebsite", userModel?.contactInfo?.webSite)
         i.putExtra("userPhone", userModel?.contactInfo?.phone)
+        startActivity(i)
+    }
+
+    private fun editEducationsInfo() {
+        val i = Intent(context, EditEducationsInfoActivity:: class.java)
+        i.putExtra("userId", mAuth.currentUser?.uid)
         startActivity(i)
     }
 
@@ -155,11 +173,6 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
         }
     }
 
-    private fun fillExperiencesInfo(view: View, experiences: HashMap<String, UserExperienceInfo>) {
-        mExperiencesRv = view.findViewById(R.id.mExperiencesRv)
-        inflateExperienceAdapter(experiences)
-    }
-
     private fun fillGeneralInfo(view: View, generalInfo: UserGeneralInfo) {
         view.findViewById<TextView>(R.id.mUsernameTxt).text = "${generalInfo.name} ${generalInfo.lastName}"
 
@@ -183,22 +196,38 @@ class ProfileFragment : BaseFragment(), View.OnClickListener  {
         generalInfoTxt.text = generalInfoData.toString()
     }
 
-    private fun fillLanguagesInfo(view: View, languagesInfo: HashMap<String, UserLanguageInfo>) {
-        if (languagesInfo.isEmpty()) {
+    private fun inflateLanguagesAdapter(languages: HashMap<String, UserLanguageInfo>) {
+        if (languages.isEmpty()
+                || activity == null) {
             return
         }
 
-        val languageTxt = view.findViewById<TextView>(R.id.mLanguagesTxt)
+        val languagesAsList = languages.values.sortedBy { it.language }
+        mLanguageAdapter = LanguageAdapter(languagesAsList, activity!!, false, null)
 
-        val languagesOrdered = languagesInfo.values.sortedWith(compareBy(UserLanguageInfo::language, UserLanguageInfo::language))
-        val languagesDescription = StringBuilder()
-        for (language in languagesOrdered) {
-            languagesDescription.appendln("${language.language} (${getString(language.level!!.idString)})")
-            languagesDescription.appendln()
+        val mLayoutManager = LinearLayoutManager(context)
+        mLanguagesRv.layoutManager = mLayoutManager
+        mLanguagesRv.itemAnimator = DefaultItemAnimator()
+        mLanguagesRv.adapter = mLanguageAdapter
+
+        mLanguageAdapter.notifyDataSetChanged()
+    }
+
+    private fun inflateEducationAdapter(educations: HashMap<String, UserEducationInfo>) {
+        if (educations.isEmpty()
+                || activity == null) {
+            return
         }
 
-        languagesDescription.deleteCharAt(languagesDescription.lastIndexOf("\n"))
-        languageTxt.text = languagesDescription.toString()
+        val educationsAsList = educations.values.sortedByDescending { it.startDate }
+        mEducationAdapter = EducationAdapter(educationsAsList, activity!!, false, null)
+
+        val mLayoutManager = LinearLayoutManager(context)
+        mEducationRv.layoutManager = mLayoutManager
+        mEducationRv.itemAnimator = DefaultItemAnimator()
+        mEducationRv.adapter = mEducationAdapter
+
+        mExperienceAdapter.notifyDataSetChanged()
     }
 
     private fun inflateExperienceAdapter(experiences: HashMap<String, UserExperienceInfo>) {

@@ -5,12 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:theme="@style/InsideAppTheme"
-    tools:context=".activity.profile.EditExperiencesInfoActivity"
+    tools:context=".activity.profile.EditContactInfoActivity"
     android:orientation="vertical"
-    android:id="@+id/mExperienceInfoLayout"
+    android:id="@+id/mProfileInfoLayout"
     android:paddingTop="10dp">
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/mExperiencesRv"
+        android:id="@+id/mProfileInfoRv"
         android:scrollbars="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

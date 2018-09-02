@@ -6,19 +6,14 @@ import android.view.View
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
-import com.google.firebase.database.DatabaseReference
-import com.tsongkha.spinnerdatepicker.DatePicker
 import com.tsongkha.spinnerdatepicker.DatePickerDialog
-import com.tsongkha.spinnerdatepicker.SpinnerDatePickerDialogBuilder
 import ufg.go.br.recrutame.R
 import ufg.go.br.recrutame.model.UserExperienceInfo
 import ufg.go.br.recrutame.util.Utils
-import java.util.*
 
 class AddEditExperienceInfoActivity : EditProfileActivity(), View.OnClickListener, DatePickerDialog.OnDateSetListener {
     override var layoutId: Int = R.id.mAddEditExperienceContainer
 
-    private lateinit var infoReference: DatabaseReference
     private lateinit var mExperienceTitleTxt: EditText
     private lateinit var mExperienceCompanyTxt: EditText
     private lateinit var mStartDateTxt: EditText
@@ -27,7 +22,6 @@ class AddEditExperienceInfoActivity : EditProfileActivity(), View.OnClickListene
     private lateinit var mCurrentWorkChk: CheckBox
     private lateinit var mRemoveExperienceBtn: Button
     private var experienceKey: String = ""
-    private var dateEdited: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         experienceKey = intent.getStringExtra("experienceKey")
@@ -44,13 +38,6 @@ class AddEditExperienceInfoActivity : EditProfileActivity(), View.OnClickListene
             R.id.mRemoveExperienceBtn -> {
                 handleYesNoDialog(R.string.really_remove_experience) { removeExperience() }
             }
-        }
-    }
-
-    override fun onDateSet(view: DatePicker, year: Int, monthOfYear: Int, dayOfMonth: Int) {
-        if (dateEdited != null) {
-            val formatedDate = Utils.getFormatedDate(year, monthOfYear + 1, dayOfMonth, getString(R.string.format_date_no_day))
-            findViewById<EditText>(dateEdited!!).setText(formatedDate)
         }
     }
 
@@ -105,28 +92,6 @@ class AddEditExperienceInfoActivity : EditProfileActivity(), View.OnClickListene
         }
     }
 
-    private fun handleDatePicker(input: EditText) {
-        dateEdited = input.id
-        val calendar = Calendar.getInstance()
-        var month = calendar.get(Calendar.MONTH)
-        var year = calendar.get(Calendar.YEAR)
-
-        if (!input.text.isEmpty()) {
-            val fullDate = Utils.getFullDateFromMonthYear(input.text.toString())
-            month = Utils.getMonth(fullDate.toString()).toInt() - 1
-            year = Utils.getYear(fullDate.toString()).toInt()
-        }
-
-        SpinnerDatePickerDialogBuilder()
-                .context(this)
-                .callback(this)
-                .spinnerTheme(R.style.DatePickerSpinner)
-                .showDaySpinner(false)
-                .defaultDate(year, month, 1)
-                .build()
-                .show()
-    }
-
     private fun inicializeControls() {
         infoReference = mDatabase.child("users/$userId/experiences")
 
@@ -144,7 +109,7 @@ class AddEditExperienceInfoActivity : EditProfileActivity(), View.OnClickListene
         mCurrentWorkChk.setOnClickListener(this)
 
         if (!experienceKey.isEmpty()) {
-            mExperienceTitleTxt.setText(intent.getStringExtra("experienceTitle"))
+            mExperienceTitleTxt.setText(intent.getStringExtra("title"))
             mExperienceCompanyTxt.setText(intent.getStringExtra("experienceCompany"))
             val startDate = intent.getIntExtra("experienceStartDate", 0)
             if (startDate > 0) {
@@ -193,13 +158,13 @@ class AddEditExperienceInfoActivity : EditProfileActivity(), View.OnClickListene
         }
 
         if (Utils.isNullOrWhiteSpace(mStartDateTxt.text.toString())) {
-            showError(mStartDateTxt, R.string.experience_start_required)
+            showError(mStartDateTxt, R.string.start_required)
             isValid = false
         }
 
         if (!mCurrentWorkChk.isChecked
             && Utils.isNullOrWhiteSpace(mEndDateTxt.text.toString())) {
-            showError(mEndDateTxt, R.string.experience_end_required)
+            showError(mEndDateTxt, R.string.end_required)
             isValid = false
         }
 

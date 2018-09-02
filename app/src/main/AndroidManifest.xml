@@ -51,7 +51,9 @@
         <activity android:name=".activity.profile.EditLanguagesInfoActivity" />
         <activity android:name=".activity.profile.AddEditLanguageInfoActivity" />
         <activity android:name=".activity.profile.EditExperiencesInfoActivity" />
-        <activity android:name=".activity.profile.AddEditExperienceInfoActivity"></activity>
+        <activity android:name=".activity.profile.AddEditExperienceInfoActivity" />
+        <activity android:name=".activity.profile.EditEducationsInfoActivity" />
+        <activity android:name=".activity.profile.AddEditEducationInfoActivity" />
     </application>
 
 </manifest>

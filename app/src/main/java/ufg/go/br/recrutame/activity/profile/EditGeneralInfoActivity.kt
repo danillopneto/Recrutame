@@ -24,6 +24,7 @@ import android.widget.AdapterView
 
 class EditGeneralInfoActivity : EditProfileActivity(), View.OnClickListener, DatePickerDialog.OnDateSetListener {
     override var layoutId: Int = R.id .mGeneralInfoLayout
+
     private lateinit var ibgeService: IBGEService
     private lateinit var mNameTxt: EditText
     private lateinit var mLastNameTxt: EditText
