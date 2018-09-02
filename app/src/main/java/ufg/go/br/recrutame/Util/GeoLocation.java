@@ -1,4 +1,4 @@
-package ufg.go.br.recrutame.util;
+package ufg.go.br.recrutame.Util;
 
 /**
  * <p>Represents a point on the surface of a sphere. (The Earth is almost

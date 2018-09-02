@@ -33,12 +33,16 @@ class JobCard(private val mContext: Context, private val mJob: JobModel?, privat
     @View(R.id.jobInfo)
     private val jobInfoBtn: ImageButton? = null
 
+    @View(R.id.jobTagId)
+    private val jobTagId: TextView? = null
+
     @Resolve
     private fun onResolved() {
 
         Picasso.get().load(mJob?.image).into(jobImg)
         jobTitleTxt!!.setText(mJob?.title)
         jobCompanyTxt!!.setText(mJob?.company)
+        jobTagId!!.setText(mJob?.id.toString())
         jobInfoBtn!!.setOnClickListener({
             val intent = Intent(mContext, JobDetailActivity::class.java)
             intent.putExtra("id", mJob?.id)

@@ -21,6 +21,7 @@ import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import ufg.go.br.recrutame.enum.EnumUserIteraction
 import android.view.animation.AnimationUtils
+import android.widget.TextView
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.tasks.Continuation
@@ -32,7 +33,11 @@ import com.google.firebase.functions.HttpsCallableResult
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.mindorks.placeholderview.SwipePlaceHolderView
-import ufg.go.br.recrutame.util.GeoLocation
+import ufg.go.br.recrutame.Util.GeoLocation
+import ufg.go.br.recrutame.model.Match
+import ufg.go.br.recrutame.model.Message
+import java.text.SimpleDateFormat
+import java.util.*
 
 class JobFragment : BaseFragment(){
     private lateinit var database:FirebaseDatabase
@@ -154,6 +159,7 @@ class JobFragment : BaseFragment(){
 
                                                     for(jobModel in job){
                                                         mSwipeView.addView(JobCard(context!!, jobModel, mSwipeView))
+                                                        mSwipeView.setTag(jobModel.id.toInt(), jobModel)
                                                     }
                                                 }
                                             }
@@ -168,12 +174,26 @@ class JobFragment : BaseFragment(){
         val shake = AnimationUtils.loadAnimation(context, R.anim.shake)
         acceptBtn.startAnimation(shake)
         mSwipeView.doSwipe(true)
-        database.getReference("vagas")
+        var mjobTagIdTxt = mSwipeView.findViewById(R.id.jobTagId) as TextView
+        var jobTagId = mjobTagIdTxt.text as String
+
+        addMatch(jobTagId.toInt())
     }
 
     private fun rejectJob() {
         val shake = AnimationUtils.loadAnimation(context, R.anim.shake)
         rejectBtn.startAnimation(shake)
         mSwipeView.doSwipe(false)
+    }
+
+    private fun addMatch(jobTag: Int){
+        var jobModel = mSwipeView.getTag(jobTag) as JobModel
+        var userId = mAuth.currentUser?.uid.orEmpty()
+        var jobId = jobModel.id.toString()
+        var dateApplied = SimpleDateFormat("dd/MM/YYYY").format(Calendar.getInstance().time)
+        var match = Match(jobModel.company,dateApplied, jobId, "", ArrayList<Message>() )
+
+        var matchesRef = mDatabase.child("matches/$userId")
+        matchesRef.child(jobId).setValue(match)
     }
 }

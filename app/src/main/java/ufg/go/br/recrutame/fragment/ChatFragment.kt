@@ -24,6 +24,7 @@ import ufg.go.br.recrutame.model.JobModel
 import ufg.go.br.recrutame.model.Match
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
+import ufg.go.br.recrutame.model.MatchItemList
 
 class ChatFragment : BaseFragment() {
     private lateinit var mChatAdapter: MatchAdapter
@@ -70,7 +71,7 @@ class ChatFragment : BaseFragment() {
             }
         } else{
             if(task.result != null){
-                var matches = Gson().fromJson<List<Match>>(task.result, object : TypeToken<List<Match>>() {
+                var matches = Gson().fromJson<List<MatchItemList>>(task.result, object : TypeToken<List<MatchItemList>>() {
 
                 }.type)
 
