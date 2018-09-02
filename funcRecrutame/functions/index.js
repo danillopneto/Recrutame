@@ -3,31 +3,39 @@ const admin = require('firebase-admin');
 
 admin.initializeApp(functions.config().firebase);
 
-var filtroPorDistancia = function(geoLocation){
-    return function(vaga) {
-        var filtroPorLatitude = vaga.latitude >= geoLocation.minLatitude && vaga.latitude <= geoLocation.maxLatitude;         
-        var filtroPorLongitude = vaga.longitude >= geoLocation.minLongitude && vaga.longitude <= geoLocation.maxLongitude;
-
-        return filtroPorLatitude && filtroPorLongitude;
+var filterByLongitude = (geoLocation) => {
+    return function(vaga) {      
+        return vaga.longitude >= geoLocation.minLongitude && vaga.longitude <= geoLocation.maxLongitude;
     }
 }
 
-var filtroPorVagasNaoAplicadas = function(user){
+var filterByJobsNotApplied = (matches) => {    
+    
     return function(vaga){
-        return !user.appliedJobs.some(filtroNaoEstaCandidatado(vaga)) || user.appliedJobs.some(filtroPodeCandidatarNovamente(vaga));
+
+        var match = matches.filter(filterMatchByJobId(vaga));
+
+        var isAppliedToJob = match.length > 0;
+        var canApplyToJob = match.some(canApplyAgain(vaga));
+
+        var jobIsAvailable = !isAppliedToJob || canApplyToJob;
+
+        return jobIsAvailable;
     };
 }
 
-var filtroNaoEstaCandidatado = function(vaga){
+var filterMatchByJobId = (vaga) => {
     return function(appliedJob){
-        return appliedJob.jobId === vaga.id;
+        return appliedJob.jobId === vaga.id
     }
 }
 
-var filtroPodeCandidatarNovamente = function(vaga){  
+var canApplyAgain = (vaga) => {  
     const daysToApplyAgain = 30;
 
     return function(appliedJob){
+
+
         var today = new Date();
         today.setHours(0, 0, 0, 0);   
 
@@ -39,32 +47,172 @@ var filtroPodeCandidatarNovamente = function(vaga){
     }
 }
 
-exports.vagasNaoCandidatadas = functions.https.onCall((data, context) => {
-    if (!context.auth) {
-        throw new functions.https.HttpsError('failed-precondition', 'The function must be called ' +
-            'while authenticated.');
-      }
+var sortMessages = (match) => {
+    
+    if(match.messages){ 
+        match.messages = Object.keys(match.messages).map(function(key) {
+            return match.messages[key];
+        });   
 
-    const minLatitude = data.minLatitude || 0;
-    const maxLatitude = data.maxLatitude || 0;
-    const minLongitude = data.minLongitude || 0;
-    const maxLongitude = data.maxLongitude || 0;
+        match.messages = match.messages.filter(x => x);    
+        
+        match.messages.sort((a,b) => { 
+            a = a.date.split('/').reverse().join('');
+            b = b.date.split('/').reverse().join('');
+
+            return a > b ? 1 : a < b ? -1 : 0;
+        });
+    }    
+
+    return match;
+}
+
+var getLastMessageFromMatch = (match) => {
+    match = sortMessages(match);
+
+    var lastMessage = match.messages[0];
+
+    return {
+        message: lastMessage.message,        
+        sendByUser: lastMessage.sendByUser,
+        companyName: match.companyName,
+        companyImg: match.companyImg
+    }
+}
+
+var getGeoLocation = (data) => {
+    const { minLatitude = 0, maxLatitude = 0, minLongitude = 0, maxLongitude = 0 } = data;
 
     var geoLocation = { minLatitude, maxLatitude, minLongitude, maxLongitude };
 
+    return geoLocation;
+}
+
+var getMatchesByUserId = (userId) => {
+    return admin
+        .database()
+        .ref(`/matches/${userId}`);
+}
+
+var getJobsByLatitude = (geoLocation) => {
+    return admin
+    .database()
+    .ref('/vagas')
+    .orderByChild("latitude")    
+    .startAt(parseFloat(geoLocation.minLatitude))
+    .endAt(parseFloat(geoLocation.maxLatitude))  
+    .once('value');
+}
+
+var filterJobsByMatch = (snap, vagas) => {
+    var matches = snap.val();
+
+    if(matches){
+        return JSON.stringify(vagas.filter(filterByJobsNotApplied(matches.filter(x => x))));
+    }            
+
+    return JSON.stringify(vagas);
+}
+
+var getAvailableJobs = (snapshot, userId, geoLocation) =>{
+    let vagas = snapshot.val();    
+
+    if(!vagas){
+        return null;
+    }
+    
+    let vagasFiltradas = vagas.filter(filterByLongitude(geoLocation));
+
+    return getMatchesByUserId(userId).once('value').then((snap) => filterJobsByMatch(snap, vagasFiltradas)); 
+}
+
+var getMatchesByUserIdAndJobId = (userId, jobId) => {
+    return getMatchesByUserId(userId).orderByChild("jobId").equalTo(parseInt(jobId)).once('value');
+}
+
+var filterMessages = (snap)=>{
+    var match = snap.val();
+          
+    if(match){
+        return JSON.stringify(match.messages);
+    }            
+
+    return null;
+}
+
+var filterDataFromLastMessage = (snap)=>{
+    var matches = snap.val();    
+          
+    if(matches){
+        return JSON.stringify(matches.filter(x => x.messages).map(getLastMessageFromMatch).filter(x => x));
+    }            
+
+    return null;
+}
+
+var getMessagesByMatch = functions.https.onCall((data, context)=>{
+      const { userId } = data;
+      const { jobId } = data;
+
+      return getMatchesByUserIdAndJobId(userId, jobId).then(filterMessages); 
+});
+
+var getMatches = functions.https.onCall((data, context)=>{
+      const { userId } = data;
+
+      return getMatchesByUserId(userId).once('value').then(filterDataFromLastMessage); 
+});
+
+var getJobOffers = functions.https.onCall((data, context) => {
+    var geoLocation = getGeoLocation(data);
     const userId = data.userId;
  
-    return admin.database().ref('/vagas').once('value').then((snapshot) => {
-        let vagas = snapshot.val().filter(filtroPorDistancia(geoLocation));
-
-        return admin.database().ref('/users/' + userId).once('value').then((snap) => {
-            var user = snap.val();
-            
-            if(user && user.appliedJobs){
-                return JSON.stringify(vagas.filter(filtroPorVagasNaoAplicadas(user)));
-            }            
-
-            return JSON.stringify(vagas);
-        });      
-    });
+    return getJobsByLatitude(geoLocation).then((snapshot) => getAvailableJobs(snapshot, userId, geoLocation));
   });
+
+  var getJobOffersLocal = functions.https.onRequest((req, res) => {
+    var geoLocation = getGeoLocation(req.query);
+    const { userId } = req.query; 
+ 
+    return getJobsByLatitude(geoLocation).then((snapshot) => getAvailableJobs(snapshot, userId, geoLocation))
+    .then(snapshot => {
+        return res.status(200).send(JSON.parse(snapshot));
+      });
+  });
+
+  var sendMessage = functions.https.onRequest((req, res) => {
+        const { userId, jobId } = req.query;
+
+        return getMatchesByUserIdAndJobId(userId, jobId)
+        .then(snapshot => {
+
+            var message = {
+                date: "01/02/2018",
+                message: "teste",
+                sendByUser: true               
+            }
+
+            var rootRef = admin.database().ref();
+            var messagesRef = rootRef.child(`/matches/${userId}/${jobId}/messages`);
+            var newMessage = messagesRef.push();
+            newMessage.set(message);
+
+            return res.status(200).send(message);
+        });
+  });
+
+  var getMatchesHttps = functions.https.onRequest((req, res)=>{
+    const { userId, jobId } = req.query;
+
+    return getMatchesByUserId(userId).once('value').then(filterDataFromLastMessage).then(data=>{
+        return res.status(200).send(data);
+    }); 
+});
+  
+
+  exports.getJobOffers = getJobOffers;
+  exports.getMatches = getMatches;
+  exports.getMessagesByMatch = getMessagesByMatch;
+  /*exports.getJobOffersLocal = getJobOffersLocal*/
+  exports.sendMessage = sendMessage
+  /*exports.getMatchesHttps = getMatchesHttps*/

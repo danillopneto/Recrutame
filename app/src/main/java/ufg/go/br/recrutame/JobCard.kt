@@ -17,9 +17,20 @@ import com.squareup.picasso.Picasso
 import ufg.go.br.recrutame.model.JobModel
 import android.content.Context
 import android.content.Intent
+import com.google.firebase.database.DatabaseReference
+import ufg.go.br.recrutame.enum.EnumStatusProcessoSeletivo
+import ufg.go.br.recrutame.model.Match
+import ufg.go.br.recrutame.model.Message
+import java.text.SimpleDateFormat
+import java.util.*
 
 @Layout(R.layout.card_view_job)
-class JobCard(private val mContext: Context, private val mJob: JobModel?, private val mSwipeView: SwipePlaceHolderView) {
+class JobCard(
+        private val mContext: Context,
+        private val mJob: JobModel?,
+        private val mSwipeView: SwipePlaceHolderView,
+        private var mDatabase: DatabaseReference,
+        private var userId: String) {
 
     @View(R.id.jobImg)
     private val jobImg: ImageView? = null
@@ -63,7 +74,8 @@ class JobCard(private val mContext: Context, private val mJob: JobModel?, privat
 
     @SwipeIn
     private fun onSwipeIn() {
-        Log.d("EVENT", "onSwipedIn")
+        Log.d("EVENT", "onSwipedIn");
+        addMatch()
     }
 
     @SwipeInState
@@ -74,5 +86,15 @@ class JobCard(private val mContext: Context, private val mJob: JobModel?, privat
     @SwipeOutState
     private fun onSwipeOutState() {
         Log.d("EVENT", "onSwipeOutState")
+    }
+
+    private fun addMatch(){
+        var userId = userId
+        var jobId = mJob?.id!!
+        var dateApplied = SimpleDateFormat("dd/MM/YYYY").format(Calendar.getInstance().time)
+        var match = Match(mJob?.company!!, dateApplied, jobId, mJob?.image, EnumStatusProcessoSeletivo.PENDING,ArrayList<Message>() )
+
+        var matchesRef = mDatabase.child("matches/$userId")
+        matchesRef.child(jobId.toString()).setValue(match)
     }
 }
