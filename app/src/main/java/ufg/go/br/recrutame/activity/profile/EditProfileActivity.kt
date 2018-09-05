@@ -27,7 +27,7 @@ abstract class EditProfileActivity : BaseActivity(), DatePickerDialog.OnDateSetL
     protected lateinit var userId: String
     protected lateinit var mDatabase: DatabaseReference
     protected lateinit var infoReference: DatabaseReference
-    
+
     private var dateEdited: Int? = null
     private val progressBar = CustomProgressBar()
 
@@ -58,6 +58,8 @@ abstract class EditProfileActivity : BaseActivity(), DatePickerDialog.OnDateSetL
             findViewById<EditText>(dateEdited!!).setText(formatedDate)
         }
     }
+
+    abstract fun inicializeControls()
 
     abstract fun saveInfo()
 

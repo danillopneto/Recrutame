@@ -16,7 +16,6 @@ import android.util.Patterns
 import android.text.TextUtils
 import ufg.go.br.recrutame.R
 
-
 class Utils {
     companion object {
         fun dpToPx(dp: Int): Int {

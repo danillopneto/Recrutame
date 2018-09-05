@@ -37,13 +37,6 @@ class EditEducationsInfoActivity : EditProfileActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun saveInfo() {
-        val i = Intent(this, AddEditEducationInfoActivity:: class.java)
-        i.putExtra("userId", userId)
-        i.putExtra("educationKey", "")
-        startActivity(i)
-    }
-
     override fun getActionMenu(): Int {
         return R.menu.menu_action_edit_add
     }
@@ -52,7 +45,7 @@ class EditEducationsInfoActivity : EditProfileActivity() {
         return getString(R.string.education)
     }
 
-    private fun inicializeControls() {
+    override fun inicializeControls() {
         mDatabase.child("users/$userId/educations")
                 .addValueEventListener( object: ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot?) {
@@ -71,6 +64,13 @@ class EditEducationsInfoActivity : EditProfileActivity() {
                         Log.d(ufg.go.br.recrutame.util.TAG, "" + databaseError)
                     }
                 })
+    }
+
+    override fun saveInfo() {
+        val i = Intent(this, AddEditEducationInfoActivity:: class.java)
+        i.putExtra("userId", userId)
+        i.putExtra("educationKey", "")
+        startActivity(i)
     }
 
     private fun inflateEducationsAdapter(educations: List<UserEducationInfo>) {

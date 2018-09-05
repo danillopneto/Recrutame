@@ -38,13 +38,6 @@ class EditExperiencesInfoActivity : EditProfileActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun saveInfo() {
-        val i = Intent(this, AddEditExperienceInfoActivity:: class.java)
-        i.putExtra("userId", userId)
-        i.putExtra("experienceKey", "")
-        startActivity(i)
-    }
-
     override fun getActionMenu(): Int {
         return R.menu.menu_action_edit_add
     }
@@ -53,7 +46,7 @@ class EditExperiencesInfoActivity : EditProfileActivity() {
         return getString(R.string.experience)
     }
 
-    private fun inicializeControls() {
+    override fun inicializeControls() {
         mDatabase.child("users/$userId/experiences")
                 .addValueEventListener( object: ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot?) {
@@ -72,6 +65,13 @@ class EditExperiencesInfoActivity : EditProfileActivity() {
                         Log.d(ufg.go.br.recrutame.util.TAG, "" + databaseError)
                     }
                 })
+    }
+
+    override fun saveInfo() {
+        val i = Intent(this, AddEditExperienceInfoActivity:: class.java)
+        i.putExtra("userId", userId)
+        i.putExtra("experienceKey", "")
+        startActivity(i)
     }
 
     private fun inflateExperienceAdapter(experiences: List<UserExperienceInfo>) {

@@ -51,51 +51,7 @@ class EditGeneralInfoActivity : EditProfileActivity(), View.OnClickListener, Dat
         mBirthdateTxt.setText(Utils.getFormatedDate(year, monthOfYear + 1, dayOfMonth, getString(R.string.format_date_full)))
     }
 
-    override fun saveInfo() {
-        hideKeyboard()
-
-        if (!validateForm()) {
-            return
-        }
-
-        val generalInfoReference = mDatabase.child("users/$userId/generalInfo")
-        val generalInfo = UserGeneralInfo(
-                                          mNameTxt.text.toString(),
-                                          mLastNameTxt.text.toString(),
-                                          Utils.getFullDate(mBirthdateTxt.text.toString()),
-                                          mGenderSpinner.selectedItem.toString(),
-                                          mStateSpinner.selectedItem.toString(),
-                                          mCitySpinner.selectedItem.toString())
-        generalInfoReference.setValue(generalInfo).addOnCompleteListener {
-            finish()
-        }.addOnFailureListener {
-            showError(R.string.update_general_info_error)
-        }
-    }
-
-    private fun handleDatePicker() {
-        val calendar = Calendar.getInstance()
-        var dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
-        var month = calendar.get(Calendar.MONTH)
-        var year = calendar.get(Calendar.YEAR)
-
-        if (!mBirthdateTxt.text.isEmpty()) {
-            val fullDate = Utils.getFullDate(mBirthdateTxt.text.toString())
-            dayOfMonth = Utils.getDayOfMonth(fullDate.toString()).toInt()
-            month = Utils.getMonth(fullDate.toString()).toInt() - 1
-            year = Utils.getYear(fullDate.toString()).toInt()
-        }
-
-        SpinnerDatePickerDialogBuilder()
-                .context(this)
-                .callback(this)
-                .spinnerTheme(R.style.DatePickerSpinner)
-                .defaultDate(year, month, dayOfMonth)
-                .build()
-                .show()
-    }
-
-    private fun inicializeControls() {
+    override fun inicializeControls() {
         ibgeService = ServiceGenerator(IBGE_BASE_URL).createService(IBGEService::class.java)
 
         val name = intent.getStringExtra("userName")
@@ -134,6 +90,28 @@ class EditGeneralInfoActivity : EditProfileActivity(), View.OnClickListener, Dat
         mCitySpinner = findViewById(R.id.mCitySpinner)
     }
 
+    override fun saveInfo() {
+        hideKeyboard()
+
+        if (!validateForm()) {
+            return
+        }
+
+        val generalInfoReference = mDatabase.child("users/$userId/generalInfo")
+        val generalInfo = UserGeneralInfo(
+                mNameTxt.text.toString(),
+                mLastNameTxt.text.toString(),
+                Utils.getFullDate(mBirthdateTxt.text.toString()),
+                mGenderSpinner.selectedItem.toString(),
+                mStateSpinner.selectedItem.toString(),
+                mCitySpinner.selectedItem.toString())
+        generalInfoReference.setValue(generalInfo).addOnCompleteListener {
+            finish()
+        }.addOnFailureListener {
+            showError(R.string.update_general_info_error)
+        }
+    }
+
     private fun fillCities(cities: List<CityInfo>?) {
         if (cities == null) {
             return
@@ -166,6 +144,28 @@ class EditGeneralInfoActivity : EditProfileActivity(), View.OnClickListener, Dat
     private fun getStateData(state: String): UFInfo? {
         states.forEach { if (it.nome == state) return it }
         return null
+    }
+
+    private fun handleDatePicker() {
+        val calendar = Calendar.getInstance()
+        var dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
+        var month = calendar.get(Calendar.MONTH)
+        var year = calendar.get(Calendar.YEAR)
+
+        if (!mBirthdateTxt.text.isEmpty()) {
+            val fullDate = Utils.getFullDate(mBirthdateTxt.text.toString())
+            dayOfMonth = Utils.getDayOfMonth(fullDate.toString()).toInt()
+            month = Utils.getMonth(fullDate.toString()).toInt() - 1
+            year = Utils.getYear(fullDate.toString()).toInt()
+        }
+
+        SpinnerDatePickerDialogBuilder()
+                .context(this)
+                .callback(this)
+                .spinnerTheme(R.style.DatePickerSpinner)
+                .defaultDate(year, month, dayOfMonth)
+                .build()
+                .show()
     }
 
     private fun syncCities(state: UFInfo?) {

@@ -13,8 +13,8 @@ class EducationAdapter(
 
     override fun onBindViewHolder(holder: ProfileInfoAdapter<UserEducationInfo>.MyViewHolder, position: Int) {
         val item = educations[position]
-        holder.title.text = item.school
-        holder.subtitle.text = item.degree
+        holder.title.text = item.degree
+        holder.subtitle.text = item.school
         holder.period.text = Utils.getFromToAsText(item.startDate!!, item.endDate, activity, false).toString()
     }
 }

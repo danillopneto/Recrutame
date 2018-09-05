@@ -35,36 +35,6 @@ class AddEditLanguageInfoActivity : EditProfileActivity(), View.OnClickListener 
         }
     }
 
-    override fun saveInfo() {
-        hideKeyboard()
-        if (!validateForm()) {
-            return
-        }
-
-        if (languageKey.isEmpty()) {
-            val newLanguage = infoReference.push()
-            val generalInfo = UserLanguageInfo(
-                    newLanguage.key,
-                    mLanguageNameTxt.text.toString(),
-                    getEnumProficiency(mProficiencySpinner.selectedItem.toString()))
-            newLanguage.setValue(generalInfo).addOnCompleteListener {
-                finish()
-            }.addOnFailureListener {
-                showError(R.string.add_language_info_error)
-            }
-        } else {
-            val generalInfo = UserLanguageInfo(
-                    languageKey,
-                    mLanguageNameTxt.text.toString(),
-                    getEnumProficiency(mProficiencySpinner.selectedItem.toString()))
-            infoReference.child(languageKey).setValue(generalInfo).addOnCompleteListener {
-                finish()
-            }.addOnFailureListener {
-                showError(R.string.update_language_info_error)
-            }
-        }
-    }
-
     override fun getActionBarTitle(): String {
         return if (languageKey.isEmpty()) {
             getString(R.string.add_language)
@@ -73,7 +43,7 @@ class AddEditLanguageInfoActivity : EditProfileActivity(), View.OnClickListener 
         }
     }
 
-    private fun inicializeControls() {
+    override fun inicializeControls() {
         infoReference = mDatabase.child("users/$userId/languages")
         var levelIndex = 0
 
@@ -104,6 +74,36 @@ class AddEditLanguageInfoActivity : EditProfileActivity(), View.OnClickListener 
             mRemoveLanguageBtn = findViewById(R.id.mRemoveLanguageBtn)
             mRemoveLanguageBtn.setOnClickListener(this)
             mRemoveLanguageBtn.visibility = View.VISIBLE
+        }
+    }
+
+    override fun saveInfo() {
+        hideKeyboard()
+        if (!validateForm()) {
+            return
+        }
+
+        if (languageKey.isEmpty()) {
+            val newLanguage = infoReference.push()
+            val generalInfo = UserLanguageInfo(
+                    newLanguage.key,
+                    mLanguageNameTxt.text.toString(),
+                    getEnumProficiency(mProficiencySpinner.selectedItem.toString()))
+            newLanguage.setValue(generalInfo).addOnCompleteListener {
+                finish()
+            }.addOnFailureListener {
+                showError(R.string.add_language_info_error)
+            }
+        } else {
+            val generalInfo = UserLanguageInfo(
+                    languageKey,
+                    mLanguageNameTxt.text.toString(),
+                    getEnumProficiency(mProficiencySpinner.selectedItem.toString()))
+            infoReference.child(languageKey).setValue(generalInfo).addOnCompleteListener {
+                finish()
+            }.addOnFailureListener {
+                showError(R.string.update_language_info_error)
+            }
         }
     }
 

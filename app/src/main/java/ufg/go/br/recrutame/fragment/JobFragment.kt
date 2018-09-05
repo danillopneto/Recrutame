@@ -33,7 +33,7 @@ import com.google.firebase.functions.HttpsCallableResult
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.mindorks.placeholderview.SwipePlaceHolderView
-import ufg.go.br.recrutame.Util.GeoLocation
+import ufg.go.br.recrutame.util.GeoLocation
 import ufg.go.br.recrutame.model.Match
 import ufg.go.br.recrutame.model.Message
 import java.text.SimpleDateFormat
