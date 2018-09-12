@@ -21,6 +21,7 @@ import com.google.firebase.database.DatabaseReference
 import ufg.go.br.recrutame.enum.EnumStatusProcessoSeletivo
 import ufg.go.br.recrutame.model.Match
 import ufg.go.br.recrutame.model.Message
+import ufg.go.br.recrutame.util.Utils
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -91,8 +92,8 @@ class JobCard(
     private fun addMatch(){
         var userId = userId
         var jobId = mJob?.id!!
-        var dateApplied = SimpleDateFormat("dd/MM/YYYY").format(Calendar.getInstance().time)
-        var match = Match(mJob?.company!!, dateApplied, jobId, mJob?.image, EnumStatusProcessoSeletivo.PENDING,ArrayList<Message>() )
+        var dateApplied = Utils.getCurrentDate()
+        var match = Match(dateApplied, mJob.image, mJob.company!!, jobId, EnumStatusProcessoSeletivo.PENDING, ArrayList<Message>() )
 
         var matchesRef = mDatabase.child("matches/$userId")
         matchesRef.child(jobId.toString()).setValue(match)

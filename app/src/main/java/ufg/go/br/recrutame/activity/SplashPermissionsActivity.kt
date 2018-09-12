@@ -139,9 +139,9 @@ abstract class SplashPermissionsActivity : BaseActivity() {
             } else {
                 if (!shouldShowRequestPermissionRationale(ungrantedPermissions[0])) {
                     showMessageOKCancel(getString(R.string.permissions_needed),
-                            DialogInterface.OnClickListener { dialog, which ->
+                            DialogInterface.OnClickListener { _, _ ->
                                 startAppSettingsConfigActivity()
-                            }, DialogInterface.OnClickListener { dialog, which ->
+                            }, DialogInterface.OnClickListener { _, _ ->
                         finishAffinity()
                     })
                 } else {

@@ -13,6 +13,10 @@ var filterByJobsNotApplied = (matches) => {
     
     return function(vaga){
 
+        matches = Object.keys(matches).map((key) => {
+            return matches[key];
+        }); 
+
         var match = matches.filter(filterMatchByJobId(vaga));
 
         var isAppliedToJob = match.length > 0;
@@ -50,7 +54,7 @@ var canApplyAgain = (vaga) => {
 var sortMessages = (match) => {
     
     if(match.messages){ 
-        match.messages = Object.keys(match.messages).map(function(key) {
+        match.messages = Object.keys(match.messages).map((key) => {
             return match.messages[key];
         });   
 
@@ -76,7 +80,8 @@ var getLastMessageFromMatch = (match) => {
         message: lastMessage.message,        
         sendByUser: lastMessage.sendByUser,
         companyName: match.companyName,
-        companyImg: match.companyImg
+        companyImg: match.companyImg,
+        jobId: match.jobId
     }
 }
 
@@ -108,7 +113,7 @@ var filterJobsByMatch = (snap, vagas) => {
     var matches = snap.val();
 
     if(matches){
-        return JSON.stringify(vagas.filter(filterByJobsNotApplied(matches.filter(x => x))));
+        return JSON.stringify(vagas.filter(filterByJobsNotApplied(matches)));
     }            
 
     return JSON.stringify(vagas);
@@ -134,7 +139,15 @@ var filterMessages = (snap)=>{
     var match = snap.val();
           
     if(match){
-        return JSON.stringify(match.messages);
+        console.log({match : JSON.stringify(match)})
+
+        match = match[Object.keys(match)[0]];
+
+        match.messages = Object.keys(match.messages).map((key) => {
+            return match.messages[key];
+        });
+
+        return JSON.stringify(match);
     }            
 
     return null;
@@ -144,7 +157,11 @@ var filterDataFromLastMessage = (snap)=>{
     var matches = snap.val();    
           
     if(matches){
-        return JSON.stringify(matches.filter(x => x.messages).map(getLastMessageFromMatch).filter(x => x));
+        matches = Object.keys(matches).map((key) => {
+            return matches[key];
+        }); 
+
+        return JSON.stringify(matches.filter(x => x.messages).map(getLastMessageFromMatch));
     }            
 
     return null;
@@ -181,30 +198,27 @@ var getJobOffers = functions.https.onCall((data, context) => {
   });
 
   var sendMessage = functions.https.onRequest((req, res) => {
-        const { userId, jobId } = req.query;
+        const { userId, jobId, date, message, sendByUser } = req.query;        
 
-        return getMatchesByUserIdAndJobId(userId, jobId)
-        .then(snapshot => {
+        var finalMessage = {
+            date: date,
+            message: message,
+            sendByUser: JSON.parse(sendByUser)               
+        }
 
-            var message = {
-                date: "01/02/2018",
-                message: "teste",
-                sendByUser: true               
-            }
+        var rootRef = admin.database().ref();
+        var messagesRef = rootRef.child(`/matches/${userId}/${jobId}/messages`);
+        var newMessage = messagesRef.push();
+        newMessage.set(finalMessage);
 
-            var rootRef = admin.database().ref();
-            var messagesRef = rootRef.child(`/matches/${userId}/${jobId}/messages`);
-            var newMessage = messagesRef.push();
-            newMessage.set(message);
-
-            return res.status(200).send(message);
-        });
+        return res.status(200).send(finalMessage);
+        
   });
 
-  var getMatchesHttps = functions.https.onRequest((req, res)=>{
+  var getMatchesByMatchHttps = functions.https.onRequest((req, res)=>{
     const { userId, jobId } = req.query;
-
-    return getMatchesByUserId(userId).once('value').then(filterDataFromLastMessage).then(data=>{
+    
+    return getMatchesByUserIdAndJobId(userId, jobId).then(filterMessages).then(data=>{
         return res.status(200).send(data);
     }); 
 });
@@ -213,6 +227,6 @@ var getJobOffers = functions.https.onCall((data, context) => {
   exports.getJobOffers = getJobOffers;
   exports.getMatches = getMatches;
   exports.getMessagesByMatch = getMessagesByMatch;
-  /*exports.getJobOffersLocal = getJobOffersLocal*/
+  exports.getJobOffersLocal = getJobOffersLocal
   exports.sendMessage = sendMessage
-  /*exports.getMatchesHttps = getMatchesHttps*/
+  exports.getMatchesByMatchHttps = getMatchesByMatchHttps

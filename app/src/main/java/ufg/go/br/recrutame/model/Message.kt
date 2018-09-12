@@ -4,4 +4,5 @@ class Message(
         var date:String,
         var message:String,
         var sendByUser:Boolean) {
+    constructor():this("","", false)
 }

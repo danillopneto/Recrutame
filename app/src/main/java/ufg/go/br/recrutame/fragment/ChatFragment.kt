@@ -80,7 +80,7 @@ class ChatFragment : BaseFragment() {
                     return
                 }
 
-                mChatAdapter = MatchAdapter(matches)
+                mChatAdapter = MatchAdapter(matches, mAuth.currentUser?.uid.orEmpty())
 
                 val mLayoutManager = LinearLayoutManager(context)
                 mChatRv.layoutManager = mLayoutManager

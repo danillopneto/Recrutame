@@ -1,5 +1,7 @@
 package ufg.go.br.recrutame.adapter
 
+import android.content.Intent
+import android.support.v4.content.ContextCompat.startActivity
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -7,9 +9,11 @@ import android.view.ViewGroup
 import ufg.go.br.recrutame.model.MatchItemList
 import android.widget.TextView
 import ufg.go.br.recrutame.R
+import ufg.go.br.recrutame.activity.BaseActivity
+import ufg.go.br.recrutame.activity.MessageListActivity
 
 
-class MatchAdapter(var matches:List<MatchItemList>) : RecyclerView.Adapter<MatchAdapter.MyViewHolder>() {
+class MatchAdapter(var matches:List<MatchItemList>, var userId: String) : RecyclerView.Adapter<MatchAdapter.MyViewHolder>() {
 
     inner class MyViewHolder(view: View): RecyclerView.ViewHolder(view){
         val companyName = view.findViewById(R.id.mCompanyNameTxt) as TextView
@@ -31,6 +35,13 @@ class MatchAdapter(var matches:List<MatchItemList>) : RecyclerView.Adapter<Match
         val match = matches[position]
         holder.companyName.text = match.companyName
         holder.lastMessage.text = match.message
+
+        holder.itemView.setOnClickListener(View.OnClickListener {
+            var intent = Intent(it.context, MessageListActivity::class.java)
+            intent.putExtra("userId", userId)
+            intent.putExtra("jobId", match.jobId)
+            it.context.startActivity(intent)
+        })
     }
 
     override fun getItemCount(): Int {

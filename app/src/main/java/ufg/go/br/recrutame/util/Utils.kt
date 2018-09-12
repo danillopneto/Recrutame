@@ -23,6 +23,18 @@ class Utils {
             return (dp * Resources.getSystem().getDisplayMetrics().density).toInt()
         }
 
+        fun getCurrentDate(): String{
+            return getSimpleDateFormat().format(Calendar.getInstance().time)
+        }
+
+        fun convertToDate(date: String):Date{
+            return getSimpleDateFormat().parse(date)
+        }
+
+        fun getSimpleDateFormat():SimpleDateFormat{
+            return SimpleDateFormat("dd/MM/YYYY HH:mm:ss")
+        }
+
         fun getDisplaySize(windowManager: WindowManager): Point {
             try {
                 if (Build.VERSION.SDK_INT > 16) {

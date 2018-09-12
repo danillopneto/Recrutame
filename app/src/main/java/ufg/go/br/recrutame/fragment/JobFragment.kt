@@ -121,56 +121,72 @@ class JobFragment : BaseFragment(){
                 == PackageManager.PERMISSION_GRANTED) {
             fusedLocationClient.lastLocation
                     .addOnSuccessListener { location : Location? ->
-                        if (location != null) {
-                            val geoLocation = GeoLocation()
-                            geoLocation.latitudeInRadians = Math.toRadians(location.latitude)
-                            geoLocation.longitudeInRadians = Math.toRadians(location.longitude)
-
-                            boundingCoordinates = geoLocation.boundingCoordinates(getMyPreferences().getMaximumDistance().toDouble(), 6371.01)
-
-                            val data = HashMap<String, kotlin.Any>()
-                            data.put("minLatitude", boundingCoordinates[0].latitudeInDegrees)
-                            data.put("maxLatitude", boundingCoordinates[1].latitudeInDegrees)
-                            data.put("minLongitude", boundingCoordinates[0].longitudeInDegrees)
-                            data.put("maxLongitude", boundingCoordinates[1].longitudeInDegrees)
-                            data.put("userId", mAuth.currentUser?.uid.orEmpty())
-
-                            mFunctions
-                                    .getHttpsCallable("getJobOffers")
-                                    .call(data)
-                                    .continueWith(object:Continuation<HttpsCallableResult, String> {
-                                        @Throws(Exception::class)
-                                        override fun then(@NonNull task:Task<HttpsCallableResult>):String {
-                                            val result = task.getResult()
-                                            var data = result?.getData() as String
-
-                                            return data
-                                        }
-                                    })
-                                    .addOnCompleteListener(object: OnCompleteListener<String> {
-                                        override fun onComplete(@NonNull task:Task<String>) {
-                                            if (!task.isSuccessful()) {
-                                                var e = task.getException();
-                                                if (e is FirebaseFunctionsException) {
-                                                                     }
-                                            } else{
-                                                if(task.result != null){
-                                                    var job = Gson().fromJson<List<JobModel>>(task.result, object : TypeToken<List<JobModel>>() {
-
-                                                    }.type)
-
-                                                    jobs = job.associateBy({it.id}, {it})
-
-                                                    for(jobModel in job){
-                                                        mSwipeView.addView(JobCard(context!!, jobModel, mSwipeView, mDatabase, mAuth.currentUser?.uid.orEmpty()))
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    });
-                        }
+                        getJobs(location)
                     }
         }
+    }
+
+    private fun getJobs(location :Location?){
+        if (location != null) {
+
+            var data = getParamsJobOffer(location)
+
+            mFunctions
+                    .getHttpsCallable("getJobOffers")
+                    .call(data)
+                    .continueWith(object:Continuation<HttpsCallableResult, String> {
+                        @Throws(Exception::class)
+                        override fun then(@NonNull task:Task<HttpsCallableResult>):String {
+                            val result = task.getResult()
+                            var data = result?.getData() as String
+
+                            return data
+                        }
+                    })
+                    .addOnCompleteListener(object: OnCompleteListener<String> {
+                        override fun onComplete(@NonNull task:Task<String>) {
+                            fillCards(task)
+                        }
+                    });
+        }
+    }
+
+    private fun fillCards(task:Task<String>){
+        if (!task.isSuccessful()) {
+            var e = task.getException();
+            if (e is FirebaseFunctionsException) {
+            }
+        } else{
+            if(task.result != null){
+                var job = Gson().fromJson<List<JobModel>>(task.result, object : TypeToken<List<JobModel>>() {
+
+                }.type)
+
+                jobs = job.associateBy({it.id}, {it})
+
+                for(jobModel in job){
+                    mSwipeView.addView(JobCard(context!!, jobModel, mSwipeView, mDatabase, mAuth.currentUser?.uid.orEmpty()))
+                }
+            }
+        }
+    }
+
+    private fun getParamsJobOffer(location :Location?):HashMap<String, kotlin.Any>{
+
+        val geoLocation = GeoLocation()
+        geoLocation.latitudeInRadians = Math.toRadians(location!!.latitude)
+        geoLocation.longitudeInRadians = Math.toRadians(location!!.longitude)
+
+        boundingCoordinates = geoLocation.boundingCoordinates(getMyPreferences().getMaximumDistance().toDouble(), 6371.01)
+
+        val data = HashMap<String, kotlin.Any>()
+        data.put("minLatitude", boundingCoordinates[0].latitudeInDegrees)
+        data.put("maxLatitude", boundingCoordinates[1].latitudeInDegrees)
+        data.put("minLongitude", boundingCoordinates[0].longitudeInDegrees)
+        data.put("maxLongitude", boundingCoordinates[1].longitudeInDegrees)
+        data.put("userId", mAuth.currentUser?.uid.orEmpty())
+
+        return data
     }
 
     private fun acceptJob() {

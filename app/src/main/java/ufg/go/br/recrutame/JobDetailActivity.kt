@@ -59,14 +59,14 @@ class JobDetailActivity : BaseActivity(), View.OnClickListener {
                 jobTypeTxt.text = jobModel?.type
 
                 jobLocation.latitude = jobModel?.latitude!!
-                jobLocation.longitude = jobModel.longitude!!
+                jobLocation.longitude = jobModel.longitude
                 handleDistance()
 
                 val preferences = getMyPreferences()
                 val format = NumberFormat.getCurrencyInstance(Locale(preferences.getLanguage(), preferences.getCountry()))
 
-                jobSalaryTxt.text = format.format(jobModel?.salary)
-                Picasso.get().load(jobModel?.image).into(jobImageView)
+                jobSalaryTxt.text = format.format(jobModel.salary)
+                Picasso.get().load(jobModel.image).into(jobImageView)
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
