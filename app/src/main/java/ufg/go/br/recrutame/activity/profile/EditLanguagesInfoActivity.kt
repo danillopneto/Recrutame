@@ -38,13 +38,6 @@ class EditLanguagesInfoActivity : EditProfileActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun saveInfo() {
-        val i = Intent(this, AddEditLanguageInfoActivity:: class.java)
-        i.putExtra("userId", userId)
-        i.putExtra("languageKey", "")
-        startActivity(i)
-    }
-
     override fun getActionMenu(): Int {
         return R.menu.menu_action_edit_add
     }
@@ -53,7 +46,7 @@ class EditLanguagesInfoActivity : EditProfileActivity() {
         return getString(R.string.languages)
     }
 
-    private fun inicializeControls() {
+    override fun inicializeControls() {
         mDatabase.child("users/$userId/languages")
                 .orderByChild("language")
                 .addValueEventListener( object: ValueEventListener {
@@ -73,6 +66,13 @@ class EditLanguagesInfoActivity : EditProfileActivity() {
                         Log.d(ufg.go.br.recrutame.util.TAG, "" + databaseError)
                     }
                 })
+    }
+
+    override fun saveInfo() {
+        val i = Intent(this, AddEditLanguageInfoActivity:: class.java)
+        i.putExtra("userId", userId)
+        i.putExtra("languageKey", "")
+        startActivity(i)
     }
 
     private fun inflateLanguageAdapter(languages: List<UserLanguageInfo>) {

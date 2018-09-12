@@ -49,50 +49,7 @@ class AddEditExperienceInfoActivity : EditProfileActivity(), View.OnClickListene
         }
     }
 
-    override fun saveInfo() {
-        hideKeyboard()
-        if (!validateForm()) {
-            return
-        }
-
-        if (experienceKey.isEmpty()) {
-            val newExperience = infoReference.push()
-            val data = UserExperienceInfo(
-                                          newExperience.key,
-                                          mExperienceTitleTxt.text.toString(),
-                                          mExperienceCompanyTxt.text.toString(),
-                                          Utils.getFullDateFromMonthYear(mStartDateTxt.text.toString()),
-                                          Utils.getFullDateFromMonthYear(mEndDateTxt.text.toString()))
-            newExperience.setValue(data).addOnCompleteListener {
-                finish()
-            }.addOnFailureListener {
-                showError(R.string.add_language_info_error)
-            }
-        } else {
-            val data = UserExperienceInfo(
-                                          experienceKey,
-                                          mExperienceTitleTxt.text.toString(),
-                                          mExperienceCompanyTxt.text.toString(),
-                                          Utils.getFullDateFromMonthYear(mStartDateTxt.text.toString()),
-                                          Utils.getFullDateFromMonthYear(mEndDateTxt.text.toString()))
-            infoReference.child(experienceKey).setValue(data).addOnCompleteListener {
-                finish()
-            }.addOnFailureListener {
-                showError(R.string.update_language_info_error)
-            }
-        }
-    }
-
-    private fun handleCurrentWork() {
-        if (mCurrentWorkChk.isChecked) {
-            mEndDateTxt.text.clear()
-            mEndDateContainer.visibility = View.GONE
-        } else {
-            mEndDateContainer.visibility = View.VISIBLE
-        }
-    }
-
-    private fun inicializeControls() {
+    override fun inicializeControls() {
         infoReference = mDatabase.child("users/$userId/experiences")
 
         mExperienceTitleTxt = findViewById(R.id.mExperienceTitleTxt)
@@ -129,6 +86,49 @@ class AddEditExperienceInfoActivity : EditProfileActivity(), View.OnClickListene
         }
 
         handleCurrentWork()
+    }
+
+    override fun saveInfo() {
+        hideKeyboard()
+        if (!validateForm()) {
+            return
+        }
+
+        if (experienceKey.isEmpty()) {
+            val newExperience = infoReference.push()
+            val data = UserExperienceInfo(
+                    newExperience.key,
+                    mExperienceTitleTxt.text.toString(),
+                    mExperienceCompanyTxt.text.toString(),
+                    Utils.getFullDateFromMonthYear(mStartDateTxt.text.toString()),
+                    Utils.getFullDateFromMonthYear(mEndDateTxt.text.toString()))
+            newExperience.setValue(data).addOnCompleteListener {
+                finish()
+            }.addOnFailureListener {
+                showError(R.string.add_language_info_error)
+            }
+        } else {
+            val data = UserExperienceInfo(
+                    experienceKey,
+                    mExperienceTitleTxt.text.toString(),
+                    mExperienceCompanyTxt.text.toString(),
+                    Utils.getFullDateFromMonthYear(mStartDateTxt.text.toString()),
+                    Utils.getFullDateFromMonthYear(mEndDateTxt.text.toString()))
+            infoReference.child(experienceKey).setValue(data).addOnCompleteListener {
+                finish()
+            }.addOnFailureListener {
+                showError(R.string.update_language_info_error)
+            }
+        }
+    }
+
+    private fun handleCurrentWork() {
+        if (mCurrentWorkChk.isChecked) {
+            mEndDateTxt.text.clear()
+            mEndDateContainer.visibility = View.GONE
+        } else {
+            mEndDateContainer.visibility = View.VISIBLE
+        }
     }
 
     private fun removeExperience() {

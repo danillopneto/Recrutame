@@ -20,30 +20,11 @@ class EditContactInfoActivity : EditProfileActivity() {
         inicializeControls()
     }
 
-    override fun saveInfo() {
-        hideKeyboard()
-        if (!validateForm()) {
-            return
-        }
-
-        val contactInfoReference = mDatabase.child("users/$userId/contactInfo")
-        val contactInfo = UserContactInfo(
-                                          mEmailTxt.text.toString(),
-                                          mWebsiteTxt.text.toString(),
-                                          mPhoneTxt.text.toString(),
-                                          "")
-        contactInfoReference.setValue(contactInfo).addOnCompleteListener {
-            finish()
-        }.addOnFailureListener {
-            showError(R.string.update_contact_info_error)
-        }
-    }
-
     override fun getActionBarTitle(): String {
         return getString(R.string.edit_contact)
     }
 
-    private fun inicializeControls() {
+    override fun inicializeControls() {
         val email = intent.getStringExtra("userEmail")
         mEmailTxt = findViewById(R.id.mEmailTxt)
         mEmailTxt.setText(email)
@@ -56,6 +37,25 @@ class EditContactInfoActivity : EditProfileActivity() {
         mPhoneTxt = findViewById(R.id.mPhoneTxt)
         mPhoneTxt.addTextChangedListener(PhoneMaskUtil.insert(mPhoneTxt))
         mPhoneTxt.setText(phone)
+    }
+
+    override fun saveInfo() {
+        hideKeyboard()
+        if (!validateForm()) {
+            return
+        }
+
+        val contactInfoReference = mDatabase.child("users/$userId/contactInfo")
+        val contactInfo = UserContactInfo(
+                mEmailTxt.text.toString(),
+                mWebsiteTxt.text.toString(),
+                mPhoneTxt.text.toString(),
+                "")
+        contactInfoReference.setValue(contactInfo).addOnCompleteListener {
+            finish()
+        }.addOnFailureListener {
+            showError(R.string.update_contact_info_error)
+        }
     }
 
     private fun validateForm(): Boolean {

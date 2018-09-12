@@ -46,41 +46,7 @@ class AddEditEducationInfoActivity : EditProfileActivity(), View.OnClickListener
         }
     }
 
-    override fun saveInfo() {
-        hideKeyboard()
-        if (!validateForm()) {
-            return
-        }
-
-        if (educationKey.isEmpty()) {
-            val newEducation = infoReference.push()
-            val data = UserEducationInfo(
-                                         newEducation.key,
-                                         mSchoolTxt.text.toString(),
-                                         mDegreeTxt.text.toString(),
-                                         Utils.getFullDateFromMonthYear(mStartDateTxt.text.toString()),
-                                         Utils.getFullDateFromMonthYear(mEndDateTxt.text.toString()))
-            newEducation.setValue(data).addOnCompleteListener {
-                finish()
-            }.addOnFailureListener {
-                showError(R.string.add_language_info_error)
-            }
-        } else {
-            val data = UserEducationInfo(
-                                         educationKey,
-                                         mSchoolTxt.text.toString(),
-                                         mDegreeTxt.text.toString(),
-                                         Utils.getFullDateFromMonthYear(mStartDateTxt.text.toString()),
-                                         Utils.getFullDateFromMonthYear(mEndDateTxt.text.toString()))
-            infoReference.child(educationKey).setValue(data).addOnCompleteListener {
-                finish()
-            }.addOnFailureListener {
-                showError(R.string.update_education_info_error)
-            }
-        }
-    }
-
-    private fun inicializeControls() {
+    override fun inicializeControls() {
         infoReference = mDatabase.child("users/$userId/educations")
 
         mSchoolTxt = findViewById(R.id.mSchoolTxt)
@@ -109,6 +75,40 @@ class AddEditEducationInfoActivity : EditProfileActivity(), View.OnClickListener
             mRemoveEducationBtn = findViewById(R.id.mRemoveEducationBtn)
             mRemoveEducationBtn.setOnClickListener(this)
             mRemoveEducationBtn.visibility = View.VISIBLE
+        }
+    }
+
+    override fun saveInfo() {
+        hideKeyboard()
+        if (!validateForm()) {
+            return
+        }
+
+        if (educationKey.isEmpty()) {
+            val newEducation = infoReference.push()
+            val data = UserEducationInfo(
+                    newEducation.key,
+                    mSchoolTxt.text.toString(),
+                    mDegreeTxt.text.toString(),
+                    Utils.getFullDateFromMonthYear(mStartDateTxt.text.toString()),
+                    Utils.getFullDateFromMonthYear(mEndDateTxt.text.toString()))
+            newEducation.setValue(data).addOnCompleteListener {
+                finish()
+            }.addOnFailureListener {
+                showError(R.string.add_language_info_error)
+            }
+        } else {
+            val data = UserEducationInfo(
+                    educationKey,
+                    mSchoolTxt.text.toString(),
+                    mDegreeTxt.text.toString(),
+                    Utils.getFullDateFromMonthYear(mStartDateTxt.text.toString()),
+                    Utils.getFullDateFromMonthYear(mEndDateTxt.text.toString()))
+            infoReference.child(educationKey).setValue(data).addOnCompleteListener {
+                finish()
+            }.addOnFailureListener {
+                showError(R.string.update_education_info_error)
+            }
         }
     }
 
