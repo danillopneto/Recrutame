@@ -5,5 +5,38 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/mMessagesRv"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/no_match"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:gravity="center"
+            android:paddingEnd="20dp"
+            android:paddingStart="20dp"
+            android:paddingTop="20dp"
+            android:text="@string/nao_aprovado"
+            android:textColor="@color/primaryColor"
+            android:textSize="20sp"/>
+
+        <Button
+            android:id="@+id/btnFindJob"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/primaryColor"
+            android:drawableStart="@drawable/ic_search_normal"
+            android:drawableTint="@android:color/white"
+            android:gravity="center"
+            android:text="@string/procurar_emprego"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
 </RelativeLayout>

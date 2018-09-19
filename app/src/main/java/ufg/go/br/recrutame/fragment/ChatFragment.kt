@@ -1,6 +1,7 @@
 package ufg.go.br.recrutame.fragment
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.annotation.NonNull
 import android.support.v7.widget.RecyclerView
@@ -24,21 +25,45 @@ import ufg.go.br.recrutame.model.JobModel
 import ufg.go.br.recrutame.model.Match
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
+import android.widget.Button
+import android.widget.LinearLayout
+import android.widget.TextView
+import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx
+import org.greenrobot.eventbus.EventBus
+import ufg.go.br.recrutame.activity.TabActivity
+import ufg.go.br.recrutame.enum.EnumShowCase
 import ufg.go.br.recrutame.model.MatchItemList
 
 class ChatFragment : BaseFragment() {
     private lateinit var mChatAdapter: MatchAdapter
     private lateinit var mChatRv: RecyclerView
+    private lateinit var mNoMatchLayout: LinearLayout
+    private lateinit var btnFindJob: Button
     private lateinit var mFunctions: FirebaseFunctions
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         inicializeApis()
         mFunctions = FirebaseFunctions.getInstance()
 
+        val view = inflater.inflate(R.layout.fragment_chat, container, false)
+
+        setEvents(view)
+        loadMatches(view)
+
+        return view
+    }
+
+    fun setEvents(view: View){
+        btnFindJob = view.findViewById(R.id.btnFindJob) as Button
+        btnFindJob.setOnClickListener{
+            EventBus.getDefault().post(EnumShowCase.JOB)
+        }
+    }
+
+    fun loadMatches(view: View){
+
         val data = HashMap<String, kotlin.Any>()
         data.put("userId", mAuth.currentUser?.uid.orEmpty())
-
-        val view = inflater.inflate(R.layout.fragment_chat, container, false)
 
         mFunctions
                 .getHttpsCallable("getMatches")
@@ -57,13 +82,12 @@ class ChatFragment : BaseFragment() {
                         fillMatches(view, task)
                     }
                 });
-
-        return view
     }
 
     fun fillMatches(view: View, task: Task<String>){
 
         mChatRv = view.findViewById(R.id.mMessagesRv)
+        mNoMatchLayout = view.findViewById(R.id.no_match) as LinearLayout
 
         if (!task.isSuccessful()) {
             var e = task.getException();
@@ -88,7 +112,22 @@ class ChatFragment : BaseFragment() {
                 mChatRv.adapter = mChatAdapter
 
                 mChatAdapter.notifyDataSetChanged()
+                showMatchList()
+
+                return
             }
         }
+
+        showEmptyMatchList()
+    }
+
+    fun showMatchList(){
+        mChatRv.visibility = View.VISIBLE
+        mNoMatchLayout.visibility = View.GONE
+    }
+
+    fun showEmptyMatchList(){
+        mChatRv.visibility = View.GONE
+        mNoMatchLayout.visibility = View.VISIBLE
     }
 }

@@ -1,26 +1,27 @@
 package ufg.go.br.recrutame.activity
 
 import android.app.ActionBar
-import android.content.Context
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
-import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import com.google.firebase.database.*
 import ufg.go.br.recrutame.R
-import ufg.go.br.recrutame.Util.ImageUtils
+import ufg.go.br.recrutame.util.ImageUtils
 import ufg.go.br.recrutame.adapter.MessageListAdapter
 import ufg.go.br.recrutame.model.*
 import ufg.go.br.recrutame.model.chat.ChatMessage
 import ufg.go.br.recrutame.model.chat.ChatUser
 import ufg.go.br.recrutame.util.Utils
 import java.util.*
+import android.widget.Toast
+
+
 
 class MessageListActivity : BaseActivity() {
     private lateinit var mMessageRecycler: RecyclerView
@@ -39,6 +40,19 @@ class MessageListActivity : BaseActivity() {
         jobId = intent.getLongExtra("jobId",0)
 
         InitializeFields()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        when (item.getItemId()) {
+            R.id.home -> Toast.makeText(application, "Back", Toast.LENGTH_LONG).show()
+
+            else -> {
+                onBackPressed()
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 
     private fun InitializeFields(){
@@ -95,9 +109,11 @@ class MessageListActivity : BaseActivity() {
         companyNameTxt.text = match?.companyName
         ImageUtils.displayRoundImageFromUrl(match?.companyImg!!, companyImg)
 
+
         supportActionBar?.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
         supportActionBar?.customView = view
-
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setHomeButtonEnabled(true)
     }
 
     private fun inflateMatchAdapter(match: MatchItemResult?){

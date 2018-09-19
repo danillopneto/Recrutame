@@ -14,6 +14,7 @@ import android.content.Intent
 import android.net.Uri
 import android.widget.Toast
 import android.app.ProgressDialog
+import android.content.Context
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.myhexaville.smartimagepicker.ImagePicker
@@ -33,7 +34,11 @@ abstract class BaseFragment : Fragment() {
     }
 
     fun getMyPreferences(): MyPreferences {
-        return StoreBox.create(context, MyPreferences::class.java)
+        return StoreBox.create(getCustomContext(), MyPreferences::class.java)
+    }
+
+    open fun getCustomContext() : Context?{
+        return context;
     }
 
     fun handleYesNoDialog(message: Int, yesAction: () -> Unit) {

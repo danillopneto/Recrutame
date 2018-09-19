@@ -1,6 +1,7 @@
 package ufg.go.br.recrutame.fragment
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
@@ -34,10 +35,6 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.mindorks.placeholderview.SwipePlaceHolderView
 import ufg.go.br.recrutame.util.GeoLocation
-import ufg.go.br.recrutame.model.Match
-import ufg.go.br.recrutame.model.Message
-import java.text.SimpleDateFormat
-import java.util.*
 import kotlin.collections.HashMap
 
 class JobFragment : BaseFragment(){
@@ -49,9 +46,11 @@ class JobFragment : BaseFragment(){
     private lateinit var boundingCoordinates: Array<GeoLocation>
     private lateinit var mFunctions: FirebaseFunctions
     private lateinit var jobs: Map<Long, JobModel>
+    private var mContext: Context? = null;
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         inicializeApis()
+        mContext = context
         database = FirebaseDatabase.getInstance()
         mFunctions = FirebaseFunctions.getInstance()
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity!!)
@@ -165,10 +164,22 @@ class JobFragment : BaseFragment(){
                 jobs = job.associateBy({it.id}, {it})
 
                 for(jobModel in job){
-                    mSwipeView.addView(JobCard(context!!, jobModel, mSwipeView, mDatabase, mAuth.currentUser?.uid.orEmpty()))
+                    if(mSwipeView != null && mAuth.currentUser != null){
+                        var userId = mAuth.currentUser?.uid.orEmpty()
+
+                        if(context != null){
+                            var jobCard = JobCard(mContext, jobModel, mSwipeView, mDatabase, userId )
+
+                            mSwipeView.addView(jobCard)
+                        }
+                    }
                 }
             }
         }
+    }
+
+    override fun getCustomContext():Context?{
+        return mContext
     }
 
     private fun getParamsJobOffer(location :Location?):HashMap<String, kotlin.Any>{

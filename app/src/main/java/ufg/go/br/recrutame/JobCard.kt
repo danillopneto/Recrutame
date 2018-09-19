@@ -27,7 +27,7 @@ import java.util.*
 
 @Layout(R.layout.card_view_job)
 class JobCard(
-        private val mContext: Context,
+        private val mContext: Context?,
         private val mJob: JobModel?,
         private val mSwipeView: SwipePlaceHolderView,
         private var mDatabase: DatabaseReference,
@@ -58,7 +58,7 @@ class JobCard(
         jobInfoBtn!!.setOnClickListener({
             val intent = Intent(mContext, JobDetailActivity::class.java)
             intent.putExtra("id", mJob?.id)
-            mContext.startActivity(intent)
+            mContext?.startActivity(intent)
         })
     }
 

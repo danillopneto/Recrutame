@@ -8,8 +8,6 @@ import android.widget.TextView
 import ufg.go.br.recrutame.R
 import ufg.go.br.recrutame.model.chat.ChatMessage
 import android.view.LayoutInflater
-import android.widget.ImageView
-import ufg.go.br.recrutame.Util.ImageUtils
 
 class MessageListAdapter(
         public var context:Context,

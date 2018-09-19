@@ -1,4 +1,4 @@
-package ufg.go.br.recrutame.Util
+package ufg.go.br.recrutame.util
 
 import android.graphics.*
 import com.squareup.picasso.Transformation

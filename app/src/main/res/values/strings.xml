@@ -146,6 +146,8 @@
     <string name="school">Instituição de ensino</string>
     <string name="degree">Formação</string>
     <string name="end_prediction">Término ou Previsão</string>
+    <string name="nao_aprovado">Você não tem mensagens!</string>
+    <string name="procurar_emprego">Procurar emprego</string>
     <string-array name="nivel">
         <item>Profissional</item>
         <item>Superior</item>

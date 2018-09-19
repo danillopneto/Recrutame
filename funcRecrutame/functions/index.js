@@ -1,5 +1,6 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
+const moment = require('moment');
 
 admin.initializeApp(functions.config().firebase);
 
@@ -59,13 +60,6 @@ var sortMessages = (match) => {
         });   
 
         match.messages = match.messages.filter(x => x);    
-        
-        match.messages.sort((a,b) => { 
-            a = a.date.split('/').reverse().join('');
-            b = b.date.split('/').reverse().join('');
-
-            return a > b ? 1 : a < b ? -1 : 0;
-        });
     }    
 
     return match;
@@ -74,7 +68,7 @@ var sortMessages = (match) => {
 var getLastMessageFromMatch = (match) => {
     match = sortMessages(match);
 
-    var lastMessage = match.messages[0];
+    var lastMessage = match.messages[match.messages.length - 1];
 
     return {
         message: lastMessage.message,        
@@ -198,12 +192,12 @@ var getJobOffers = functions.https.onCall((data, context) => {
   });
 
   var sendMessage = functions.https.onRequest((req, res) => {
-        const { userId, jobId, date, message, sendByUser } = req.query;        
+        const { userId, jobId, message } = req.query;        
 
         var finalMessage = {
-            date: date,
+            date: moment().format("DD/MM/YY HH:mm:ss"),
             message: message,
-            sendByUser: JSON.parse(sendByUser)               
+            sendByUser: false          
         }
 
         var rootRef = admin.database().ref();

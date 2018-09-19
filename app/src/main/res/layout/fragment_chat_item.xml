@@ -12,37 +12,54 @@
         app:cardElevation="1dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp">
+
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:translationZ="@dimen/bottom_ellipsis_height"
-            android:paddingEnd="10dp">
+            android:layout_height="70dp"
+            android:paddingEnd="10dp"
+            android:translationZ="@dimen/bottom_ellipsis_height">
+
+            <ImageView
+                android:id="@+id/chat_companyImg"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/user_logo" />
+
             <View
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_weight="1" />
-            <LinearLayout
-                xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:tools="http://schemas.android.com/tools"
-                android:descendantFocusability="blocksDescendants"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="60dp"
+                android:descendantFocusability="blocksDescendants"
                 android:orientation="vertical"
                 android:padding="10dp">
+
                 <TextView
                     android:id="@+id/mCompanyNameTxt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/labelDefaultColor"
-                    tools:text="Google"
+                    android:textSize="14sp"
                     android:textStyle="bold"
-                    android:textSize="14sp" />
+                    tools:text="Google" />
+
                 <TextView
                     android:id="@+id/mMessageText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
                     android:textColor="@color/labelDefaultColor"
-                    tools:text="Hello!"
-                    android:textSize="13sp" />
+                    android:textSize="13sp"
+                    tools:text="Hello!" />
             </LinearLayout>
 
         </RelativeLayout>
