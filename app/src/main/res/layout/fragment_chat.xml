@@ -17,8 +17,8 @@
         android:gravity="center">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="150px"
+            android:layout_height="150px"
             android:src="@drawable/no_message"/>
         
         <TextView
