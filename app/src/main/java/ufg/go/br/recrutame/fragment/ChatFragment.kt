@@ -101,6 +101,7 @@ class ChatFragment : BaseFragment() {
 
                 if (matches.isEmpty()
                         || activity == null) {
+                    showEmptyMatchList()
                     return
                 }
 

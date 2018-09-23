@@ -166,14 +166,27 @@ class Utils {
                 periodText.append(" ◔ ")
 
                 val calculatedPeriod = Utils.calculatePeriod(startFullDate, endFullDate)
-                periodText.append(calculatedPeriod.years)
-                periodText.append(" ")
-                periodText.append(activity.getString(R.string.years))
+                if (calculatedPeriod.years > 0) {
+                    periodText.append(calculatedPeriod.years)
+                    periodText.append(" ")
+
+                    if (calculatedPeriod.years == 1) {
+                        periodText.append(activity.getString(R.string.year))
+                    } else {
+                        periodText.append(activity.getString(R.string.years))
+                    }
+                }
+
                 if (calculatedPeriod.months > 0) {
                     periodText.append(" ")
                     periodText.append(calculatedPeriod.months)
                     periodText.append(" ")
-                    periodText.append(activity.getString(R.string.months))
+
+                    if (calculatedPeriod.months == 1) {
+                        periodText.append(activity.getString(R.string.month))
+                    } else {
+                        periodText.append(activity.getString(R.string.months))
+                    }
                 }
             }
 
